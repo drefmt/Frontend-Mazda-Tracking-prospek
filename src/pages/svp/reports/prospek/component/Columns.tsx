@@ -2,15 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import {
-  ArrowUpDown,
-  Eye,
+  ArrowUpDown,  
   MoveDown,
   MoveRight,
   MoveUp,
 } from "lucide-react";
 
 import { Prospek } from "@/interface/prospek.interface";
-import { useNavigate } from "react-router-dom";
 import { JSX } from "react";
 
 export const columns: ColumnDef<Prospek>[] = [
@@ -75,15 +73,17 @@ export const columns: ColumnDef<Prospek>[] = [
       );
     },
   },
-  {
-    accessorKey: "followUpCount",
-    header: "Follow-Ups",
-    cell: ({ row }) => {
-      const followUpCount = row.original.followUpCount;
-      return (
-        <span>{followUpCount}</span>
-      )
-    }
+   {
+    accessorKey: "address",
+    header: "Address",
+  },
+   {
+    accessorKey: "source",
+    header: "Source",
+  },
+   {
+    accessorKey: "carType",
+    header: "Car Type",
   },
   {
     accessorKey: "category",
@@ -103,21 +103,16 @@ export const columns: ColumnDef<Prospek>[] = [
       );
     },
   },
-  {
-    header: "Detail",
+   {
+    accessorKey: "followUpCount",
+    header: "Follow-Ups",
     cell: ({ row }) => {
-      const prospekId = row.original.id;
-      const navigate = useNavigate();
-
+      const followUpCount = row.original.followUpCount;
       return (
-        <span onClick={() => navigate(`detail/${prospekId}`)}>
-          <Eye
-            className="text-[5px] text-gray-500 hover:text-black transition-all ease-in-out"
-            strokeWidth={2}
-            size={20}
-          />
-        </span>
-      );
-    },
+        <span>{followUpCount}</span>
+      )
+    }
   },
+ 
+ 
 ];

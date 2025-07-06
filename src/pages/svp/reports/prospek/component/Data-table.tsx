@@ -7,10 +7,10 @@ import {
   useReactTable,
   getPaginationRowModel,
   getSortedRowModel,
-  // SortingState,
-  // ColumnFiltersState,
+  SortingState,
+  ColumnFiltersState,
   getFilteredRowModel,
-  // VisibilityState,
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import {
@@ -22,76 +22,90 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-// import {
-//   DropdownMenu,
-//   // DropdownMenuCheckboxItem,
-//   DropdownMenuContent,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  // DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-// import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
+import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
+import { Prospek } from "@/interface/prospek.interface";
+import { handleExportPDF } from "@/helpers/prospek/handleExportPdf";
+import { handleExportExcel } from "@/helpers/prospek/handleReportExcel";
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-// import { Input } from "@/components/ui/input";
-// import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 
+export function DataTable<TData extends Prospek, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
+    null
+  ); // State kategori
 
-export function DataTable<TData extends {
-   salesId: { username: string }
-   }, 
-   TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
-
-  // const [sorting, setSorting] = React.useState<SortingState>([]);
-  // const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  // const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  // const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
-
-  // const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
+  const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    // onSortingChange: setSorting,
+    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    // onColumnFiltersChange: setColumnFilters,
+    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    // onColumnVisibilityChange: setColumnVisibility,
-    // state: {
-    //   sorting,
-    //   columnFilters,
-    //   columnVisibility,
-    // },
+    onColumnVisibilityChange: setColumnVisibility,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+    },
   });
- 
-  // Handle Filter Category
-  // const handleCategoryChange = (category: string | null) => {
-  //   setSelectedCategory(category);
-  //   table.getColumn("category")?.setFilterValue(category || undefined);
-  // };
-  // Handle Filter Sales
-  // const handleSalesChange = (salesName: string | null) => {
-  //   setSelectedSales(salesName);
-  //   table.getColumn("salesName")?.setFilterValue(salesName || undefined);
-  // };
 
+  // Handle Filter Category
+  const handleCategoryChange = (category: string | null) => {
+    setSelectedCategory(category);
+    table.getColumn("category")?.setFilterValue(category || undefined);
+  };
+  // Handle Filter Sales
+  const handleSalesChange = (salesName: string | null) => {
+    setSelectedSales(salesName);
+    table.getColumn("salesName")?.setFilterValue(salesName || undefined);
+  };
 
   return (
     <>
-      {/* <div className=" pb-4">
-        <h1 className="text-3xl">Report</h1>
-        <p className="text-gray-600">Prospek Report</p>
-      </div> */}
+  
       <div className="flex gap-4 pb-4 justify-end mx-auto">
-       
 
+        {/* Report pdf and excel */}
+        <div className="flex gap-2 ">
+            <Button variant="outline" onClick={() => handleExportPDF(data)}>
+              Export PDF
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => handleExportExcel(data)}
+            >
+              Export Excel
+            </Button>
+          </div>
         {/* Dropdown Filter Sales */}
-        {/* <DropdownMenu>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
               <Filter width={18} />
@@ -99,64 +113,79 @@ export function DataTable<TData extends {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => handleSalesChange(null)} className="cursor-pointer p-1">
+            <DropdownMenuItem
+              onClick={() => handleSalesChange(null)}
+              className="cursor-pointer p-1"
+            >
               All Sales
             </DropdownMenuItem>
-            {Array.from(new Set(data.map((row) => row.salesId.username))).map((salesName) => (
+            {Array.from(
+              new Set(
+                data.map((row) => row.salesId?.username).filter(Boolean) // hilangkan undefined/null
+              )
+            ).map((salesName) => (
               <DropdownMenuItem
                 key={salesName}
-                onClick={() => handleSalesChange(salesName)}
+                onClick={() => handleSalesChange(salesName ?? null)}
                 className="cursor-pointer p-1"
               >
-                {salesName || '-'}
+                {salesName}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu> */}
-
+        </DropdownMenu>
 
         {/*Dropdown Filter Kategori */}
-        {/* <DropdownMenu>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" >
+            <Button variant="outline">
               <Filter width={18} />
 
               {selectedCategory || "Filter by Category"}
-
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => handleCategoryChange(null)} className="cursor-pointer">All Categories</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleCategoryChange("Low")} className="flex items-center cursor-pointer">
-
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange(null)}
+              className="cursor-pointer"
+            >
+              All Categories
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange("Low")}
+              className="flex items-center cursor-pointer"
+            >
               <MoveDown size={16} absoluteStrokeWidth className="pr-1" />
               Low
-
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleCategoryChange("Medium")} className="flex items-center cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange("Medium")}
+              className="flex items-center cursor-pointer"
+            >
               <MoveRight size={16} absoluteStrokeWidth className="pr-1" />
               Medium
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleCategoryChange("Hot")} className="flex items-center cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange("Hot")}
+              className="flex items-center cursor-pointer"
+            >
               <MoveUp size={16} absoluteStrokeWidth className="pr-1" />
               Hot
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu> */}
+        </DropdownMenu>
 
         {/* Search Input */}
-        {/* <div className="items-center">
+        <div className="items-center">
           <Input
             placeholder="Search By name..."
-            value={
-              (table.getColumn("name")?.getFilterValue() as string) ?? ""
-            }
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
-        </div> */}
+        </div>
       </div>
       {/* Looping Header from  column*/}
       <div className="rounded-md border-gray-300 border p-2">
@@ -173,9 +202,9 @@ export function DataTable<TData extends {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -187,7 +216,7 @@ export function DataTable<TData extends {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="border-b border-gray-300"
+                  className="border-b border-gray-300 text-center"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >

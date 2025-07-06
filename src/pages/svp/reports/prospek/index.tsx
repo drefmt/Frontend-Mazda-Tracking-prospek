@@ -3,7 +3,6 @@ import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchProspekReport } from "@/hooks/reports/useFetchProspekReport";
 
-// UI COMPONENT
 
 import { Select, SelectValue } from "@radix-ui/react-select";
 import { Label } from "recharts";
@@ -58,16 +57,18 @@ const SalesProspekReport = () => {
   return (
     <div className="container mx-auto py-10 space-y-6">
       <Card className="px-4">
-      <div className="space-y-1">
-        <h1 className="text-2xl text-slate-800 tracking-tight">
-          Laporan Prospek
-        </h1>
-        <p className="text-muted-foreground text-sm text-slate-600">
-          Menampilkan daftar prospek yang masuk dan status tindak lanjut untuk
-          bulan {monthNames[month - 1]} {year}.
-        </p>
-      </div>
+        <div className="space-y-1">
+          <h1 className="text-2xl text-slate-800 tracking-tight">
+            Laporan Prospek
+          </h1>
+          <p className="text-muted-foreground text-sm text-slate-600">
+            Menampilkan daftar prospek yang masuk dan status tindak lanjut
+          </p>
+          
+        </div>
         <div className="flex flex-wrap items-end gap-4">
+          
+
           {/* Filter Bulan */}
           <div className="flex flex-col space-y-1">
             <Label>Bulan</Label>
