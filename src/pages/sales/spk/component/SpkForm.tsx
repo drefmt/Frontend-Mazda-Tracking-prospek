@@ -6,15 +6,16 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 
 import * as Yup from "yup";
-import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
+
 import { useCreateSpk } from "@/hooks/spk/useCreateSpk";
 import { useEditSpk } from "@/hooks/spk/useEditSpk";
 import { useEffect } from "react";
 import { useFetchSpk } from "@/hooks/spk/useFetchSpk";
+import { useFetchAvailableForSpk } from "@/hooks/prospek/useAvailableForSpk";
 
 const SpkForm = () => {
   const { id } = useParams();
-  const { data: prospekData, isLoading: loadingProspek } = useFetchProspek();
+  const { data: prospekData, isLoading: loadingProspek } = useFetchAvailableForSpk();
   const { data: spkData } = useFetchSpk();
   const editSpk = useEditSpk();
   const createSpk = useCreateSpk();

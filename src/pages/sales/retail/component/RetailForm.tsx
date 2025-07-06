@@ -28,15 +28,13 @@ const RetailForm = () => {
   const formik = useFormik({
     initialValues: {
       spkId: "",
-      dateRetail: "",
-      status: "Retail",
+      dateRetail: "",      
       carType: "",
     },
 
     validationSchema: Yup.object({
       spkId: Yup.string().required("Nama SPK wajib dipilih"),
-      dateRetail: Yup.string().required("Tanggal retail wajib diisi"),
-      status: Yup.string().required("Status wajib diisi"),
+      dateRetail: Yup.string().required("Tanggal retail wajib diisi"),      
       carType: Yup.string().required("Tipe Mobil Harus Diisi"),
     }),
 
@@ -70,8 +68,7 @@ const RetailForm = () => {
       if (retail) {
         formik.setValues({
           spkId: retail.spkId?._id || "",
-          dateRetail: retail.dateRetail ? format(new Date(retail.dateRetail), "yyyy-MM-dd") : "",
-          status: retail.status || "",
+          dateRetail: retail.dateRetail ? format(new Date(retail.dateRetail), "yyyy-MM-dd") : "",          
           carType: retail.carType || "",
         });
       }
@@ -152,23 +149,7 @@ const RetailForm = () => {
             )}
           </div>
 
-          {/* Dropdown Status */}
-          <div>
-            <Label htmlFor="status">Status</Label>
-            <select
-              name="status"
-              id="status"
-              className="w-full border border-gray-300 rounded-md p-2"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.status}
-            >
-              <option value="Retail">Retail</option>
-            </select>
-            {formik.touched.status && formik.errors.status && (
-              <p className="text-red-500">{formik.errors.status}</p>
-            )}
-          </div>
+    
 
           {/* Input Tipe Mobil */}
           <div>

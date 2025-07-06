@@ -2,11 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import {
-  Activity,
   ArrowUpDown,
-  Ban,
-  CheckCircle2,
-  Clock,
   Eye,
   MoveDown,
   MoveRight,
@@ -16,9 +12,6 @@ import {
 import { Prospek } from "@/interface/prospek.interface";
 import { useNavigate } from "react-router-dom";
 import { JSX } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-
-
 
 export const columns: ColumnDef<Prospek>[] = [
   {
@@ -72,55 +65,26 @@ export const columns: ColumnDef<Prospek>[] = [
       };
 
       return (
-        <span className={`px-1 rounded-sm border ${statusColors[status] || "border-gray-400 text-gray-600"}`}>
+        <span
+          className={`px-1 rounded-sm border ${
+            statusColors[status] || "border-gray-400 text-gray-600"
+          }`}
+        >
           {status}
         </span>
       );
     },
   },
   {
-        accessorKey: "followUpcount",
-        header: "Follow-Ups",
-        cell: ({ row }) => {
-          const count = row.original.followUpCount;
-  
-          let Icon = Ban;
-          let colorClass = "text-gray-500 border-gray-400";
-          let label = "Belum Follow-Up";
-  
-          if (count >= 5) {
-            Icon = CheckCircle2;
-            colorClass = "text-green-600 border-green-600";
-            label = "Siap Closing";
-          } else if (count >= 3) {
-            Icon = Activity;
-            colorClass = "text-blue-600 border-blue-600";
-            label = "Sedang Proses";
-          } else if (count >= 1) {
-            Icon = Clock;
-            colorClass = "text-yellow-600 border-yellow-600";
-            label = "Awal Follow-Up";
-          }
-  
-          return (
-             <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span
-                className={`inline-flex items-center gap-2 border px-3 rounded-md text-sm ${colorClass}`}
-              >
-                <Icon className="w-3 h-3" />
-                {label}
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{count} Follow-Up</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-          );
-        },
-      },
+    accessorKey: "followUpCount",
+    header: "Follow-Ups",
+    cell: ({ row }) => {
+      const followUpCount = row.original.followUpCount;
+      return (
+        <span>{followUpCount}</span>
+      )
+    }
+  },
   {
     accessorKey: "category",
     header: "Category",
@@ -156,30 +120,4 @@ export const columns: ColumnDef<Prospek>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: "action",
-  //   header: "Action",
-  //   cell: ({ row }) => {
-  //     const prospek = row.original;
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-8 w-8 p-0">
-  //             <span className="sr-only">Open menu</span>
-  //             <MoreHorizontal className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-  //           <DropdownMenuItem
-  //             onClick={() => navigator.clipboard.writeText(prospek.id)}
-  //           >
-  //             Copy ID
-  //           </DropdownMenuItem>
-  //           <DropdownMenuSeparator />
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
 ];

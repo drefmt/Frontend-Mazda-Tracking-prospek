@@ -9,14 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
-
-interface FollowUp {
-  _id: string;
-  dateFollowUp: string;
-  customerResponse: string;
-  salesProses: string;
-  recommendation: string;
-}
+import { FollowUp } from "@/interface/followUp.interface"
+import { Lightbulb } from "lucide-react";
 
 const FollowUpTable = ({ followUps }: { followUps: FollowUp[] }) => {
   const navigate = useNavigate();
@@ -33,7 +27,9 @@ const FollowUpTable = ({ followUps }: { followUps: FollowUp[] }) => {
           <TableRow>
             <TableHead>Tanggal</TableHead>
             <TableHead>Customer Response </TableHead>
-            <TableHead>Proces Sales </TableHead>
+            <TableHead>Interaction</TableHead>            
+            <TableHead>Proces Sales </TableHead>            
+            <TableHead>Note</TableHead>            
             <TableHead>Recommendation</TableHead>
             <TableHead>Option</TableHead>
           </TableRow>
@@ -43,12 +39,16 @@ const FollowUpTable = ({ followUps }: { followUps: FollowUp[] }) => {
             followUps.map((followUp) => (
               <TableRow key={followUp._id}>
                 <TableCell className="font-medium">
-                  {format(new Date(followUp.dateFollowUp), "dd-MM-yyyy") || ""}
+                  {format(new Date(followUp.followUpDate), "dd-MM-yyyy") || ""}
                 </TableCell>
+                <TableCell>{followUp.salesProces || ""}</TableCell>
+                <TableCell>{followUp.interaction || ""}</TableCell>
+                <TableCell>{followUp.note || ""}</TableCell>
                 <TableCell>{followUp.customerResponse || ""}</TableCell>
-                <TableCell>{followUp.salesProses || ""}</TableCell>
                 <TableCell>{followUp.recommendation || ""}</TableCell>
-                <TableCell onClick={() => handleEdit(followUp._id)} className="text-cyan-600 cursor-pointer">Edit</TableCell>
+                <TableCell onClick={() => handleEdit(followUp._id)} className="text-cyan-600 cursor-pointer">
+                 <Lightbulb className="w-4 h-4 text-yellow-500" />
+                </TableCell>
                 
               </TableRow>
             ))

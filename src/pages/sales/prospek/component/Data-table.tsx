@@ -37,7 +37,7 @@ interface DataTableProps<TData, TValue> {
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { MoveDown, MoveRight, MoveUp } from "lucide-react";
+import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
 
 export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
 
@@ -84,8 +84,8 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
         <div className="pr-10 flex gap-4">
           {/* 🔽 Dropdown Filter Kategori */}
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">{selectedCategory || "Filter by Category"}</Button>
+            <DropdownMenuTrigger asChild>              
+              <Button variant="outline"> <Filter width={18} />{selectedCategory || "Filter by Category"}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => handleCategoryChange(null)}>All Categories</DropdownMenuItem>
@@ -107,7 +107,8 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
           </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
+              <Button variant="outline" className="ml-auto" >
+                <Filter width={18} />
                 Columns
               </Button>
             </DropdownMenuTrigger>

@@ -27,8 +27,7 @@
   interface Retail {  
     id: string;  
     spkId?: SpkId;
-    dateRetail: string;
-    status: string;
+    dateRetail: string;    
     carType: string;
   }
 
@@ -63,23 +62,7 @@
           return <span>{formattedDate}</span>;
         },
       
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => {
-        const status = row.original.status;
-        const statusColors: Record<string, string> = {       
-          Retail: "border-yellow-600 text-yellow-600",
-        };
-
-        return (
-          <span className={`px-1 rounded-sm border ${statusColors[status]}`}>
-            {status}
-          </span>
-        );
-      },
-    },
+    },   
     {
       accessorKey: "carType",
       header: "Car Type",

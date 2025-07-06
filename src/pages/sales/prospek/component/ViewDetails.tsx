@@ -15,7 +15,7 @@ const ViewDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useFetchProspekById(id ?? "");
 
-console.log(data);
+// console.log(data);
   if (isLoading) return <p>Loading...</p>;
   if (!data) return <p>Data tidak ditemukan</p>;
 
@@ -32,6 +32,14 @@ console.log(data);
             Kembali{" "}
           </Link>
         </div>
+        {/* <div className="pt-2">
+          <Link
+            to="follow-up"
+            className="bg-white border-1  border-black focus:ring-2 ring-gray-500 py-2 px-4 text-center rounded-lg text-black"
+          >
+            Tambah{" "}
+          </Link>
+        </div> */}
       </CardHeader>
 
       <div className="grid grid-cols-2 gap-4">

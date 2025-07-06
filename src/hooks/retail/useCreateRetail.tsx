@@ -4,8 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
   interface RetailData {  
     spkId: string;
-    dateRetail: string;
-    status: string;
+    dateRetail: string;    
     carType: string;
   }
 const createRetail = async(retailData: RetailData) => {

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useCreateFollowUp } from "@/hooks/follow-up/useCreateFollowUp";
 import { useEditFollowUp } from "@/hooks/follow-up/useEditFollowUp";
 import { useFetchFollowUpById } from "@/hooks/follow-up/useFetchFollowUpById";
-import { Interaction } from "@/types/interaction.type"
+import { Interaction } from "@/types/interaction.type";
 
 interface FollowUpFormValues {
   followUpDate: string;
@@ -17,7 +17,6 @@ interface FollowUpFormValues {
   customerResponse: string;
   recommendation: string;
 }
-
 
 const FollowUpSchema = Yup.object().shape({
   followUpDate: Yup.string().required("Tanggal wajib diisi"),
@@ -101,6 +100,7 @@ const FollowUpForm = () => {
           </button>
         </Link>
       </div>
+
       <hr className="border-gray-300" />
 
       <label className="text-lg">Tanggal Follow-Up</label>
@@ -154,7 +154,7 @@ const FollowUpForm = () => {
         placeholder="Catatan..."
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.note} 
+        value={formik.values.note}
       />
       <label className="text-lg">Customer Response</label>
       <Textarea
@@ -167,24 +167,11 @@ const FollowUpForm = () => {
       {formik.touched.customerResponse && formik.errors.customerResponse && (
         <p className="text-red-500">{formik.errors.customerResponse}</p>
       )}
-
-      <label className="text-lg">Rekomendasi Dari Manager/SPV</label>
-      <Textarea
-        name="recommendation"
-        placeholder="Masukkan rekomendasi"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.recommendation}
-      />
-      {formik.touched.recommendation && formik.errors.recommendation && (
-        <p className="text-red-500">{formik.errors.recommendation}</p>
-      )}
-
       <button
         type="submit"
-        className="py-1 w-full bg-black text-white rounded-md disabled:opacity-50"
+        className="py-1 w-full border-2 bg-black border-black text-white rounded-md hover:bg-black/90 transition duration-150"
       >
-        {isEditMode ? "Update" : "Submit"}
+        Kirim
       </button>
     </form>
   );

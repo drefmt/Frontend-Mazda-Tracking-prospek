@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,14 +7,25 @@ import { useEffect } from "react";
 import { useCreateFollowUp } from "@/hooks/follow-up/useCreateFollowUp";
 import { useEditFollowUp } from "@/hooks/follow-up/useEditFollowUp";
 import { useFetchFollowUpById } from "@/hooks/follow-up/useFetchFollowUpById";
+import { Interaction } from "@/types/interaction.type";
 
 
+
+interface FollowUpFormValues {
+  followUpDate: string;
+  salesProces: string;
+  interaction: Interaction;
+  note: string;
+  customerResponse: string;
+  recommendation: string;
+}
 
 const FollowUpSchema = Yup.object().shape({
-  dateFollowUp: Yup.string().required("Tanggal wajib diisi"),
-  salesProses: Yup.string().required("Sales Proses wajib diisi"),
+  followUpDate: Yup.string().required("Tanggal wajib diisi"),
+  salesProces: Yup.string().required("Sales Proses wajib diisi"),
+  interaction: Yup.string().required("interaksi wajib di isi"),
+  note: Yup.string(),
   customerResponse: Yup.string().required("Respon customer wajib diisi"),
-  recommendation: Yup.string().required("Rekomendasi wajib diisi"),
 });
 
 const FollowUpForm = () => {
@@ -23,18 +34,17 @@ const FollowUpForm = () => {
   const prospekId = id || ""; 
   const { data: followUpData } = useFetchFollowUpById(prospekId, followUpId);
 
-
-
-
   const isEditMode = Boolean(followUpId); 
 
   const createMutation = useCreateFollowUp();
   const updateMutation = useEditFollowUp();
 
-  const formik = useFormik({
-    initialValues: {
-      dateFollowUp: "",
-      salesProses: "",
+  const formik = useFormik<FollowUpFormValues>({
+     initialValues: {
+      followUpDate: "",
+      salesProces: "",
+      interaction: "Telepon",
+      note: "",
       customerResponse: "",
       recommendation: "",
     },
@@ -59,9 +69,13 @@ const FollowUpForm = () => {
 
   useEffect(() => {
     if (followUpId && followUpData) {
-      formik.setValues({
-        dateFollowUp: followUpData.dateFollowUp ? followUpData.dateFollowUp.split("T")[0] : "",
-        salesProses: followUpData.salesProses || "",
+     formik.setValues({
+        followUpDate: followUpData.followUpDate
+          ? followUpData.followUpDate.split("T")[0]
+          : "",
+        salesProces: followUpData.salesProces || "",
+        interaction: followUpData.interaction || "",
+        note: followUpData.note || "",
         customerResponse: followUpData.customerResponse || "",
         recommendation: followUpData.recommendation || "",
       });
@@ -81,16 +95,16 @@ const FollowUpForm = () => {
       </div>
       <hr className="border-gray-300" />
 
-      <label className="text-lg">Tanggal Follow-Up</label>
+      {/* <label className="text-lg">Tanggal Follow-Up</label>
       <Input
         type="date"
-        name="dateFollowUp"
+        name="followUpDate"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.dateFollowUp}
+        value={formik.values.followUpDate}
       />
-      {formik.touched.dateFollowUp && formik.errors.dateFollowUp && (
-        <p className="text-red-500">{formik.errors.dateFollowUp}</p>
+      {formik.touched.followUpDate && formik.errors.followUpDate && (
+        <p className="text-red-500">{formik.errors.followUpDate}</p>
       )}
 
       <label className="text-lg">Sales Proses</label>
@@ -100,10 +114,10 @@ const FollowUpForm = () => {
         placeholder="Masukkan Sales Proses"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.salesProses}
+        value={formik.values.salesProces}
       />
-      {formik.touched.salesProses && formik.errors.salesProses && (
-        <p className="text-red-500">{formik.errors.salesProses}</p>
+      {formik.touched.salesProces && formik.errors.salesProces && (
+        <p className="text-red-500">{formik.errors.salesProces}</p>
       )}
 
       <label className="text-lg">Customer Response</label>
@@ -116,7 +130,7 @@ const FollowUpForm = () => {
       />
       {formik.touched.customerResponse && formik.errors.customerResponse && (
         <p className="text-red-500">{formik.errors.customerResponse}</p>
-      )}
+      )} */}
 
       <label className="text-lg">Rekomendasi Dari Manager/SPV</label>
       <Textarea

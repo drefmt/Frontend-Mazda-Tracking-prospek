@@ -3,8 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 // import { BaseRetail as RetailData } from "@/interface/base-retail.iterface";
   interface RetailData {        
     spkId: string;
-    dateRetail: string;
-    status: string;
+    dateRetail: string;    
     carType: string;
   }
 

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import * as Yup from "yup";
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
@@ -20,7 +20,7 @@ const TestDriveForm = () => {
   
   const editTestDrive = useEditTestDrive();
   const createTestDrive = useCreateTestDrive();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -40,7 +40,7 @@ const TestDriveForm = () => {
       try {
         const testDriveData = { 
           ...values, 
-          prospekId: { id: values.prospekId, name: "" } 
+          prospekId: values.prospekId, 
         };
         if (id) {
           await editTestDrive.mutateAsync({ id, testDriveData: { ...testDriveData, prospekId: values.prospekId } });
@@ -49,14 +49,14 @@ const TestDriveForm = () => {
         }
         alert("Test Drive berhasil ditambahkan!");
         resetForm();
-        navigate("/sales/test-drive");
       } catch (error) {
         alert("Gagal menambahkan Test Drive");
         console.error(error);
       }
     },
   });
-
+  
+  // navigate("/sales/test-drive");
   useEffect(() => {
     if (id && testDriveData) {
       const testDrive = testDriveData.find((parameter: { id: string }) => parameter.id === id);

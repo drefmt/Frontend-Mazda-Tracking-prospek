@@ -7,10 +7,10 @@ import {
   useReactTable,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
-  ColumnFiltersState,
+  // SortingState,
+  // ColumnFiltersState,
   getFilteredRowModel,
-  VisibilityState,
+  // VisibilityState,
 } from "@tanstack/react-table";
 
 import {
@@ -22,23 +22,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  // DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+// import {
+//   DropdownMenu,
+//   // DropdownMenuCheckboxItem,
+//   DropdownMenuContent,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 
-import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
+// import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-import { Input } from "@/components/ui/input";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+// import { Input } from "@/components/ui/input";
+// import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 
 
 export function DataTable<TData extends {
@@ -46,82 +45,53 @@ export function DataTable<TData extends {
    }, 
    TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
+  // const [sorting, setSorting] = React.useState<SortingState>([]);
+  // const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  // const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  // const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
 
-  const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
+  // const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
+    // onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    // onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-    },
+    // onColumnVisibilityChange: setColumnVisibility,
+    // state: {
+    //   sorting,
+    //   columnFilters,
+    //   columnVisibility,
+    // },
   });
-  // console.log("Columns:", columns);
-  // console.log("Data:", data);
-  // console.log("Table Columns:", table.getAllColumns().map(col => col.id));
-
-
+ 
   // Handle Filter Category
-  const handleCategoryChange = (category: string | null) => {
-    setSelectedCategory(category);
-    table.getColumn("category")?.setFilterValue(category || undefined);
-  };
+  // const handleCategoryChange = (category: string | null) => {
+  //   setSelectedCategory(category);
+  //   table.getColumn("category")?.setFilterValue(category || undefined);
+  // };
   // Handle Filter Sales
-  const handleSalesChange = (salesName: string | null) => {
-    setSelectedSales(salesName);
-    table.getColumn("salesName")?.setFilterValue(salesName || undefined);
-  };
+  // const handleSalesChange = (salesName: string | null) => {
+  //   setSelectedSales(salesName);
+  //   table.getColumn("salesName")?.setFilterValue(salesName || undefined);
+  // };
 
 
   return (
     <>
-      <div className=" pb-4">
-        <h1 className="text-3xl">Prospek</h1>
-        <p className="text-gray-600">Halaman Data Prospek</p>
-      </div>
+      {/* <div className=" pb-4">
+        <h1 className="text-3xl">Report</h1>
+        <p className="text-gray-600">Prospek Report</p>
+      </div> */}
       <div className="flex gap-4 pb-4 justify-end mx-auto">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" >
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+       
 
         {/* Dropdown Filter Sales */}
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
               <Filter width={18} />
@@ -142,11 +112,11 @@ export function DataTable<TData extends {
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
 
 
         {/*Dropdown Filter Kategori */}
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" >
               <Filter width={18} />
@@ -172,10 +142,10 @@ export function DataTable<TData extends {
               Hot
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
 
         {/* Search Input */}
-        <div className="items-center">
+        {/* <div className="items-center">
           <Input
             placeholder="Search By name..."
             value={
@@ -186,7 +156,7 @@ export function DataTable<TData extends {
             }
             className="max-w-sm"
           />
-        </div>
+        </div> */}
       </div>
       {/* Looping Header from  column*/}
       <div className="rounded-md border-gray-300 border p-2">

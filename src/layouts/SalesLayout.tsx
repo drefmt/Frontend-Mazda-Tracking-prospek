@@ -3,10 +3,11 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "@/components/sidebar/Layout";
 import { salesRoute } from "@/routes";
 
+
 function SalesLayout() {
   return (
     <div className="h-screen">
-      <div className="flex-grow">
+      <div className="flex-grow">        
         <Layout>
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>

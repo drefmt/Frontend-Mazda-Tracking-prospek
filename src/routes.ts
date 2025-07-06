@@ -1,5 +1,18 @@
 import { lazy } from "react";
-import { Calendar, Home, Inbox, Search, CarFront } from "lucide-react";
+import {
+  Calendar,
+  Home,
+  Inbox,
+  Search,
+  CarFront,
+  Users,
+  FileText,
+  PhoneCall,
+  UserCog,
+  BarChart3,
+  LineChart,
+  ClipboardList,
+} from "lucide-react";
 
 // Halaman Sales
 const SalesDashboard = lazy(() => import("@/pages/sales/dashboard"));
@@ -36,16 +49,11 @@ const SvpProspek = lazy(() => import("@/pages/svp/prospek/"));
 const SvpSpk = lazy(() => import("@/pages/svp/spk"));
 const SvpTestDrive = lazy(() => import("@/pages/svp/testDrive"));
 const SvpDashboard = lazy(() => import("@/pages/svp/dashboard"));
-const SvpViewDetailSpk = lazy(
-  () => import("@/pages/svp/spk/component/SpvViewDetails")
-);
-const SvpViewDetailProspek = lazy(
-  () => import("@/pages/svp/prospek/component/ViewDetails")
-);
-const SpvFollowUpForm = lazy(
-  () => import("@/pages/svp/prospek/component/FollowUpForm")
-);
+const SvpViewDetailSpk = lazy(() => import("@/pages/svp/spk/component/SpvViewDetails"));
+const SvpViewDetailProspek = lazy(() => import("@/pages/svp/prospek/component/ViewDetails"));
+const SpvFollowUpForm = lazy(() => import("@/pages/svp/prospek/component/FollowUpForm"));
 const SvpRetail = lazy(() => import("@/pages/svp/retail"));
+const svpReportProspek = lazy(() => import("@/pages/svp/reports/prospek"));
 
 //! Tipe untuk route
 interface RouteType {
@@ -200,6 +208,11 @@ export const svpRoute: RouteType[] = [
     path: "retail",
     component: SvpRetail,
   },
+  {
+    name: "prospek Report",
+    path: 'report/prospect',
+    component: svpReportProspek,
+  }
 ];
 
 //* Daftar menu sidebar berdasarkan level user
@@ -256,6 +269,52 @@ export const sidebarMenus: Record<"sales" | "svp", MenuItem[]> = {
       title: "Retail",
       path: "/svp/retail",
       icon: CarFront,
+    },
+  ],
+};
+
+export const reportSidebarMenu: Record<"sales" | "svp", MenuItem[]> = {
+  sales: [],
+  svp: [
+    {
+      title: "Prospect",
+      path: "/svp/report/prospect",
+      icon: FileText,
+    },
+    {
+      title: "Test-Drive",
+      path: "/svp/report/test-drive",
+      icon: CarFront,
+    },
+    {
+      title: "Spk",
+      path: "/svp/report/prospect",
+      icon: ClipboardList,
+    },
+    {
+      title: "Retail",
+      path: "/svp/report/retail",
+      icon: LineChart,
+    },
+    {
+      title: "Follow-Up",
+      path: "/svp/report/retail",
+      icon: PhoneCall,
+    },
+    {
+      title: "Users",
+      path: "/svp/report/users",
+      icon: Users,
+    },
+    {
+      title: "Lead Convertion",
+      path: "/svp/report/lead-convertion",
+      icon: UserCog,
+    },
+    {
+      title: "Sales Performance",
+      path: "/svp/report/sales-performance",
+      icon: BarChart3,
     },
   ],
 };

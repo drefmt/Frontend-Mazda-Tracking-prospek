@@ -52,7 +52,7 @@ const FollowUpTable = ({ followUps }: { followUps: FollowUp[] }) => {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={5} className="text-center text-gray-500">
+              <TableCell colSpan={7} className="text-center text-gray-500">
                 <p className="text-center pt-2">
                 **Tidak ada data follow-up**
                 </p>
