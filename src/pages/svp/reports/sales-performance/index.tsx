@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
-import { useFetchProspekReport } from "@/hooks/reports/useFetchProspekReport";
-
+import { useFetchSalesPerformance } from "@/hooks/reports/useFetchSalesPerformance";
+import { monthNames } from "@/lib/constant/monthName";
 
 import { Select, SelectValue } from "@radix-ui/react-select";
 import { Label } from "recharts";
@@ -15,62 +15,39 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-
-const SalesProspekReport = () => {
+const SalesPerformance = () => {
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
-  const [triggerFetch, setTriggerFetch] = useState(false);
 
-  const isReady = !!month && !!year && triggerFetch;
-
-  const { data, isLoading, isError } = useFetchProspekReport(
+  const { data, isLoading, isError, refetch } = useFetchSalesPerformance(
     Number(month),
-    Number(year),
-    isReady
+    Number(year)
   );
+
+  const report = data;
+  const monthNum = report?.month ?? "-";
+  const yearNum = report?.year ?? "-";
+  const salesPerformance = report?.data ?? [];
 
   const handleFetch = () => {
     if (!month || !year) return;
-    setTriggerFetch(true);
+    refetch();
   };
 
   const columns = useMemo(() => defaultColumns, []);
-
-  const safeData = (data || []).map((prospek) => ({
-    ...prospek,
-    salesId: prospek.salesId ?? { id: "unknown", username: "-" },
-  }));
-
-  const monthNames = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
-  ];
 
   return (
     <div className="container mx-auto py-10 space-y-6">
       <Card className="px-4">
         <div className="space-y-1">
           <h1 className="text-2xl text-slate-800 tracking-tight">
-            Laporan Prospek
+            Laporan Sales Performance
           </h1>
           <p className="text-muted-foreground text-sm text-slate-600">
-            Menampilkan daftar prospek yang masuk dan status tindak lanjut
+            Menampilkan daftar Performa Sales yang masuk dan status tindak lanjut
           </p>
-          
         </div>
         <div className="flex flex-wrap items-end gap-4">
-          
-
           {/* Filter Bulan */}
           <div className="flex flex-col space-y-1">
             <Label>Bulan</Label>
@@ -78,7 +55,6 @@ const SalesProspekReport = () => {
               value={month?.toString() || ""}
               onValueChange={(value) => {
                 setMonth(Number(value));
-                setTriggerFetch(false);
               }}
             >
               <SelectTrigger id="bulan" className="w-[150px]">
@@ -104,8 +80,8 @@ const SalesProspekReport = () => {
               className="w-[150px]"
               value={year}
               onChange={(e) => {
-                setYear(Number(e.target.value));
-                setTriggerFetch(false);
+                const inputValue = e.target.value;
+                setYear(inputValue === "" ? "" : Number(inputValue));
               }}
             />
           </div>
@@ -116,23 +92,32 @@ const SalesProspekReport = () => {
           </div>
         </div>
       </Card>
+      {monthNum && (
+        <h1 className="text-xl font-semibold text-slate-700">
+          Periode: {monthNum}
+        </h1>
+      )}
+      {yearNum && (
+        <h1 className="text-xl font-semibold text-slate-700">
+          Tahun: {yearNum}
+        </h1>
+      )}
 
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
-      {data && data.length === 0 && (
+      {SalesPerformance?.length === 0 && (
         <p className="text-muted-foreground">
           Tidak ada data untuk bulan dan tahun ini.
         </p>
       )}
-      
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
-      {data && data.length > 0 && (
-        <DataTable columns={columns} data={safeData} />
+      {salesPerformance.length > 0 && (
+        <DataTable columns={columns} data={salesPerformance} />
       )}
     </div>
   );
 };
 
-export default SalesProspekReport;
+export default SalesPerformance;

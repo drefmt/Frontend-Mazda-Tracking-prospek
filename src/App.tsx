@@ -22,7 +22,7 @@ function App() {
 
   const getRedirectPath = () => {
     if (!user) return "/login";
-    return user.level === "sales" || user.level === "svp" ? `/${user.level}/` : "/login";
+    return user.level === "sales" || user.level === "svp" ? `/${user.level}/dashboard` : "/login";
   };
 
   return (

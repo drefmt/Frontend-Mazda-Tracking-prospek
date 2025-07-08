@@ -5,5 +5,7 @@ import { SpkId } from "@/types/spkId.type"
 export interface Retail extends BaseProspek {
     salesId: SalesId;
     spkId: SpkId;
+    dateRetail: string;
+    carType: string;
     id: string;
 }

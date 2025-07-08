@@ -44,7 +44,7 @@ const SalesRetailForm = lazy(
   () => import("@/pages/sales/retail/component/RetailForm")
 );
 
-// Halaman SVP
+// HALAMAN SPV
 const SvpProspek = lazy(() => import("@/pages/svp/prospek/"));
 const SvpSpk = lazy(() => import("@/pages/svp/spk"));
 const SvpTestDrive = lazy(() => import("@/pages/svp/testDrive"));
@@ -53,8 +53,16 @@ const SvpViewDetailSpk = lazy(() => import("@/pages/svp/spk/component/SpvViewDet
 const SvpViewDetailProspek = lazy(() => import("@/pages/svp/prospek/component/ViewDetails"));
 const SpvFollowUpForm = lazy(() => import("@/pages/svp/prospek/component/FollowUpForm"));
 const SvpRetail = lazy(() => import("@/pages/svp/retail"));
-const svpReportProspek = lazy(() => import("@/pages/svp/reports/prospek"));
 
+// REPORT
+const svpReportProspek = lazy(() => import("@/pages/svp/reports/prospek"));
+const RetailReport = lazy(() => import('@/pages/svp/reports/retail'));
+const testDriveReport = lazy(() => import('@/pages/svp/reports/testDrive'));
+const spkReport = lazy(() => import("@/pages/svp/reports/spk"))
+const followUpReport = lazy(() => import("@/pages/svp/reports/follow-up"))
+const salesEvaluation = lazy(() => import("@/pages/svp/reports/sales-evaluation"))
+const salesPerformance = lazy(() => import("@/pages/svp/reports/sales-performance"))
+const userListReport = lazy(() => import("@/pages/svp/reports/user"))
 //! Tipe untuk route
 interface RouteType {
   name: string;
@@ -212,6 +220,41 @@ export const svpRoute: RouteType[] = [
     name: "prospek Report",
     path: 'report/prospect',
     component: svpReportProspek,
+  },
+  {
+    name: "Test-Drive Report",
+    path: 'report/test-drive',
+    component: testDriveReport,
+  },
+  {
+    name: "retail Report",
+    path: 'report/retail',
+    component: RetailReport,
+  },  
+  {
+    name: "spk Report",
+    path: 'report/spk',
+    component: spkReport,
+  },
+  {
+    name: "Follow-up Report",
+    path: 'report/follow-up',
+    component: followUpReport,
+  },
+  {
+    name: "Sales Evaluation",
+    path: 'report/sales-evaluation',
+    component: salesEvaluation,
+  },
+  {
+    name: "Sales Performance",
+    path: 'report/sales-performance',
+    component: salesPerformance,
+  },
+  {
+    name: "Users Report",
+    path: 'report/users',
+    component: userListReport,
   }
 ];
 
@@ -288,7 +331,7 @@ export const reportSidebarMenu: Record<"sales" | "svp", MenuItem[]> = {
     },
     {
       title: "Spk",
-      path: "/svp/report/prospect",
+      path: "/svp/report/spk",
       icon: ClipboardList,
     },
     {
@@ -298,7 +341,7 @@ export const reportSidebarMenu: Record<"sales" | "svp", MenuItem[]> = {
     },
     {
       title: "Follow-Up",
-      path: "/svp/report/retail",
+      path: "/svp/report/follow-up",
       icon: PhoneCall,
     },
     {
@@ -307,8 +350,8 @@ export const reportSidebarMenu: Record<"sales" | "svp", MenuItem[]> = {
       icon: Users,
     },
     {
-      title: "Lead Convertion",
-      path: "/svp/report/lead-convertion",
+      title: "sales evaluation",
+      path: "/svp/report/sales-evaluation",
       icon: UserCog,
     },
     {

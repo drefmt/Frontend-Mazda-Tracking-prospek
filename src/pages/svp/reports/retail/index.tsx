@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
-import { useFetchProspekReport } from "@/hooks/reports/useFetchProspekReport";
+import { useFetchRetailReport } from "@/hooks/reports/useFetchRetailReports";
 
 
 import { Select, SelectValue } from "@radix-ui/react-select";
@@ -16,14 +16,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 
-const SalesProspekReport = () => {
+const RetailReport = () => {
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
   const [triggerFetch, setTriggerFetch] = useState(false);
 
   const isReady = !!month && !!year && triggerFetch;
 
-  const { data, isLoading, isError } = useFetchProspekReport(
+  const { data, isLoading, isError } = useFetchRetailReport(
     Number(month),
     Number(year),
     isReady
@@ -61,7 +61,7 @@ const SalesProspekReport = () => {
       <Card className="px-4">
         <div className="space-y-1">
           <h1 className="text-2xl text-slate-800 tracking-tight">
-            Laporan Prospek
+            Laporan Retail
           </h1>
           <p className="text-muted-foreground text-sm text-slate-600">
             Menampilkan daftar prospek yang masuk dan status tindak lanjut
@@ -124,7 +124,6 @@ const SalesProspekReport = () => {
           Tidak ada data untuk bulan dan tahun ini.
         </p>
       )}
-      
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
@@ -135,4 +134,4 @@ const SalesProspekReport = () => {
   );
 };
 
-export default SalesProspekReport;
+export default RetailReport;

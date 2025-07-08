@@ -1,11 +1,10 @@
 import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
-import { useFetchProspekReport } from "@/hooks/reports/useFetchProspekReport";
-
+import { useFetchSpkReport } from "@/hooks/reports/useFetchSpkReports"
 
 import { Select, SelectValue } from "@radix-ui/react-select";
-import { Label } from "recharts";
+import { Label } from "@/components/ui/label";
 import {
   SelectContent,
   SelectItem,
@@ -16,14 +15,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 
-const SalesProspekReport = () => {
+const SpkReport = () => {
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
   const [triggerFetch, setTriggerFetch] = useState(false);
 
   const isReady = !!month && !!year && triggerFetch;
 
-  const { data, isLoading, isError } = useFetchProspekReport(
+  const { data, isLoading, isError } = useFetchSpkReport(
     Number(month),
     Number(year),
     isReady
@@ -36,9 +35,9 @@ const SalesProspekReport = () => {
 
   const columns = useMemo(() => defaultColumns, []);
 
-  const safeData = (data || []).map((prospek) => ({
-    ...prospek,
-    salesId: prospek.salesId ?? { id: "unknown", username: "-" },
+  const safeData = (data || []).map((spk) => ({
+    ...spk,
+    salesId: spk.salesId ?? { id: "unknown", username: "-" },
   }));
 
   const monthNames = [
@@ -61,10 +60,10 @@ const SalesProspekReport = () => {
       <Card className="px-4">
         <div className="space-y-1">
           <h1 className="text-2xl text-slate-800 tracking-tight">
-            Laporan Prospek
+            Laporan SPK
           </h1>
           <p className="text-muted-foreground text-sm text-slate-600">
-            Menampilkan daftar prospek yang masuk dan status tindak lanjut
+            Menampilkan daftar SPK yang masuk dan status tindak lanjut
           </p>
           
         </div>
@@ -124,7 +123,6 @@ const SalesProspekReport = () => {
           Tidak ada data untuk bulan dan tahun ini.
         </p>
       )}
-      
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
@@ -135,4 +133,4 @@ const SalesProspekReport = () => {
   );
 };
 
-export default SalesProspekReport;
+export default SpkReport;

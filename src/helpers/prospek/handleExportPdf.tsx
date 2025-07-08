@@ -24,7 +24,7 @@ export const handleExportPDF = (data: Prospek[]) => {
   doc.setFontSize(16);
 
   // 🖼️ Logo Mazda
-  doc.addImage(mazdaLogo, "PNG", 23, 1, 4, 1); // width 4cm, height 2cm
+  doc.addImage(mazdaLogo, "PNG", 23, 1, 4, 1); // width 4cm, height 1cm
 
   // 📝 Judul & Alamat
   doc.setFontSize(23);
@@ -72,7 +72,7 @@ export const handleExportPDF = (data: Prospek[]) => {
       valign: "middle",
     },
     headStyles: {
-      fillColor: gray600, // slate-500
+      fillColor: gray600, 
       textColor: [255, 255, 255],
       fontStyle: "bold",
     },
@@ -93,6 +93,6 @@ export const handleExportPDF = (data: Prospek[]) => {
   doc.text("Generated from Mazda Tracking System - Andre", 1, h - 0.5);
 
   // 📤 Preview di tab baru
-  const pdfUrl = doc.output("bloburl");
+  const pdfUrl = doc.output("bloburi");
   window.open(pdfUrl);
 };

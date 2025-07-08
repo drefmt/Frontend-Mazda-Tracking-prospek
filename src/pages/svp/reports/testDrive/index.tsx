@@ -1,11 +1,10 @@
 import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
-import { useFetchProspekReport } from "@/hooks/reports/useFetchProspekReport";
-
+import { useFetchTestDriveReport } from "@/hooks/reports/useFetchTestDriveReports";
 
 import { Select, SelectValue } from "@radix-ui/react-select";
-import { Label } from "recharts";
+import { Label } from "@/components/ui/label";
 import {
   SelectContent,
   SelectItem,
@@ -15,18 +14,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-
-const SalesProspekReport = () => {
+const TestDriveReport = () => {
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
   const [triggerFetch, setTriggerFetch] = useState(false);
 
   const isReady = !!month && !!year && triggerFetch;
 
-  const { data, isLoading, isError } = useFetchProspekReport(
+  const { data, isLoading, isError } = useFetchTestDriveReport(
     Number(month),
     Number(year),
-    isReady
+    isReady,
   );
 
   const handleFetch = () => {
@@ -36,9 +34,9 @@ const SalesProspekReport = () => {
 
   const columns = useMemo(() => defaultColumns, []);
 
-  const safeData = (data || []).map((prospek) => ({
-    ...prospek,
-    salesId: prospek.salesId ?? { id: "unknown", username: "-" },
+  const safeData = (data || []).map((testDrive) => ({
+    ...testDrive,
+    salesId: testDrive.salesId ?? { id: "unknown", username: "-" },
   }));
 
   const monthNames = [
@@ -61,16 +59,13 @@ const SalesProspekReport = () => {
       <Card className="px-4">
         <div className="space-y-1">
           <h1 className="text-2xl text-slate-800 tracking-tight">
-            Laporan Prospek
+            Report Test- Drive
           </h1>
           <p className="text-muted-foreground text-sm text-slate-600">
-            Menampilkan daftar prospek yang masuk dan status tindak lanjut
+            Menampilkan daftar Test Drive yang masuk dan status tindak lanjut
           </p>
-          
         </div>
         <div className="flex flex-wrap items-end gap-4">
-          
-
           {/* Filter Bulan */}
           <div className="flex flex-col space-y-1">
             <Label>Bulan</Label>
@@ -124,7 +119,6 @@ const SalesProspekReport = () => {
           Tidak ada data untuk bulan dan tahun ini.
         </p>
       )}
-      
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
@@ -135,4 +129,4 @@ const SalesProspekReport = () => {
   );
 };
 
-export default SalesProspekReport;
+export default TestDriveReport;
