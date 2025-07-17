@@ -66,10 +66,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="pb-4">
-        <h1 className="text-3xl">Spk</h1>
-        <p className="text-gray-600">Halaman Data SPk.</p>
-      </div>
+    
       <div className="flex gap-4 pb-4 justify-end">     
       
         <div className="pr-10 flex gap-4">

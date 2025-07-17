@@ -10,6 +10,8 @@ export interface Evaluation {
 }
 
 export interface ReportSummaryEvaluation {
-  period: number;
+   count: number;
+   period: string;
+   generatedBy: string;
    data: Evaluation[];
 }

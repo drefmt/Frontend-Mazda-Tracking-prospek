@@ -180,7 +180,7 @@ function Sidebar({
       <div
         data-slot="sidebar"
         className={cn(
-          "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",
+          "  bg-gray-600  flex h-full w-(--sidebar-width) flex-col",
           className
         )}
         {...props}
@@ -273,7 +273,7 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="lg"
-      className={cn("mt-4", className)}
+      className={cn(className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()

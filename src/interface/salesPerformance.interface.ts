@@ -9,9 +9,9 @@ export interface SalesPerformance {
     konversiRetail:string;
 }
 
-export interface SummarySalesPerformance extends SalesPerformance {
-    data: SalesPerformance[];
+export interface SummarySalesPerformance {
     count: number;
-    month: string;
-    year: number;
+    period: string;
+    generatedBy: string;
+    data: SalesPerformance[];
 }

@@ -65,11 +65,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <>
-      <div className="pb-4">
-        <h1 className="text-3xl">Test Drive</h1>
-        <p className="text-gray-600">Lorem ipsum dolor sit amet.</p>
-      </div>
+    <>    
       <div className="flex gap-4 pb-4">
         <Link to="add">
           <Button className="bg-black hover:bg-black/90">Add Test Drive</Button>
@@ -116,13 +112,13 @@ export function DataTable<TData, TValue>({
           />
         </div> */}
       </div>
-      <div className="rounded-md border border-gray-300">
+      <div className="rounded-md border border-gray-300 dark:border-gray-800">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-b border-b-gray-300"
+                className="border-b border-b-gray-300 dark:border-b-gray-800"
               >
                 {headerGroup.headers.map((header) => {
                   return (
@@ -143,7 +139,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="border- border-gray-300"
+                  className="border- border-gray-300 dark:border-b-gray-800"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
@@ -169,7 +165,7 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-        <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex items-center justify-end space-x-2 py-4 px-4">
           <Button
             variant="outline"
             size="sm"

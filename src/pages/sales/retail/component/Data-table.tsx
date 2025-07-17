@@ -65,11 +65,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <>
-      <div className="pb-4 ">
-        <h1 className="text-3xl">Retail</h1>
-        <p className="text-gray-600">Data Retail</p>
-      </div>
+    <>   
       <div className="flex gap-4 pb-4 justify-between ">
         <Link to="add">
           <Button className="bg-black hover:bg-black/90">Add Retail</Button>
@@ -115,13 +111,13 @@ export function DataTable<TData, TValue>({
         </div>
         </div>
       </div>
-      <div className="rounded-md border border-gray-300">
+      <div className="rounded-md border border-gray-300 dark:border-gray-800">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-b border-b-gray-300"
+                className="border-b border-b-gray-300 dark:border-b-gray-800"
               >
                 {headerGroup.headers.map((header) => {
                   return (
@@ -142,7 +138,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="border- border-gray-300"
+                  className="border-gray-300 dark:border-gray-800"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >

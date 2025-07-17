@@ -72,10 +72,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
 
   return (
     <>
-      <div className="pb-4">
-        <h1 className="text-3xl">Prospek</h1>
-        <p className="text-gray-600">Halaman Data Prospek</p>
-      </div>
+    
       <div className="flex gap-4 pb-4 justify-between">
         <Link to="add">
           <Button className="bg-black hover:bg-black/90">Add Prospek</Button>
@@ -150,15 +147,15 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
 
       </div>
       {/* Looping Header from  column*/}
-      <div className="rounded-md border-gray-300 border">
-        <div className="overflow-x-scroll">
+      <div className="rounded-md border-gray-300 dark:border-gray-800 border">
+        <div>
 
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow
                   key={headerGroup.id}
-                  className="border-b border-b-gray-300"
+                  className="border-b border-b-gray-300 dark:border-b-gray-800 dark:bg-gray-900"
                 >
                   {headerGroup.headers.map((header) => {
                     return (
@@ -180,7 +177,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
-                    className="border-b border-gray-300"
+                    className="border-b border-gray-300 dark:border-b-gray-800"
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
@@ -207,7 +204,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
             </TableBody>
           </Table>
           {/* Pagination */}
-          <div className="flex items-center justify-end space-x-2 py-4">
+          <div className="flex items-center justify-end space-x-2 py-4 px-4">
             <Button
               variant="outline"
               size="sm"

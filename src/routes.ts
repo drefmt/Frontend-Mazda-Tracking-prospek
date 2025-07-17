@@ -30,19 +30,16 @@ const SalesProspekFollowUp = lazy(
 
 const SalesSpk = lazy(() => import("@/pages/sales/spk"));
 const SalesSpkForm = lazy(() => import("@/pages/sales/spk/component/SpkForm"));
-const SalesSpkDetails = lazy(
-  () => import("@/pages/sales/spk/component/ViewDetails")
-);
+const SalesSpkDetails = lazy(() => import("@/pages/sales/spk/component/ViewDetails"));
 
 const SalesTestDrive = lazy(() => import("@/pages/sales/testDrive"));
-const SalesTestDriveFrom = lazy(
-  () => import("@/pages/sales/testDrive/component/Test-drive-form")
-);
+const SalesTestDriveFrom = lazy(() => import("@/pages/sales/testDrive/component/Test-drive-form"));
+
+const Activity = lazy(() => import("@/pages/sales/activity"));
+const ActivityForm = lazy(() => import("@/pages/sales/activity/component/ActivityForm"));
 
 const SalesRetail = lazy(() => import("@/pages/sales/retail"));
-const SalesRetailForm = lazy(
-  () => import("@/pages/sales/retail/component/RetailForm")
-);
+const SalesRetailForm = lazy(() => import("@/pages/sales/retail/component/RetailForm"));
 
 // HALAMAN SPV
 const SvpProspek = lazy(() => import("@/pages/svp/prospek/"));
@@ -167,6 +164,21 @@ export const salesRoute: RouteType[] = [
     path: "retail/edit/:id",
     component: SalesRetailForm,
   },
+  {
+    name: "Activity",
+    path: "activity",
+    component: Activity,
+  },
+  {
+    name: "Activity Add",
+    path: "activity/add",
+    component: ActivityForm,
+  },
+  {
+    name: "Activity edit",
+    path: "activity/edit/:id",
+    component: ActivityForm,
+  },
 ];
 
 //* SVP Routes
@@ -214,6 +226,16 @@ export const svpRoute: RouteType[] = [
   {
     name: "Retail",
     path: "retail",
+    component: SvpRetail,
+  },
+  {
+    name: "Retail",
+    path: "retail",
+    component: SvpRetail,
+  },
+  {
+    name: "Customer Complain",
+    path: "/customer-complain",
     component: SvpRetail,
   },
   {
@@ -286,6 +308,11 @@ export const sidebarMenus: Record<"sales" | "svp", MenuItem[]> = {
       path: "/sales/retail",
       icon: CarFront,
     },
+    {
+      title: "Daily Activity",
+      path: "/sales/activity",
+      icon: ClipboardList,
+    },
   ],
   svp: [
     {
@@ -312,6 +339,16 @@ export const sidebarMenus: Record<"sales" | "svp", MenuItem[]> = {
       title: "Retail",
       path: "/svp/retail",
       icon: CarFront,
+    },
+    {
+      title: "Customer Complain",
+      path: "/svp/customer-complain",
+      icon: CarFront,
+    },
+    {
+      title: "Sales Activity",
+      path: "/svp/Activity",
+      icon: ClipboardList,
     },
   ],
 };

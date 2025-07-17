@@ -73,8 +73,8 @@ const TestDriveForm = () => {
 
   return (
     <>
-      <div className="p-4 rounded-md border border-gray-300 shadow-sm h-full">
-        <h1 className="text-3xl">{id ? "Edit Test Drive" : "Add New Test Drive"}</h1>
+      <div className="mt-4 p-4 rounded-md border border-gray-300 shadow-sm h-full dark:text-white dark:border-gray-800">
+        <h1 className="text-3xl pb-4">{id ? "Edit Test Drive" : "Add New Test Drive"}</h1>
         <form className="h-full justify-between" onSubmit={formik.handleSubmit}>
           <div className="flex justify-between pb-4">
             <Link to="/sales/test-drive">
@@ -91,11 +91,11 @@ const TestDriveForm = () => {
             <select
               id="prospekId"
               name="prospekId"
-              className="w-full border border-gray-300 rounded-md p-2"
+              className="w-full mb-2 border border-gray-300 rounded-md p-2 dark:bg-gray-950 dark:text-white"
               onChange={formik.handleChange}
               value={formik.values.prospekId}
             >
-              <option value="">Pilih Nama Prospek</option>
+              <option value="" className="rounded-xl">Pilih Nama Prospek</option>
               {loadingProspek ? (
                 <option>Loading...</option>
               ) : (
@@ -110,7 +110,7 @@ const TestDriveForm = () => {
               <p className="text-red-500">{formik.errors.prospekId}</p>
             )}
           </div>
-          <div className="flex-col">
+          <div className="flex-col mb-2">
             <Label htmlFor="dateTestDrive">Date</Label>
             <div className="w-full">
               <Input

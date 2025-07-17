@@ -5,6 +5,8 @@ import { useFetchUserListReport } from "@/hooks/reports/useFetchUserReport"
 
 
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { handleExportPDF } from "@/helpers/user/handleExportPdf";
 
 const UserListReport = () => {
 
@@ -12,7 +14,8 @@ const UserListReport = () => {
 
   const columns = useMemo(() => defaultColumns, []);
 
-
+  const report = data;
+  const dataUsers = report?.data;
   return (
     <div className="container mx-auto py-10 space-y-6">
       <Card className="px-4">
@@ -23,11 +26,25 @@ const UserListReport = () => {
           <p className="text-muted-foreground text-sm text-slate-600">
             Menampilkan daftar User
           </p>
+          <Button
+            variant="outline"
+            onClick={() => report && handleExportPDF(report)}
+            disabled={!report}
+          >
+            Export PDF
+          </Button>
+          <Button
+            variant="outline"
+            // onClick={() => report && handleExportExcel(report)}
+            // disabled={!report}
+          >
+            Export Excel
+          </Button>
         </div>
         </Card>
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
-      {data && data.length === 0 && (
+      {dataUsers && dataUsers.length === 0 && (
         <p className="text-muted-foreground">
           Tidak ada data untuk bulan dan tahun ini.
         </p>
@@ -35,8 +52,8 @@ const UserListReport = () => {
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
-      {data && data.length > 0 && (
-        <DataTable columns={columns} data={data} />
+      {dataUsers && dataUsers.length > 0 && (
+        <DataTable columns={columns} data={dataUsers} />
       )}
     </div>
     // </div>

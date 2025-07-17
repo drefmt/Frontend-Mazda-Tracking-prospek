@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchRetailReport } from "@/hooks/reports/useFetchRetailReports";
-
+import { monthNames } from "@/lib/constant/monthName"
 
 import { Select, SelectValue } from "@radix-ui/react-select";
 import { Label } from "recharts";
@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { handleExportPDF } from "@/helpers/retail/handleExportPdf";
 
 
 const RetailReport = () => {
@@ -29,6 +30,10 @@ const RetailReport = () => {
     isReady
   );
 
+  const report = data;
+  const retailData = report?.data;
+
+
   const handleFetch = () => {
     if (!month || !year) return;
     setTriggerFetch(true);
@@ -36,25 +41,10 @@ const RetailReport = () => {
 
   const columns = useMemo(() => defaultColumns, []);
 
-  const safeData = (data || []).map((prospek) => ({
+  const safeData = (retailData || []).map((prospek) => ({
     ...prospek,
     salesId: prospek.salesId ?? { id: "unknown", username: "-" },
   }));
-
-  const monthNames = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
-  ];
 
   return (
     <div className="container mx-auto py-10 space-y-6">
@@ -114,12 +104,26 @@ const RetailReport = () => {
           <div className="mt-4">
             <Button onClick={handleFetch}>Tampilkan</Button>
           </div>
+         <Button
+                    variant="outline"
+                    onClick={() => report && handleExportPDF(report)}
+                    disabled={!report}
+                  >
+                    Export PDF
+                  </Button>
+                  <Button
+                    variant="outline"
+                    // onClick={() => report && handleExportExcel(report)}
+                    // disabled={!report}
+                  >
+                    Export Excel
+                  </Button>
         </div>
       </Card>
 
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
-      {data && data.length === 0 && (
+      {retailData && retailData.length === 0 && (
         <p className="text-muted-foreground">
           Tidak ada data untuk bulan dan tahun ini.
         </p>
@@ -127,7 +131,7 @@ const RetailReport = () => {
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
-      {data && data.length > 0 && (
+      {retailData && retailData.length > 0 && (
         <DataTable columns={columns} data={safeData} />
       )}
     </div>

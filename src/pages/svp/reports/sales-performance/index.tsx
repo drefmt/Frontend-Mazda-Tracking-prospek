@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { handleExportPDF } from "@/helpers/salesPerformance/handleExportPdf";
 
 const SalesPerformance = () => {
   const [month, setMonth] = useState<number | "">("");
@@ -25,8 +26,6 @@ const SalesPerformance = () => {
   );
 
   const report = data;
-  const monthNum = report?.month ?? "-";
-  const yearNum = report?.year ?? "-";
   const salesPerformance = report?.data ?? [];
 
   const handleFetch = () => {
@@ -90,26 +89,25 @@ const SalesPerformance = () => {
           <div className="mt-4">
             <Button onClick={handleFetch}>Tampilkan</Button>
           </div>
+           <Button
+                      variant="outline"
+                      onClick={() => report && handleExportPDF(report)}
+                      disabled={!report}
+                    >
+                      Export PDF
+                    </Button>
+                    <Button
+                      variant="outline"
+                      // onClick={() => report && handleExportExcel(report)}
+                      // disabled={!report}
+                    >
+                      Export Excel
+                    </Button>
         </div>
       </Card>
-      {monthNum && (
-        <h1 className="text-xl font-semibold text-slate-700">
-          Periode: {monthNum}
-        </h1>
-      )}
-      {yearNum && (
-        <h1 className="text-xl font-semibold text-slate-700">
-          Tahun: {yearNum}
-        </h1>
-      )}
-
+      
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
-      {SalesPerformance?.length === 0 && (
-        <p className="text-muted-foreground">
-          Tidak ada data untuk bulan dan tahun ini.
-        </p>
-      )}
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}

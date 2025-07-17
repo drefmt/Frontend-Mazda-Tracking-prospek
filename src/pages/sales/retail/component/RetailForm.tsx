@@ -79,10 +79,8 @@ const RetailForm = () => {
 
 
   return (
-    <div className="p-4 rounded-md border border-gray-300 shadow-sm h-full">
-      <h1 className="text-3xl">{id ? "Edit Retail" : "Add New Retail"}</h1>
-
-      <p>Edit Data Retail</p>
+    <div className="p-4 my-4 rounded-md border border-gray-300 dark:border-gray-800 shadow-sm h-full dark:text-white">
+      <h1 className="text-3xl pb-4">{id ? "Edit Retail" : "Add New Retail"}</h1>      
 
       {/* Jika Data Loading */}
 
@@ -99,7 +97,7 @@ const RetailForm = () => {
           {/* Tombol Navigasi */}
           <div className="flex justify-between pb-4">
             <Link to="/sales/retail">
-              <Button variant="ghost" className="border border-gray-300">
+              <Button variant="ghost" className="border border-gray-300 dark:border-gray-800">
                 Back
               </Button>
             </Link>
@@ -115,7 +113,7 @@ const RetailForm = () => {
             <select
               id="spkId"
               name="spkId"
-              className="w-full border border-gray-300 rounded-md p-2"
+              className="w-full border border-gray-300 rounded-md p-2 dark:border-gray-800"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.spkId}
@@ -139,7 +137,7 @@ const RetailForm = () => {
               type="date"
               id="dateRetail"
               name="dateRetail"
-              className="w-full border border-gray-300 rounded-md p-2"
+              className="w-full border border-gray-300 rounded-md p-2 dark:border-gray-800"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.dateRetail}
@@ -159,7 +157,7 @@ const RetailForm = () => {
               id="carType"
               name="carType"
               placeholder="Tipe Mobil"
-              className="w-full border border-gray-300 rounded-md p-2"
+              className="w-full border border-gray-300 rounded-md p-2 dark:border-gray-800"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.carType}

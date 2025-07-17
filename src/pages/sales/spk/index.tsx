@@ -31,7 +31,7 @@ const SalesSpk = () => {
 
 
   return (
-    <div className="container mx-auto py-10 ">
+    <div className="container mx-auto py-10 dark:text-white">
       <DataTable columns={columns} data={dataSpk || []} />
     </div>
   );

@@ -6,89 +6,112 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { User, ClipboardList, CarFront, WalletCards } from "lucide-react";
-import { Chart } from "./component/Chart"; 
-import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
-import { useFetchRetail } from "@/hooks/retail/useFetchRetail";
-import { useFetchSpk } from "@/hooks/spk/useFetchSpk";
-import { useFetchTestDrive } from "@/hooks/testDrive/useFetchTestDrive";
+import { LucideIcon } from "lucide-react";
+import { YearlyActivityChart } from "./component/Chart";
+import {
+  UserPlus,
+  ClipboardList,
+  Car,
+  Handshake,
+  Repeat,
+  PercentCircle,
+} from "lucide-react";
 
-const useTotals = () => {
-  const { data: prospekData = [] } = useFetchProspek();
-  const { data: retailData = [] } = useFetchRetail();
-  const { data: spkData = [] } = useFetchSpk();  
-  const { data: testDriveData = [] } = useFetchTestDrive();
+import { useFetchSummary } from "@/hooks/dashboard/useFetchSummary";
+import { Summary } from "@/interface/summary.interface";
 
-  return {
-    totalProspek: prospekData.length,
-    totalRetail: retailData.length,
-    totalSpk: spkData.length,
-    totalTestDrive: testDriveData.length,
-  };
-};
+
+type SummaryKey = keyof Summary;
+
+interface CardItem {
+  key: SummaryKey;
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+const carditems: CardItem[] = [
+  {
+    key: "totalProspek",
+    title: "Total Prospek",
+    description: "Total Prospek Perbulan",
+    icon: UserPlus,
+  },
+  {
+    key: "totalTestDrive",
+    title: "Total Test Drive",
+    description: "Total Test Drive Perbulan",
+    icon: Car,
+  },
+  {
+    key: "totalSPK",
+    title: "Total SPK",
+    description: "Total SPK Perbulan",
+    icon: ClipboardList,
+  },
+  {
+    key: "totalRetail",
+    title: "Total Retail",
+    description: "Total Retail Perbulan",
+    icon: Handshake,
+  },
+  {
+    key: "followUpCount",
+    title: "Total Follow Up",
+    description: "Total Follow Up Perbulan",
+    icon: Repeat,
+  },
+  {
+    key: "conversionRate",
+    title: "Rate Konversi",
+    description: "Konversi Prospek ke Retail",
+    icon: PercentCircle,
+  },
+];
 
 const Dashboard = () => {
-  const totals = useTotals();
-
-  interface AllData {
-    title: string;
-    total: number;
-    description: string;
-    icon: React.ReactNode;
-  }
-
-  const carditems: AllData[] = [
-    {
-      title: "Total Prospek",
-      total: totals.totalProspek,
-      description: "Total Prospek Perbulan",
-      icon: <ClipboardList />,
-    },
-    {
-      title: "Total SPK",
-      total: totals.totalSpk,
-      description: "Total SPK Perbulan",
-      icon: <User />,
-    },
-    {
-      title: "Total Test Drive",
-      total: totals.totalTestDrive,
-      description: "Total Drive Perbulan",
-      icon: <CarFront />,
-    },
-    {
-      title: "Total Retail",
-      total: totals.totalRetail,
-      description: "Total Retail Perbulan",
-      icon: <WalletCards />,
-    },
-  ];
+  const { data, isLoading, isError } = useFetchSummary();
 
   return (
     <div>
-      <div className="grid md:grid-cols-2 gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-4">
-        {carditems.map((item) => (
-          <Card key={item.title} className="border-l border-l-blue-500 rounded-lg border-3">
-            <div>
-              <CardHeader>
-                <span className="flex justify-between">
-                  <CardTitle>{item.title}</CardTitle>
-                  <span>
-                    {item.icon}                    
-                  </span>
-                </span>
-              </CardHeader>
-              <CardContent>
-                <span className="text-3xl font-bold">{item.total}</span>
-              </CardContent>
-              <CardFooter>
-                <CardDescription>{item.description}</CardDescription>
-              </CardFooter>
-            </div>
-          </Card>
-        ))}
+      <div className="grid md:grid-cols-2 gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-4 py-10">
+        {isLoading && <p>Memuat data...</p>}
+        {isError && (
+          <p className="text-red-500">Gagal mengambil data summary</p>
+        )}
+        {data &&
+          carditems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Card
+                key={item.key}
+                className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-all duration-300"
+              >
+                <div>
+                  <CardHeader>
+                    <div className="flex justify-between items-center">
+                      <CardTitle className="text-base font-semibold">
+                        {item.title}
+                      </CardTitle>
+                      <Icon className="w-5 h-5 text-muted-foreground" />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-slate-800">
+                      {data[item.key]}
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <CardDescription className="text-xs text-muted-foreground">
+                      {item.description}
+                    </CardDescription>
+                  </CardFooter>
+                </div>
+              </Card>
+            );
+          })}
       </div>
-      <Chart />
+      <YearlyActivityChart />
     </div>
   );
 };

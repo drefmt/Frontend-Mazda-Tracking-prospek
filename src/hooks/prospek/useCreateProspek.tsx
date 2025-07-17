@@ -6,7 +6,7 @@ const createProspek = async (prospekData: ProspekData) => {
   const response = await axiosInstance.post('/prospek', prospekData);
   
   if (response.status !== 201) {
-    throw new Error("Failed to create SPK");
+    throw new Error("Failed to create Prospect");
   }
 
   return response.data;

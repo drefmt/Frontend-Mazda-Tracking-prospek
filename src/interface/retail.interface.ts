@@ -9,3 +9,11 @@ export interface Retail extends BaseProspek {
     carType: string;
     id: string;
 }
+
+
+export interface RetailReport {
+    count: number;
+    period: string;
+    generatedBy: string;
+    data: Retail[];
+}

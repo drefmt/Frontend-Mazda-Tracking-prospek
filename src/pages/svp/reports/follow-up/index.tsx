@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { handleExportPDF } from "@/helpers/followUp/handleExportPdf";
 
 
 const SpkReport = () => {
@@ -30,6 +31,9 @@ const SpkReport = () => {
     isReady
   );
 
+  const report = data;
+  const followUpData = report?.data ?? [];
+
   const handleFetch = () => {
     if (!month || !year) return;
     setTriggerFetch(true);
@@ -37,10 +41,6 @@ const SpkReport = () => {
 
   const columns = useMemo(() => defaultColumns, []);
 
-  // const safeData = (data || []).map((spk) => ({
-  //   ...spk,
-  //   salesId: spk.salesId ?? { id: "unknown", username: "-" },
-  // }));
 
 
   return (
@@ -101,12 +101,26 @@ const SpkReport = () => {
           <div className="mt-4">
             <Button onClick={handleFetch}>Tampilkan</Button>
           </div>
+           <Button
+                              variant="outline"
+                              onClick={() => report && handleExportPDF(report)}
+                              disabled={!report}
+                            >
+                              Export PDF
+                            </Button>
+                            <Button
+                              variant="outline"
+                              // onClick={() => report && handleExportExcel(report)}
+                              // disabled={!report}
+                            >
+                              Export Excel
+                            </Button>
         </div>
       </Card>
 
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
-      {data && data.length === 0 && (
+      {followUpData && followUpData.length === 0 && (
         <p className="text-muted-foreground">
           Tidak ada data untuk bulan dan tahun ini.
         </p>
@@ -114,8 +128,8 @@ const SpkReport = () => {
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
-      {data && data.length > 0 && (
-        <DataTable columns={columns} data={data} />
+      {followUpData && followUpData.length > 0 && (
+        <DataTable columns={columns} data={followUpData} />
       )}
     </div>
   );

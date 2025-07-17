@@ -6,7 +6,8 @@ export interface User {
   createdAt: string;
 }
 
-export interface UserListResponse {
+export interface UserListResponse {  
   count: number;
+  generatedBy: string;
   data: User[];
 }

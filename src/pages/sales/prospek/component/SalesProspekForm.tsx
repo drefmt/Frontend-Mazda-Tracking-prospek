@@ -59,8 +59,8 @@ const SalesProspekForm = () => {
   }, [id, prospekData]);
 
   return (
-    <>
-      <div className="p-4 rounded-md border border-gray-300 shadow-sm h-full mb-10">
+    <div>
+      <div className="overflow-hidden mt-4 p-4 rounded-md border border-gray-300 dark:border-gray-800 dark:text-white shadow-sm h-full mb-10">
         <h1 className="text-3xl">{id ? "Edit Prospek" : "Add New Prospek"}</h1>
         <p className="pb-4">
           {id ? "Halaman Edit Prospek" : "Halaman Tambah Prospek"}.
@@ -177,7 +177,7 @@ const SalesProspekForm = () => {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

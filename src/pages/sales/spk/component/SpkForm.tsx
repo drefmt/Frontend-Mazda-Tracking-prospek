@@ -92,14 +92,14 @@ const SpkForm = () => {
   }, [id, spkData]);
 
   return (
-    <>
-      <div className="p-4 rounded-md border border-gray-300 shadow-sm h-full mb-10">
-        <h1 className="text-3xl">{id ? "Edit SPK" : "Add New Spk"}</h1>
-        <p>Lorem ipsum dolor sit amet.</p>
+    <div>
+      <div className="p-4 my-4 rounded-md border border-gray-300 shadow-sm h-full mb-10 dark:border-gray-800 dark:text-white">
+        <h1 className="text-3xl pb-4">{id ? "Edit SPK" : "Add New Spk"}</h1>
+        
         <form className="h-full justify-between" onSubmit={formik.handleSubmit}>
           <div className="flex justify-between pb-4">
             <Link to="/sales/spk">
-              <Button variant="ghost" className="border border-gray-300">
+              <Button variant="ghost" className="border border-gray-300 dark:border-gray-800">
                 Back
               </Button>
             </Link>
@@ -112,7 +112,7 @@ const SpkForm = () => {
             <select
               id="prospekId"
               name="prospekId"
-              className="w-full border border-gray-300 rounded-md p-2"
+              className="w-full border border-gray-300 dark:border-gray-800 rounded-md p-2"
               onChange={formik.handleChange}
               value={formik.values.prospekId}
               
@@ -161,7 +161,7 @@ const SpkForm = () => {
             <select
               name="cashOrCredit"
               id="cashOrCredit"
-              className="w-full py-1 border border-gray-300 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+              className="w-full py-1 border border-gray-300 dark:border-gray-800 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
               onChange={formik.handleChange}
               value={formik.values.cashOrCredit}
               defaultValue={formik.values.cashOrCredit}
@@ -212,7 +212,7 @@ const SpkForm = () => {
             <select
               name="status"
               id="status"
-              className="w-full py-1 border border-gray-300 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+              className="w-full py-1 border border-gray-300 dark:border-gray-800 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
               onChange={formik.handleChange}
               value={formik.values.status}
               defaultValue={formik.values.status}
@@ -223,7 +223,7 @@ const SpkForm = () => {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

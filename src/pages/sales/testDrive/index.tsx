@@ -28,7 +28,7 @@ const SalesTestDrive = () => {
   }
 
   return (
-    <div className="container py-10">
+    <div className="container py-10 dark:text-white">
       <DataTable columns={columns} data={dataTestDrive || []} />
     </div>
   );

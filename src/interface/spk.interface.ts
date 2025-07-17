@@ -23,3 +23,10 @@ export interface Spk  {
   status:string;
   id: string;
 };
+
+export interface SpkReport {
+  count: number;
+  period: string;
+  generatedBy: string;
+  data: Spk[]
+}

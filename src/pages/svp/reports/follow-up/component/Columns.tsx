@@ -1,11 +1,11 @@
 
 import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
-import { FollowUp } from "@/interface/followUp-report.interface"
+import { FollowUpData } from "@/interface/followUp.interface"
 import { ArrowUpDown } from "lucide-react"
 
 
-export const columns :  ColumnDef<FollowUp>[] = [
+export const columns :  ColumnDef<FollowUpData>[] = [
   
   {    
     header: "No", 

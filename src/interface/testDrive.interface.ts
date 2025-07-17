@@ -1,17 +1,24 @@
 export type ProspekId = {
   id: string;
   name: string;
-}
+};
 
 export type SalesId = {
   id: string;
-  username: string
-}
+  username: string;
+};
 
-export type TestDrive = {
+export interface TestDrive {
   prospekId: ProspekId;
-  salesId: SalesId;  
+  salesId: SalesId;
   dateTestDrive: string;
   carType: string;
   id: string;
+}
+
+export interface TestDriveReport {
+  count: number;
+  period: string;
+  generatedBy: string;
+  data: TestDrive[];
 }

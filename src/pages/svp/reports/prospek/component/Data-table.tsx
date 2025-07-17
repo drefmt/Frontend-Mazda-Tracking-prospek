@@ -31,8 +31,6 @@ import {
 
 import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
 import { Prospek } from "@/interface/prospek.interface";
-import { handleExportPDF } from "@/helpers/prospek/handleExportPdf";
-import { handleExportExcel } from "@/helpers/prospek/handleReportExcel";
 
 
 interface DataTableProps<TData, TValue> {
@@ -94,15 +92,7 @@ export function DataTable<TData extends Prospek, TValue>({
 
         {/* Report pdf and excel */}
         <div className="flex gap-2 ">
-            <Button variant="outline" onClick={() => handleExportPDF(data)}>
-              Export PDF
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => handleExportExcel(data)}
-            >
-              Export Excel
-            </Button>
+            
           </div>
         {/* Dropdown Filter Sales */}
         <DropdownMenu>

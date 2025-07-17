@@ -4,7 +4,7 @@ import { Notification } from "@/interface/notification.interface"
 
 
 const fetchProspectReminder = async(): Promise<Notification[]> => {
-    const response = await axiosInstance.get('notification/prospect-reminder');
+    const response = await axiosInstance.get('notification');
     // console.log(response.data);
     if(response.status !== 200) {
         throw new Error("Failed To Fetch Notification");

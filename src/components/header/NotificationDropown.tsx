@@ -1,15 +1,22 @@
 import { useState } from "react";
+
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { Trash2 } from "lucide-react";
+
 import { Link, useNavigate } from "react-router-dom";
-import { useFetchReminder } from "@/hooks/notification/useHookReminder";
 import { formatDistanceToNow } from "date-fns";
 import { id } from "date-fns/locale/id";
+
+
+import { useFetchReminder } from "@/hooks/notification/useFetchNotification";
+import { useMarkAsRead } from "@/hooks/notification/useMarkAsRead";
+import { useDeleteNotification } from "@/hooks/notification/useDeleteNotification";
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   function toggleDropdown() {
     setIsOpen(!isOpen);
   }
@@ -24,8 +31,21 @@ export default function NotificationDropdown() {
   };
 
   const { data, isLoading, isError } = useFetchReminder();
+  const { mutate: markAsRead } = useMarkAsRead();
+  const { mutate: deleteNotification } = useDeleteNotification();
 
-  // console.log(data);
+  const handleReadAndNavigate = (notifId: string, link: string) => {
+    markAsRead(notifId, {
+      onSuccess: () => {
+        navigate(link);
+        closeDropdown();
+      },
+      onError: (error) => {
+        console.error("Gagal tandai sebagai dibaca", error);
+      },
+    });
+  };
+
   if (isLoading) {
     return <p>Loading data...</p>;
   }
@@ -37,7 +57,7 @@ export default function NotificationDropdown() {
   return (
     <div className="relative">
       <button
-        className="relative flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full dropdown-toggle hover:text-gray-700 h-11 w-11 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
+        className="relative  flex items-center justify-center text-gray-500 transition-colors border border-gray-200 rounded-full dropdown-toggle hover:text-gray-700 h-9 w-9 hover:bg-gray-100 dark:border-gray-800  dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
         onClick={handleClick}
       >
         <span
@@ -65,7 +85,7 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute flex h-[380px] w-[350px] flex-col rounded-2xl border border-gray-200 p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
+        className=" absolute flex h-[380px] w-[350px] flex-col rounded-2xl border border-gray-200 p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
       >
         <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
           <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
@@ -91,41 +111,59 @@ export default function NotificationDropdown() {
             </svg>
           </button>
         </div>
-        <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
+        <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar ">
           {data?.length === 0 && (
             <li className="px-4 text-gray-500">Tidak ada notifikasi</li>
           )}
           {data?.map((notif, index) => (
-            <li key={index} onClick={() => navigate(`${notif.link}`)}>
-              
+            <li
+              key={index}
+              onClick={() => handleReadAndNavigate(notif._id, notif.link)}
+            >
               <DropdownItem
                 onItemClick={closeDropdown}
-                className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
+                className={`flex gap-3 rounded-lg border-b m-1 px-4.5 py-3 transition-colors
+    ${
+      notif.isRead
+        ? "bg-white text-muted-foreground hover:bg-gray-100  dark:hover:bg-gray-800"
+        : "bg-slate-100 text-gray-900 font-medium hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20"
+    }
+    border-gray-100 dark:border-gray-800
+  `}
               >
                 <span className="block">
-                    <span className="font-sm text-gray-800 dark:text-white/90">
-                      {notif.title}
-                    </span>
+                  <span className="font-sm text-gray-800 dark:text-white/90">
+                    {notif.title}
+                  </span>
                   <span className="mb-1.5 block text-theme-sm text-gray-500 dark:text-gray-400 space-x-1">
                     <span className="font-medium text-gray-800 dark:text-white/90">
-                      {notif.message} 
+                      {notif.message}
                     </span>
                     <span className="text-sm text-gray-600">
-
-                      {formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true, locale: id })}
+                      {formatDistanceToNow(new Date(notif.createdAt), {
+                        addSuffix: true,
+                        locale: id,
+                      })}
                     </span>
                   </span>
 
                   <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                   
                     <span>
-                      
                       {new Date(notif.createdAt).toLocaleString("id-ID")}
                     </span>
                   </span>
                 </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation(); // agar tidak trigger navigate
+                    deleteNotification(notif._id);
+                  }}
+                  className="text-gray-400 hover:text-red-600"
+                  title="Hapus Notifikasi"
+                >
+                  <Trash2 size={18} />
+                </button>
               </DropdownItem>
-              
             </li>
           ))}
         </ul>

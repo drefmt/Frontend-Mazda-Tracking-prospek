@@ -2,7 +2,9 @@ import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchProspekReport } from "@/hooks/reports/useFetchProspekReport";
-
+import { monthNames } from "@/lib/constant/monthName";
+import { handleExportPDF } from "@/helpers/prospek/handleExportPdf";
+import { handleExportExcel } from "@/helpers/prospek/handleReportExcel";
 
 import { Select, SelectValue } from "@radix-ui/react-select";
 import { Label } from "recharts";
@@ -14,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-
 
 const SalesProspekReport = () => {
   const [month, setMonth] = useState<number | "">("");
@@ -29,6 +30,9 @@ const SalesProspekReport = () => {
     isReady
   );
 
+  const report = data;
+  const prospekData = report?.data;
+
   const handleFetch = () => {
     if (!month || !year) return;
     setTriggerFetch(true);
@@ -36,25 +40,10 @@ const SalesProspekReport = () => {
 
   const columns = useMemo(() => defaultColumns, []);
 
-  const safeData = (data || []).map((prospek) => ({
+  const safeData = (prospekData || []).map((prospek) => ({
     ...prospek,
     salesId: prospek.salesId ?? { id: "unknown", username: "-" },
   }));
-
-  const monthNames = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
-  ];
 
   return (
     <div className="container mx-auto py-10 space-y-6">
@@ -66,11 +55,9 @@ const SalesProspekReport = () => {
           <p className="text-muted-foreground text-sm text-slate-600">
             Menampilkan daftar prospek yang masuk dan status tindak lanjut
           </p>
-          
         </div>
-        <div className="flex flex-wrap items-end gap-4">
-          
 
+        <div className="flex flex-wrap items-end gap-4">
           {/* Filter Bulan */}
           <div className="flex flex-col space-y-1">
             <Label>Bulan</Label>
@@ -114,21 +101,27 @@ const SalesProspekReport = () => {
           <div className="mt-4">
             <Button onClick={handleFetch}>Tampilkan</Button>
           </div>
+        <Button variant="outline"  onClick={() => report && handleExportPDF(report)}disabled={!report}>
+          Export PDF
+        </Button>
+        <Button variant="outline" onClick={() => report && handleExportExcel(report)}disabled={!report}>
+          Export Excel
+        </Button>
         </div>
       </Card>
 
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
-      {data && data.length === 0 && (
+      {prospekData && prospekData.length === 0 && (
         <p className="text-muted-foreground">
           Tidak ada data untuk bulan dan tahun ini.
         </p>
       )}
-      
+
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
-      {data && data.length > 0 && (
+      {prospekData && prospekData.length > 0 && (
         <DataTable columns={columns} data={safeData} />
       )}
     </div>

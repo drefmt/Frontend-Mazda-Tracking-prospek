@@ -2,7 +2,10 @@ import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchTestDriveReport } from "@/hooks/reports/useFetchTestDriveReports";
+import { monthNames } from "@/lib/constant/monthName"
 
+
+// Ui Compoent
 import { Select, SelectValue } from "@radix-ui/react-select";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,6 +17,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
+
+// Function 
+import { handleExportPDF } from "@/helpers/test-drive/handleExportPdf"
 const TestDriveReport = () => {
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
@@ -24,8 +30,11 @@ const TestDriveReport = () => {
   const { data, isLoading, isError } = useFetchTestDriveReport(
     Number(month),
     Number(year),
-    isReady,
+    isReady
   );
+
+  const report = data;
+  const testDriveData = report?.data;
 
   const handleFetch = () => {
     if (!month || !year) return;
@@ -34,25 +43,10 @@ const TestDriveReport = () => {
 
   const columns = useMemo(() => defaultColumns, []);
 
-  const safeData = (data || []).map((testDrive) => ({
+  const safeData = (testDriveData || []).map((testDrive) => ({
     ...testDrive,
     salesId: testDrive.salesId ?? { id: "unknown", username: "-" },
   }));
-
-  const monthNames = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember",
-  ];
 
   return (
     <div className="container mx-auto py-10 space-y-6">
@@ -109,12 +103,26 @@ const TestDriveReport = () => {
           <div className="mt-4">
             <Button onClick={handleFetch}>Tampilkan</Button>
           </div>
+          <Button
+            variant="outline"
+            onClick={() => report && handleExportPDF(report)}
+            disabled={!report}
+          >
+            Export PDF
+          </Button>
+          <Button
+            variant="outline"
+            // onClick={() => report && handleExportExcel(report)}
+            // disabled={!report}
+          >
+            Export Excel
+          </Button>
         </div>
       </Card>
 
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
-      {data && data.length === 0 && (
+      {testDriveData && testDriveData.length === 0 && (
         <p className="text-muted-foreground">
           Tidak ada data untuk bulan dan tahun ini.
         </p>
@@ -122,7 +130,7 @@ const TestDriveReport = () => {
       {isError && (
         <p className="text-red-500">Terjadi kesalahan saat mengambil data</p>
       )}
-      {data && data.length > 0 && (
+      {testDriveData && testDriveData.length > 0 && (
         <DataTable columns={columns} data={safeData} />
       )}
     </div>

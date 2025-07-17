@@ -9,3 +9,18 @@ export interface FollowUp {
   customerResponse: string;
   recommendation: string;
 }
+
+export interface FollowUpData {
+  name: string;
+  salesName: string;
+  totalFollowUp: number;
+  lastFollowUpStatus: string;
+  lastFollowUpDate: string;
+}
+
+export interface FollowUpReport {
+  count: number;
+  period: string;
+  generatedBy: string;
+  data: FollowUpData[];
+}

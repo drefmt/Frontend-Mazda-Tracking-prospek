@@ -85,7 +85,7 @@ const FollowUpForm = () => {
   }, [followUpData, followUpId]);
 
   return (
-    <form className="space-y-4 p-4" onSubmit={formik.handleSubmit}>
+    <form className="space-y-4 p-4 dark:text-white" onSubmit={formik.handleSubmit}>
       <div>
         <h1 className="text-lg font-semibold">
           {isEditMode ? "Edit" : "Tambah"} Follow-Up

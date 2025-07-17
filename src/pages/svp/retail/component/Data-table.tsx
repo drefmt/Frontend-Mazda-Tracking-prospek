@@ -62,11 +62,7 @@ export function DataTable<TData, TValue>({columns,data,}: DataTableProps<TData, 
   });
 
   return (
-    <>
-      <div className="pb-4 ">
-        <h1 className="text-3xl">Retail</h1>
-        <p className="text-gray-600">Halaman Data Retail</p>
-      </div>
+    <>      
       <div className="flex pb-4 justify-start gap-4">    
         <div className="flex gap-4">
           <DropdownMenu>

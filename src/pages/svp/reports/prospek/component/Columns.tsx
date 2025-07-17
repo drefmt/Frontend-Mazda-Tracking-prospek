@@ -11,7 +11,17 @@ import {
 import { Prospek } from "@/interface/prospek.interface";
 import { JSX } from "react";
 
+
+const formatDate = (dateStr: string) =>
+new Date(dateStr).toLocaleDateString("id-ID", {
+  day: "2-digit",
+  month: "long", // pakai "short" atau "2-digit" juga bisa
+  year: "numeric",
+});
+
 export const columns: ColumnDef<Prospek>[] = [
+
+
   {
     header: "No",
     cell: ({ row }) => <span>{row.index + 1}</span>,
@@ -35,17 +45,7 @@ export const columns: ColumnDef<Prospek>[] = [
   {
     accessorKey: "date",
     header: "Date",
-    cell: ({ row }) => {
-      const formattedDate = new Date(row.original.date).toLocaleDateString(
-        "id-ID",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }
-      );
-      return <span>{formattedDate}</span>;
-    },
+    cell: ({ row }) => <span>{formatDate(row.original.date)}</span>,
   },
   {
     accessorKey: "whatsappNum",
