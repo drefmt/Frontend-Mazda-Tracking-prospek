@@ -12,7 +12,7 @@ export const useEditActivity = () => {
 
   return useMutation({
     mutationFn: ({ id, activityData }: { id: string; activityData: Activity }) => editActivity(id, activityData),
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['activity'] })},
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['Activity'] })},
     onError: (error: Error) => {
       console.error('Error editing activity:', error);
     },

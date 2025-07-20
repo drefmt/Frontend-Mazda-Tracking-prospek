@@ -13,7 +13,7 @@ export const useDeleteActivity = () => {
 
     return useMutation({
         mutationFn: deleteActivity,
-        onSuccess: () => {queryClient.invalidateQueries({queryKey: ['Acctifity']})},
+        onSuccess: () => {queryClient.invalidateQueries({queryKey: ['Activity']})},
         onError: (error: Error) => {
             console.error("Error Deleting activity", error);
         }

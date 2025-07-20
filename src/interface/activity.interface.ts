@@ -7,8 +7,9 @@ export interface Activity {
     isDone: boolean;
     location: string;
     notes: string;    
-}
-
-export interface GetActivity extends Activity {
     id: string;
 }
+
+// export interface GetActivity extends Activity {
+//     id: string;
+// }

@@ -12,7 +12,9 @@ import {
   BarChart3,
   LineChart,
   ClipboardList,
+  MessageSquare,
 } from "lucide-react";
+
 
 // Halaman Sales
 const SalesDashboard = lazy(() => import("@/pages/sales/dashboard"));
@@ -40,6 +42,11 @@ const ActivityForm = lazy(() => import("@/pages/sales/activity/component/Activit
 
 const SalesRetail = lazy(() => import("@/pages/sales/retail"));
 const SalesRetailForm = lazy(() => import("@/pages/sales/retail/component/RetailForm"));
+
+const FeedbackLink = lazy(() => import("@/pages/sales/feedbackLink"));
+const GenerateFeedbackLinkForm = lazy(() => import("@/pages/sales/feedbackLink/component/GenerateFeedbackLinkForm"));
+
+
 
 // HALAMAN SPV
 const SvpProspek = lazy(() => import("@/pages/svp/prospek/"));
@@ -179,6 +186,16 @@ export const salesRoute: RouteType[] = [
     path: "activity/edit/:id",
     component: ActivityForm,
   },
+  {
+    name: "Feedback-link",
+    path: "feedback-link",
+    component: FeedbackLink,
+  },
+  {
+    name: "Feedback-link add",
+    path: "feedback-link/add",
+    component: GenerateFeedbackLinkForm,
+  },
 ];
 
 //* SVP Routes
@@ -312,6 +329,11 @@ export const sidebarMenus: Record<"sales" | "svp", MenuItem[]> = {
       title: "Daily Activity",
       path: "/sales/activity",
       icon: ClipboardList,
+    },
+    {
+      title: "Feedback",
+      path: "/sales/feedback-link",
+      icon: MessageSquare,
     },
   ],
   svp: [

@@ -9,14 +9,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { GetActivity } from "@/interface/activity.interface";
+import { Activity } from "@/interface/activity.interface";
 import { useNavigate } from "react-router-dom";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 
 
 
-export const columns = (handleDelete: (id: string) => void): ColumnDef<GetActivity>[] => {
+export const columns = (handleDelete: (id: string) => void): ColumnDef<Activity>[] => {
   return [
     {
       header: "No",

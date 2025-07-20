@@ -18,4 +18,3 @@ export const useFetchActifity = () => {
         retry: 1,
     });
 };
-

@@ -18,7 +18,7 @@ export const useCreateActivity = () =>  {
   return useMutation({
     mutationFn: createActivity,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['activity'] });
+      queryClient.invalidateQueries({ queryKey: ['Activity'] });
     },
     onError: (error: Error) => {
       console.error('Error creating paactivity:', error);
