@@ -13,6 +13,7 @@ import {
   LineChart,
   ClipboardList,
   MessageSquare,
+  Clipboard,
 } from "lucide-react";
 
 
@@ -57,6 +58,7 @@ const SvpViewDetailSpk = lazy(() => import("@/pages/svp/spk/component/SpvViewDet
 const SvpViewDetailProspek = lazy(() => import("@/pages/svp/prospek/component/ViewDetails"));
 const SpvFollowUpForm = lazy(() => import("@/pages/svp/prospek/component/FollowUpForm"));
 const SvpRetail = lazy(() => import("@/pages/svp/retail"));
+const AddUserForm = lazy(() => import("@/pages/svp/reports/user/component/AddUserForm"));
 
 // REPORT
 const svpReportProspek = lazy(() => import("@/pages/svp/reports/prospek"));
@@ -67,6 +69,11 @@ const followUpReport = lazy(() => import("@/pages/svp/reports/follow-up"))
 const salesEvaluation = lazy(() => import("@/pages/svp/reports/sales-evaluation"))
 const salesPerformance = lazy(() => import("@/pages/svp/reports/sales-performance"))
 const userListReport = lazy(() => import("@/pages/svp/reports/user"))
+const ActivityReport = lazy(() => import("@/pages/svp/reports/activity"))
+const FeedbackReport = lazy(() => import("@/pages/svp/reports/feedback"))
+
+
+
 //! Tipe untuk route
 interface RouteType {
   name: string;
@@ -291,9 +298,24 @@ export const svpRoute: RouteType[] = [
     component: salesPerformance,
   },
   {
-    name: "Users Report",
+    name: "User Report",
     path: 'report/users',
     component: userListReport,
+  },
+  {
+    name: "User add",
+    path: 'report/users/add',
+    component: AddUserForm,
+  },
+  {
+    name: "Activity Report",
+    path: 'report/activity',
+    component: ActivityReport,
+  },
+  {
+    name: "Feedback",
+    path: 'report/feedback',
+    component: FeedbackReport,
   }
 ];
 
@@ -417,6 +439,16 @@ export const reportSidebarMenu: Record<"sales" | "svp", MenuItem[]> = {
       title: "Sales Performance",
       path: "/svp/report/sales-performance",
       icon: BarChart3,
+    },
+    {
+      title: "Sales Activity",
+      path: "/svp/report/activity",
+      icon: Clipboard,
+    },
+    {
+      title: "Feedback",
+      path: "/svp/report/feedback",
+      icon: MessageSquare,
     },
   ],
 };

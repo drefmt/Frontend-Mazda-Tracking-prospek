@@ -7,6 +7,7 @@ import { useFetchUserListReport } from "@/hooks/reports/useFetchUserReport"
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { handleExportPDF } from "@/helpers/user/handleExportPdf";
+import { Link } from "react-router-dom";
 
 const UserListReport = () => {
 
@@ -30,16 +31,18 @@ const UserListReport = () => {
             variant="outline"
             onClick={() => report && handleExportPDF(report)}
             disabled={!report}
+            className="mr-4"
           >
             Export PDF
           </Button>
+          <Link to="add">
           <Button
-            variant="outline"
-            // onClick={() => report && handleExportExcel(report)}
-            // disabled={!report}
-          >
-            Export Excel
+            variant="default"
+            
+            >
+            Add User
           </Button>
+            </Link>
         </div>
         </Card>
       {/* Status */}
