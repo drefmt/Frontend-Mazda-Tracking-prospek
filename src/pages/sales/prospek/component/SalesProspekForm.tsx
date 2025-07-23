@@ -6,18 +6,28 @@ import { useFormik } from "formik";
 import { useCreateProspek } from "@/hooks/prospek/useCreateProspek";
 import { useEditProspek } from "@/hooks/prospek/useEditProspek";
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { X } from "lucide-react";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card } from "@/components/ui/card";
+import { ProspekFormValue } from "@/interface/prospek.interface";
 
 const SalesProspekForm = () => {
   const { id } = useParams();
+  const [minatInput, setMinatInput] = useState("");
   const { data: prospekData } = useFetchProspek();
   const createProspek = useCreateProspek();
   const editProspek = useEditProspek();
-  const navigate = useNavigate();
 
-  const formik = useFormik({
+  const formik = useFormik<ProspekFormValue>({
     initialValues: {
       name: "",
       date: "",
@@ -26,7 +36,25 @@ const SalesProspekForm = () => {
       source: "",
       status: "Prospek",
       carType: "",
-      category: "Low",
+      // category: "Low",
+      demografi: {
+        usia: 0,
+        pekerjaan: "",
+        penghasilan: 0,
+      },
+      psikografis: {
+        minat: [],
+        gayaHidup: "",
+        motivasi: "",
+      },
+      perilaku: {
+        frekuensiKontak: 0,
+        responAwal: "Biasa",
+        interaksiFavorit: "",
+      },
+      lingkungan: {
+        sumber: "",
+      },
     },
 
     onSubmit: async (values, { resetForm }) => {
@@ -37,25 +65,71 @@ const SalesProspekForm = () => {
           await createProspek.mutateAsync(values);
         }
         resetForm();
-        navigate("/sales/prospek");
       } catch (error) {
         console.error("Failed to submit prospek:", error);
       }
     },
   });
 
+  const addMinat = () => {
+    if (
+      minatInput.trim() &&
+      !formik.values.psikografis.minat.includes(minatInput.trim())
+    ) {
+      formik.setFieldValue("psikografis.minat", [
+        ...formik.values.psikografis.minat,
+        minatInput.trim(),
+      ]);
+      setMinatInput("");
+    }
+  };
+
+  const removeMinat = (index: number) => {
+    const newMinat = [...formik.values.psikografis.minat];
+    newMinat.splice(index, 1);
+    formik.setFieldValue("psikografis.minat", newMinat);
+  };
+
   useEffect(() => {
     if (id && prospekData) {
-      const prospek = prospekData.find((p: { id: string }) => p.id === id);
+      const prospek = prospekData.find((p) => p.id === id);
       if (prospek) {
         formik.setValues({
-          ...prospek,
+          name: prospek.name ?? "",
           date: prospek.date
             ? format(new Date(prospek.date), "yyyy-MM-dd")
             : "",
+          whatsappNum: prospek.whatsappNum ?? "",
+          address: prospek.address ?? "",
+          source: prospek.source ?? "",
+          status: prospek.status ?? "Prospek",
+          carType: prospek.carType ?? "",
+          // category: prospek.category ?? "Low",
+
+          demografi: {
+            usia: prospek.demografi?.usia ?? 0,
+            pekerjaan: prospek.demografi?.pekerjaan ?? "",
+            penghasilan: prospek.demografi?.penghasilan ?? 0,
+          },
+          psikografis: {
+            minat: Array.isArray(prospek.psikografis?.minat)
+              ? prospek.psikografis.minat
+              : [],
+            gayaHidup: prospek.psikografis?.gayaHidup ?? "",
+            motivasi: prospek.psikografis?.motivasi ?? "",
+          },
+          perilaku: {
+            frekuensiKontak: prospek.perilaku?.frekuensiKontak ?? 0,
+            responAwal: prospek.perilaku?.responAwal ?? "",
+            interaksiFavorit: prospek.perilaku?.interaksiFavorit ?? "",
+          },
+          lingkungan: {
+            sumber: prospek.lingkungan?.sumber ?? "",
+          },
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, prospekData]);
 
   return (
@@ -160,7 +234,7 @@ const SalesProspekForm = () => {
             />
           </div>
 
-          <div className="flex-grow pb-4">
+          {/* <div className="flex-grow pb-4">
             <Label htmlFor="category">Category</Label>
             <select
               name="category"
@@ -174,7 +248,266 @@ const SalesProspekForm = () => {
               <option value="Medium">Medium</option>
               <option value="Hot">Hot</option>
             </select>
-          </div>
+          </div> */}
+          <Card className="p-4">
+            <div>
+              <h1>Demografis</h1>
+              {/* === Input Usia === */}
+              <div className="space-y-2">
+                <label htmlFor="demografi.usia" className="text-sm font-medium">
+                  Usia
+                </label>
+                <Input
+                  type="number"
+                  id="demografi.usia"
+                  name="demografi.usia"
+                  value={formik.values.demografi.usia}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+
+              {/* === Input Pekerjaan === */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="demografi.pekerjaan"
+                  className="text-sm font-medium"
+                >
+                  Pekerjaan
+                </label>
+                <Select
+                  name="demografi.pekerjaan"
+                  value={formik.values.demografi.pekerjaan}
+                  onValueChange={(value) =>
+                    formik.setFieldValue("demografi.pekerjaan", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih pekerjaan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Pengusaha">Pengusaha</SelectItem>
+                    <SelectItem value="PNS">PNS</SelectItem>
+                    <SelectItem value="Karyawan Swasta">
+                      Karyawan Swasta
+                    </SelectItem>
+                    <SelectItem value="Freelancer">Freelancer</SelectItem>
+                    <SelectItem value="Mahasiswa">Mahasiswa</SelectItem>
+                    <SelectItem value="Lainnya">Lainnya</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* === Input Penghasilan === */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="demografi.penghasilan"
+                  className="text-sm font-medium"
+                >
+                  Penghasilan
+                </label>
+                <Input
+                  type="number"
+                  id="demografi.penghasilan"
+                  name="demografi.penghasilan"
+                  value={formik.values.demografi.penghasilan}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+            </div>
+            <div>
+              <h1>Psikografis</h1>
+              {/* === Gaya Hidup ===*/}
+              <div className="space-y-2">
+                <label
+                  htmlFor="psikografis.gayaHidup"
+                  className="text-sm font-medium"
+                >
+                  Gaya Hidup
+                </label>
+                <Select
+                  name="psikografis.gayaHidup"
+                  value={formik.values.psikografis.gayaHidup}
+                  onValueChange={(value) =>
+                    formik.setFieldValue("psikografis.gayaHidup", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih gaya hidup" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Modern">Modern</SelectItem>
+                    <SelectItem value="Aktif">Aktif</SelectItem>
+                    <SelectItem value="Keluarga">Keluarga</SelectItem>
+                    <SelectItem value="Karier">Karier</SelectItem>
+                    <SelectItem value="Minimalis">Minimalis</SelectItem>
+                    <SelectItem value="Trendi">Trendi</SelectItem>
+                    <SelectItem value="Pencari Keamanan">
+                      Pencari Keamanan
+                    </SelectItem>
+                    <SelectItem value="Pecinta Teknologi">
+                      Pecinta Teknologi
+                    </SelectItem>
+                    <SelectItem value="Hobi Outdoor">Hobi Outdoor</SelectItem>
+                    <SelectItem value="Hobi Indoor">Hobi Indoor</SelectItem>
+                    <SelectItem value="Mobilitas Tinggi">
+                      Mobilitas Tinggi
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* === Motivasi === */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="psikografis.motivasi"
+                  className="text-sm font-medium"
+                >
+                  Motivasi
+                </label>
+                <Select
+                  name="psikografis.motivasi"
+                  value={formik.values.psikografis.motivasi}
+                  onValueChange={(value) =>
+                    formik.setFieldValue("psikografis.motivasi", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih motivasi utama" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Gengsi">Gengsi</SelectItem>
+                    <SelectItem value="Kebutuhan Keluarga">
+                      Kebutuhan Keluarga
+                    </SelectItem>
+                    <SelectItem value="Efisiensi BBM">Efisiensi BBM</SelectItem>
+                    <SelectItem value="Keamanan">Keamanan</SelectItem>
+                    <SelectItem value="Promo">Promo</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* Minat */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Minat</label>
+                <div className="flex flex-wrap gap-2">
+                  {formik.values.psikografis.minat.map((tag, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center bg-slate-100 px-3 py-1 rounded-full text-sm"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => removeMinat(index)}
+                        className="ml-2 text-red-500"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    value={minatInput}
+                    onChange={(e) => setMinatInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addMinat();
+                      }
+                    }}
+                    placeholder="Tambah minat lalu tekan Enter"
+                  />
+                  <Button type="button" onClick={addMinat}>
+                    Tambah
+                  </Button>
+                </div>
+              </div>
+            </div>
+            {/* === Perilaku === */}
+            <div>
+              <div className="grid gap-4">
+                <h1>Perilaku</h1>
+                {/* Frekuensi Kontak (number) */}
+                <div>
+                  <label>Frekuensi Kontak</label>
+                  <Input
+                    type="number"
+                    name="perilaku.frekuensiKontak"
+                    value={formik.values.perilaku.frekuensiKontak}
+                    onChange={formik.handleChange}
+                  />
+                </div>
+
+                {/* Respon Awal */}
+                <div>
+                  <label>Respon Awal</label>
+                  <Select
+                    value={formik.values.perilaku.responAwal}
+                    onValueChange={(value) =>
+                      formik.setFieldValue("perilaku.responAwal", value)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih Respon Awal" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Cepat">Cepat</SelectItem>
+                      <SelectItem value="Biasa">Biasa</SelectItem>
+                      <SelectItem value="Lambat">Lambat</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Interaksi Favorit */}
+                <div>
+                  <label>Interaksi Favorit</label>
+                  <Select
+                    value={formik.values.perilaku.interaksiFavorit}
+                    onValueChange={(value) =>
+                      formik.setFieldValue("perilaku.interaksiFavorit", value)
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih Interaksi" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="WhatsApp">WhatsApp</SelectItem>
+                      <SelectItem value="Kunjungan">Kunjungan</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid gap-4">
+                  <div>
+                    <label>Sumber</label>
+                    <Select
+                      value={formik.values.lingkungan.sumber}
+                      onValueChange={(value) =>
+                        formik.setFieldValue("lingkungan.sumber", value)
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih Sumber" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Keluarga">Keluarga</SelectItem>
+                        <SelectItem value="Teman">Teman</SelectItem>
+                        <SelectItem value="Media Sosial">
+                          Media Sosial
+                        </SelectItem>
+                        <SelectItem value="Iklan">Iklan</SelectItem>
+                        <SelectItem value="Komunitas">Komunitas</SelectItem>
+                        <SelectItem value="Marketplace Mobil">
+                          Marketplace Mobil
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
         </form>
       </div>
     </div>

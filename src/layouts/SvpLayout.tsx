@@ -6,7 +6,7 @@ import { svpRoute } from "@/routes";
 
 const SvpLayout = () => {
   return (
-    <div className="h-screen">        
+    <div className="dark:bg-gray-950">        
       <div className="flex-grow">
         <Layout>
           <Suspense fallback={<div>Loading...</div>}>

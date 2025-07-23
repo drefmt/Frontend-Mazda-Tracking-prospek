@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
+  const [selectedScoreCategory, setSelectedScoreCategory] = React.useState<string | null>(null); // State kategori
 
 
   const table = useReactTable({
@@ -65,9 +65,9 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
   });
 
   // Function untuk mengubah filter kategori
-  const handleCategoryChange = (category: string | null) => {
-    setSelectedCategory(category);
-    table.getColumn("category")?.setFilterValue(category || undefined);
+  const handleCategoryChange = (scoreCategory: string | null) => {
+    setSelectedScoreCategory(scoreCategory);
+    table.getColumn("scoreCategory")?.setFilterValue(scoreCategory || undefined);
   };
 
   return (
@@ -82,7 +82,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
           {/* 🔽 Dropdown Filter Kategori */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>              
-              <Button variant="outline"> <Filter width={18} />{selectedCategory || "Filter by Category"}</Button>
+              <Button variant="outline"> <Filter width={18} />{selectedScoreCategory || "Filter by Category"}</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => handleCategoryChange(null)}>All Categories</DropdownMenuItem>

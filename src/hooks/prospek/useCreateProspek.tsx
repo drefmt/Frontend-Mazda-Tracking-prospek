@@ -1,8 +1,8 @@
 import { axiosInstance } from '@/lib/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BaseProspek as ProspekData } from "@/interface/base-prospek.interface"
+import { ProspekFormValue  } from "@/interface/prospek.interface"
 
-const createProspek = async (prospekData: ProspekData) => {
+const createProspek = async (prospekData: ProspekFormValue) => {
   const response = await axiosInstance.post('/prospek', prospekData);
   
   if (response.status !== 201) {
