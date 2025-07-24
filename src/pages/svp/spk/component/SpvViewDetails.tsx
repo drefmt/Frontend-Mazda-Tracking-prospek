@@ -53,7 +53,7 @@ const SpvViewDetails = () => {
           <p>:{data.noKtp}</p>
           <p>:{data.prospekId?.address}</p>
           <p>:{data?.prospekId?.whatsappNum ?? "Data tidak tersedia"}</p>
-          <p>:{data.downPayment}</p>
+          <p>:Rp {new Intl.NumberFormat('id-ID').format(data.downPayment)}</p>
           <p>:{data.leasing}</p>
           <p>:{data.tenor}</p>
           <p>:{data?.prospekId?.carType}</p>

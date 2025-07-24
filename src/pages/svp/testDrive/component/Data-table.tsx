@@ -28,7 +28,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { Filter } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,10 +39,12 @@ interface DataTableProps<TData, TValue> {
 
 // import { Input } from "@/components/ui/input";
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<
+  TData extends {
+    salesId: { username: string };
+  },
+  TValue
+>({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -64,14 +68,18 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
+
+  const handleSalesChange = (salesName: string | null) => {
+    setSelectedSales(salesName);
+    table.getColumn("salesName")?.setFilterValue(salesName || undefined);
+  };
   return (
     <>
-      <div className="flex gap-4 pb-4  pr-10">
+      <div className="flex gap-4 pb-4  justify-end pr-10">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              Columns
-            </Button>
+            <Button variant="outline">Columns</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {table
@@ -94,18 +102,45 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* <div className="items-center">
+        {/* Dropdown Filter Sales */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              <Filter width={18} />
+              {selectedSales || "Filter by Sales"}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => handleSalesChange(null)}
+              className="cursor-pointer p-1"
+            >
+              All Sales
+            </DropdownMenuItem>
+            {Array.from(new Set(data.map((row) => row.salesId.username))).map(
+              (salesName) => (
+                <DropdownMenuItem
+                  key={salesName}
+                  onClick={() => handleSalesChange(salesName)}
+                  className="cursor-pointer p-1"
+                >
+                  {salesName || "-"}
+                </DropdownMenuItem>
+              )
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        {/* Search input */}
+        <div className="items-center">
           <Input
-            placeholder="Filter prospek id..."
-            value={
-              (table.getColumn("prospekId.id")?.getFilterValue() as string) ?? ""
-            }
+            placeholder="Search By name..."
+            value={(table.getColumn("prospectName")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("prospekId.name")?.setFilterValue(event.target.value)
+              table.getColumn("prospectName")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
-        </div> */}
+        </div>
       </div>
       <div className="rounded-md border border-gray-300 p-4">
         <Table>

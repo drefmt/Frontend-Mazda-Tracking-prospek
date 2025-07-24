@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { ProspekFormValue } from "@/interface/prospek.interface";
+import { NumericFormat } from "react-number-format";
 
 const SalesProspekForm = () => {
   const { id } = useParams();
@@ -306,14 +307,27 @@ const SalesProspekForm = () => {
                 >
                   Penghasilan
                 </label>
-                <Input
+                <NumericFormat
+                  id="demografi.penghasilan"
+                  name="demografi.penghasilan"
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  prefix="Rp "
+                  allowNegative={false}
+                  customInput={Input} // dari ShadCN
+                  value={formik.values.demografi.penghasilan}
+                  onValueChange={(values) => {
+                    formik.setFieldValue("demografi.penghasilan", values.floatValue || 0);
+                  }}
+                />
+                {/* <Input
                   type="number"
                   id="demografi.penghasilan"
                   name="demografi.penghasilan"
                   value={formik.values.demografi.penghasilan}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                />
+                /> */}
               </div>
             </div>
             <div>

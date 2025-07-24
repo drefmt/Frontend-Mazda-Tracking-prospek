@@ -21,7 +21,7 @@ export type Spk = {
   dateSpk: string;
   noKtp: string;  
   cashOrCredit: string;
-  downPayment: string;
+  downPayment: number;
   tenor: string;
   leasing: string;
   status: string;  

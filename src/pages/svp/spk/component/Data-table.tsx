@@ -26,6 +26,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -35,9 +36,11 @@ interface DataTableProps<TData, TValue> {
 }
 
 import { Input } from "@/components/ui/input";
+import { Filter } from "lucide-react";
 
-
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends{
+  salesId: { username: string };
+}, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -64,51 +67,87 @@ export function DataTable<TData, TValue>({
     },
   });
 
+    const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
+  
+    const handleSalesChange = (salesName: string | null) => {
+    setSelectedSales(salesName);
+    table.getColumn("salesName")?.setFilterValue(salesName || undefined);
+  };
+
   return (
     <>
-    
-      <div className="flex gap-4 pb-4 justify-end">     
-      
+      <div className="flex gap-4 pb-4 justify-end">
         <div className="pr-10 flex gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Columns
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {/* Dropdown Filter Sales */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
+            <Button variant="outline">
+              <Filter width={18} />
+              {selectedSales || "Filter by Sales"}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
+            <DropdownMenuItem
+              onClick={() => handleSalesChange(null)}
+              className="cursor-pointer p-1"
+            >
+              All Sales
+            </DropdownMenuItem>
+            {Array.from(new Set(data.map((row) => row.salesId.username))).map(
+              (salesName) => (
+                <DropdownMenuItem
+                  key={salesName}
+                  onClick={() => handleSalesChange(salesName)}
+                  className="cursor-pointer p-1"
+                >
+                  {salesName || "-"}
+                </DropdownMenuItem>
+              )
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <div className="items-center">
-          <Input
-            placeholder="Search By Prospek Name ..."
-            value={
-              (table.getColumn("prospekName")?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn("prospekName")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        </div>
+            {/* Search Input */}
+          <div className="items-center">
+            <Input
+              placeholder="Search By Prospek Name ..."
+              value={
+                (table.getColumn("prospekName")?.getFilterValue() as string) ??
+                ""
+              }
+              onChange={(event) =>
+                table
+                  .getColumn("prospekName")
+                  ?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
         </div>
       </div>
       <div className="rounded-md border border-gray-300">

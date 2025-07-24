@@ -122,23 +122,70 @@ export const columns: ColumnDef<Prospek>[] = [
         },
       },
   {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => {
-      const category = row.original.category;
-      const statusIcon: Record<string, JSX.Element> = {
-        Low: <MoveDown size={16} className="mr-2" />,
-        Medium: <MoveRight size={16} className="mr-2" />,
-        Hot: <MoveUp size={16} className="mr-2" />,
-      };
-      return (
-        <span className="flex items-center">
-          {statusIcon[category]}
-          {category}
-        </span>
-      );
+      accessorKey: "scoreCategory",
+      header: "Scor Category",
+      cell: ({ row }) => {
+        const category = row.original.scoreCategory;
+
+        const statusIcon: Record<string, JSX.Element> = {
+          Low: <MoveDown size={16} className="mr-2" />,
+          Medium: <MoveRight size={16} className="mr-2" />,
+          Hot: <MoveUp size={16} className="mr-2" />,
+        };
+
+        return (
+          <span className="flex items-center">
+            {statusIcon[category]}
+            {category}
+          </span>
+        );
+      },
     },
-  },
+    {
+      header: "Predicted Score",
+      cell: ({ row }) => {
+        const score = row.original.score;
+        const category = row.original.scoreCategory;
+
+        if (score === undefined || category === undefined) {
+          return <span className="text-gray-400 italic">Belum diisi</span>;
+        }
+
+        const categoryColors: Record<string, string> = {
+          Low: "bg-red-600",
+          Medium: "bg-yellow-500",
+          Hot: "bg-blue-600",
+        };
+
+        const barColor = categoryColors[category] || "bg-gray-300";
+
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex flex-col items-start gap-1">
+                  <div className="w-full bg-gray-300 rounded-full h-3 overflow-hidden">
+                    <div
+                      className={`h-full ${barColor}`}
+                      style={{ width: `${score}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    Score: {score} / 100 ({category})
+                  </span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Predicted Score: {score}</p>
+                <p>Kategori: {category}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      },
+    },
+
+   
   {
     header: "Detail",
     cell: ({ row }) => {

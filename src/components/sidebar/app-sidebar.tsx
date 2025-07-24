@@ -39,8 +39,8 @@ export function AppSidebar() {
   const reportMenuItems = reportSidebarMenu[user?.level || "svp"];
 
   return (
-      <Sidebar variant="floating" collapsible="icon">
-        <SidebarContent className="dark:bg-gray-950 ">
+      <Sidebar variant="sidebar" collapsible="offcanvas">
+        <SidebarContent className="dark:bg-gray-950 custom-scrollbar">
           <SidebarGroup>
             <img
               src={Logo}
@@ -76,7 +76,7 @@ export function AppSidebar() {
                       <CollapsibleTrigger asChild>
                         <SidebarMenuItem>
                           <SidebarMenuButton>
-                            <ChevronDown className="mr-2 h-4 w-4" />
+                            <ChevronDown className="mr-2 h-4 w-4 " />
                             <span className="text-lg lg:text-sm">Reports</span>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -108,7 +108,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter>
+        <SidebarFooter className="dark:bg-gray-950">
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
