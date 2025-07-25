@@ -2,7 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useParams, useNavigate } from "react-router-dom";
+
+
+import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, } from "react";
@@ -11,10 +13,10 @@ import { useCreateRetail } from "@/hooks/retail/useCreateRetail";
 import { useEditRetail } from "@/hooks/retail/useEditRetail";
 import { useFetchRetail } from "@/hooks/retail/useFetchRetail";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
 
 const RetailForm = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   // Fetch Data
   const { data: spkData, isLoading: loadingSpk, error: errorSpk } = useFetchSpk();
@@ -49,11 +51,10 @@ const RetailForm = () => {
           await createRetail.mutateAsync(retailData);
         }
 
-        alert("Retail berhasil disimpan!");
-        resetForm();
-        navigate("/sales/retail");
+        toast.success(id ? "Retail berhasil diperbarui" : "retail berhasil disimpan")
+        resetForm();        
       } catch (error) {
-        alert("Gagal menyimpan Retail");
+        toast.error("Terjadi kesalahan saat menyimpan retail")
         console.error(error);
       }
     },
@@ -101,8 +102,8 @@ const RetailForm = () => {
                 Back
               </Button>
             </Link>
-            <Button type="submit" className="bg-black hover:bg-black/90">
-              Submit
+            <Button type="submit" className="bg-black hover:bg-black/90" disabled={formik.isSubmitting}>
+              {formik.isSubmitting ? "Loading..." : "Submit"}
             </Button>
           </div>
 

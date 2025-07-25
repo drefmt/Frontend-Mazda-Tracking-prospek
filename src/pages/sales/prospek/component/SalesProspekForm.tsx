@@ -20,6 +20,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { ProspekFormValue } from "@/interface/prospek.interface";
 import { NumericFormat } from "react-number-format";
+import toast from "react-hot-toast";
 
 const SalesProspekForm = () => {
   const { id } = useParams();
@@ -37,7 +38,7 @@ const SalesProspekForm = () => {
       source: "",
       status: "Prospek",
       carType: "",
-      // category: "Low",
+
       demografi: {
         usia: 0,
         pekerjaan: "",
@@ -61,13 +62,17 @@ const SalesProspekForm = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         if (id) {
-          await editProspek.mutateAsync({ id, prospekData: values });
+          await editProspek.mutateAsync({ id, prospekData: values });          
         } else {
           await createProspek.mutateAsync(values);
         }
         resetForm();
+        toast.success(
+          id ? "Prospek berhasil diperbarui." : "Prospek berhasil ditambahkan"
+        );
       } catch (error) {
         console.error("Failed to submit prospek:", error);
+        toast.error("Terjadi kesalahan saat mengirim prospek.");
       }
     },
   });
@@ -94,18 +99,18 @@ const SalesProspekForm = () => {
   useEffect(() => {
     if (id && prospekData) {
       const prospek = prospekData.find((p) => p.id === id);
+      console.log(prospek);
       if (prospek) {
         formik.setValues({
           name: prospek.name ?? "",
           date: prospek.date
-            ? format(new Date(prospek.date), "yyyy-MM-dd")
+            ?  format(new Date(prospek.date), "yyyy-MM-dd")
             : "",
           whatsappNum: prospek.whatsappNum ?? "",
           address: prospek.address ?? "",
           source: prospek.source ?? "",
           status: prospek.status ?? "Prospek",
-          carType: prospek.carType ?? "",
-          // category: prospek.category ?? "Low",
+          carType: prospek.carType ?? "",          
 
           demografi: {
             usia: prospek.demografi?.usia ?? 0,
@@ -147,8 +152,12 @@ const SalesProspekForm = () => {
                 Back
               </Button>
             </Link>
-            <Button type="submit" className="bg-black hover:bg-black/90">
-              Submit
+            <Button
+              type="submit"
+              className="bg-black hover:bg-black/90"
+              disabled={formik.isSubmitting}
+            >
+              {formik.isSubmitting ? "Loading..." : "Submit"}
             </Button>
           </div>
           <div className="flex-grow pb-4">
@@ -234,22 +243,6 @@ const SalesProspekForm = () => {
               onChange={formik.handleChange}
             />
           </div>
-
-          {/* <div className="flex-grow pb-4">
-            <Label htmlFor="category">Category</Label>
-            <select
-              name="category"
-              id="category"
-              onChange={formik.handleChange}
-              value={formik.values.category}
-              defaultValue={formik.values.category}
-              className="w-full py-1 border border-gray-300 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
-            >
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="Hot">Hot</option>
-            </select>
-          </div> */}
           <Card className="p-4">
             <div>
               <h1>Demografis</h1>
@@ -270,20 +263,19 @@ const SalesProspekForm = () => {
 
               {/* === Input Pekerjaan === */}
               <div className="space-y-2">
-                <label
+                <Label
                   htmlFor="demografi.pekerjaan"
                   className="text-sm font-medium"
                 >
                   Pekerjaan
-                </label>
+                </Label>
                 <Select
-                  name="demografi.pekerjaan"
                   value={formik.values.demografi.pekerjaan}
                   onValueChange={(value) =>
                     formik.setFieldValue("demografi.pekerjaan", value)
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="demografi.pekerjaan" className="w-full">
                     <SelectValue placeholder="Pilih pekerjaan" />
                   </SelectTrigger>
                   <SelectContent>
@@ -317,17 +309,12 @@ const SalesProspekForm = () => {
                   customInput={Input} // dari ShadCN
                   value={formik.values.demografi.penghasilan}
                   onValueChange={(values) => {
-                    formik.setFieldValue("demografi.penghasilan", values.floatValue || 0);
+                    formik.setFieldValue(
+                      "demografi.penghasilan",
+                      values.floatValue || 0
+                    );
                   }}
                 />
-                {/* <Input
-                  type="number"
-                  id="demografi.penghasilan"
-                  name="demografi.penghasilan"
-                  value={formik.values.demografi.penghasilan}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                /> */}
               </div>
             </div>
             <div>
@@ -346,6 +333,7 @@ const SalesProspekForm = () => {
                   onValueChange={(value) =>
                     formik.setFieldValue("psikografis.gayaHidup", value)
                   }
+                  defaultValue={formik.values.psikografis.gayaHidup}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih gaya hidup" />

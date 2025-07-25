@@ -4,16 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormik } from "formik";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { format } from "date-fns";
 import { useCreateActivity } from "@/hooks/daily-activity/useCreateActiviity";
 import { useEditActivity } from "@/hooks/daily-activity/useEditActivity";
 import { useFetchActifity } from "@/hooks/daily-activity/useFetchActivity";
+import toast from "react-hot-toast";
 
 const ActivityForm = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const createActivity = useCreateActivity();
   const editActivity = useEditActivity();
   const { data: activities } = useFetchActifity();
@@ -37,9 +37,10 @@ const ActivityForm = () => {
           await createActivity.mutateAsync(values);
         }
         resetForm();
-        navigate("/sales/activity");
+        toast.success(id ? "Aktivitas berhasil Di perbarui" : "Aktivitas berhasil disimpan")
       } catch (err) {
         console.error("Failed to submit activity:", err);
+        toast.error("terjadi kesalahaan saat menambah aktivitas")
       }
     },
   });
@@ -65,13 +66,13 @@ const ActivityForm = () => {
         </p>
         <form className="h-full justify-between" onSubmit={formik.handleSubmit}>
           <div className="flex justify-between pb-4">
-            <Link to="/sales/activities">
+            <Link to="/sales/activity">
               <Button variant="ghost" className="border border-gray-300">
                 Back
               </Button>
             </Link>
-            <Button type="submit" className="bg-black hover:bg-black/90">
-              Submit
+            <Button type="submit" className="bg-black hover:bg-black/90" disabled={formik.isSubmitting}>
+              {formik.isSubmitting ? "Loading.." : "Submit"}
             </Button>
           </div>
 

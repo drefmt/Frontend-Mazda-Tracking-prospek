@@ -38,6 +38,10 @@ export type Spk = {
 
 export const columns = (handleDelete: (id: string) => void): ColumnDef<Spk>[] => {
   return [
+    {
+      header: "No",
+      cell: ({ row }) => <span>{row.index +1}</span>
+    },
   {    
     header: "Prospek Id",
     id: "prospekName",

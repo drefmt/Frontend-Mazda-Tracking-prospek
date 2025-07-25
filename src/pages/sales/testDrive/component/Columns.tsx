@@ -30,6 +30,10 @@ export type TestDrive = {
 export const columns = (handleDelete: (id: string) => void): ColumnDef<TestDrive>[] => {
   return [
   {
+    header: "No",
+    cell: ({ row }) => <span>{row.index + 1}</span>
+  },
+  {
     accessorKey: "prospekId.name",
     header: "Prospek Name",
   },
@@ -65,10 +69,10 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<TestDrive
     header: "action",
     id: "actions",
     cell: ({ row }) => {
-      const prospek = row.original.prospekId;
+      
       const testDrive = row.original;
-      // ! sementara
       const navigate = useNavigate();
+      
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -79,11 +83,7 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<TestDrive
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(prospek.id)}
-            >
-              Copy ID
-            </DropdownMenuItem>
+           
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate(`edit/${testDrive.id}`)}>Edit</DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleDelete(testDrive.id)}>Delete</DropdownMenuItem>

@@ -13,6 +13,7 @@ import { useEditSpk } from "@/hooks/spk/useEditSpk";
 import { useEffect } from "react";
 import { useFetchSpk } from "@/hooks/spk/useFetchSpk";
 import { useFetchAvailableForSpk } from "@/hooks/prospek/useAvailableForSpk";
+import toast from "react-hot-toast";
 
 const SpkForm = () => {
   const { id } = useParams();
@@ -66,12 +67,13 @@ const SpkForm = () => {
             prospekId: values.prospekId,
           });
         }
-        alert("SPK berhasil ditambahkan!");
+        toast.success(id ? "SPK berhasil diperbarui" : "SPK berhasil di tambahkan")
         resetForm();
         navigate("/sales/spk");
       } catch (error) {
-        alert("Gagal menambahkan SPK");
-        console.error(error);
+        toast.error("Gagal menambahkan SPK");
+        console.log("failed to submit PSK", error);
+        
       }
     },
   });
@@ -111,8 +113,9 @@ const SpkForm = () => {
               <Button
                 variant="ghost"
                 className="border border-gray-300 dark:border-gray-800"
+                disabled={formik.isSubmitting}
               >
-                Back
+                {formik.isSubmitting ? "Loading..." : "Submit"}
               </Button>
             </Link>
             <Button type="submit" className="bg-black hover:bg-black/90">

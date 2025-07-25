@@ -29,23 +29,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-// import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-// import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { Filter } from "lucide-react";
 
-export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
-
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  // const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
-
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [ratingFilter, setRatingFilter] = React.useState<number | null>(null);
 
   const table = useReactTable({
     data,
@@ -64,47 +68,45 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
     },
   });
 
-  // Function untuk mengubah filter kategori
-  // const handleCategoryChange = (category: string | null) => {
-  //   setSelectedCategory(category);
-  //   table.getColumn("category")?.setFilterValue(category || undefined);
-  // };
+  const handleRatingChange = (rating: number | null) => {
+    setRatingFilter(rating);
+    table.getColumn("rating")?.setFilterValue(rating ?? undefined);
+  };
 
   return (
     <>
-    
       <div className="flex gap-4 pb-4 justify-between">
         <Link to="add">
-          <Button className="bg-black hover:bg-black/90">Add Feedback Link</Button>
+          <Button className="bg-black hover:bg-black/90">Generate Link</Button>
         </Link>
-
+      {/* Filter by star Rating */}
         <div className="pr-10 flex gap-4">
-          {/* 🔽 Dropdown Filter Kategori */}
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>              
-              <Button variant="outline"> <Filter width={18} />{selectedCategory || "Filter by Category"}</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleCategoryChange(null)}>All Categories</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleCategoryChange("Low")} className="flex items-center cursor-pointer">
-
-                <MoveDown size={16} absoluteStrokeWidth className="pr-1" />
-                Low
-
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleCategoryChange("Medium")} className="flex items-center cursor-pointer">
-                <MoveRight size={16} absoluteStrokeWidth className="pr-1" />
-                Medium
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleCategoryChange("Hot")} className="flex items-center cursor-pointer">
-                <MoveUp size={16} absoluteStrokeWidth className="pr-1" />
-                Hot
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto" >
+              <Button variant="outline">
+                <Filter width={18} />
+                {ratingFilter ? `${ratingFilter} Stars` : "Filter by Rating"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleRatingChange(null)}>
+                All Ratings
+              </DropdownMenuItem>
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <DropdownMenuItem
+                  key={rating}
+                  onClick={() => handleRatingChange(rating)}
+                  className="cursor-pointer"
+                >
+                  {rating} Stars
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
                 <Filter width={18} />
                 Columns
               </Button>
@@ -141,15 +143,12 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
               }
               className="max-w-sm"
             /> */}
-
           </div>
         </div>
-
       </div>
       {/* Looping Header from  column*/}
       <div className="rounded-md border-gray-300 dark:border-gray-800 border">
         <div>
-
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -163,9 +162,9 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
                       </TableHead>
                     );
                   })}
@@ -223,7 +222,6 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
             </Button>
           </div>
         </div>
-
       </div>
     </>
   );

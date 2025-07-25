@@ -12,6 +12,7 @@ import { useCreateTestDrive } from "@/hooks/testDrive/useCreateTestDrive";
 import { useEffect } from "react";
 import { useFetchTestDrive } from "@/hooks/testDrive/useFetchTestDrive";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
 
 const TestDriveForm = () => {
   const { id } = useParams();
@@ -47,10 +48,12 @@ const TestDriveForm = () => {
         } else {
           await createTestDrive.mutateAsync({ ...testDriveData, prospekId: values.prospekId });
         }
-        alert("Test Drive berhasil ditambahkan!");
+          toast.success(
+          id ? "Test-Drive berhasil diperbarui." : "Test-Drive berhasil ditambahkan"
+        );
         resetForm();
       } catch (error) {
-        alert("Gagal menambahkan Test Drive");
+        toast.error('Terjadi kesalahan saat mengirim test drive')
         console.error(error);
       }
     },
@@ -82,8 +85,9 @@ const TestDriveForm = () => {
                 Back
               </Button>
             </Link>
-            <Button type="submit" className="bg-black hover:bg-black/90">
-              Submit
+            <Button type="submit" className="bg-black hover:bg-black/90" disabled={formik.isSubmitting}>
+              
+              {formik.isSubmitting ? "Loading..." : "Submit"}
             </Button>
           </div>
           <div>
