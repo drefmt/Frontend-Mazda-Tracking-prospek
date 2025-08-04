@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 // import {
 //   DropdownMenu,
 //   DropdownMenuContent,
@@ -7,49 +7,52 @@ import { Button } from "@/components/ui/button"
 //   DropdownMenuSeparator,
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu"
-import TestDrive from "@/pages/svp/testDrive"
- 
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, } from "lucide-react"
+import TestDrive from "@/pages/svp/testDrive";
 
-
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
 export type ProspekId = {
   id: string;
   name: string;
-}
+};
 
 export type SalesId = {
   id: string;
-  username: string
-}
+  username: string;
+};
 
 export type TestDrive = {
   prospekId: ProspekId;
-  salesId: SalesId;  
+  salesId: SalesId;
   dateTestDrive: string;
   carType: string;
   id: string;
-}
+};
 
-export const columns :  ColumnDef<TestDrive>[] = [
-  
-  {    
+export const columns: ColumnDef<TestDrive>[] = [
+  {
     header: "No",
-    cell: ({ row }) => <span>{row.index + 1}</span>
+    cell: ({ row }) => <span>{row.index + 1}</span>,
   },
   {
-    accessorKey: "salesId.username",        
+    accessorKey: "salesId.username",
     header: "Sales Name",
   },
-  {    
-    header: "Prospek Id",
-    cell: ({ row }) => row.original.prospekId.name
+  {
+    id: "prospectName", // id penting untuk filtering!
+    header: "Nama Prospek",
+    accessorFn: (row) => row.prospekId.name, // ambil nested value
+    cell: ({ getValue }) => getValue() ?? "-", // opsional, bisa pakai row.original
+    filterFn: "includesString", // default filter string cocok
   },
+
   {
     accessorKey: "dateTestDrive",
     cell: ({ row }) => {
-      const formattedDate = new Date(row.original.dateTestDrive).toLocaleDateString("id-ID", {
+      const formattedDate = new Date(
+        row.original.dateTestDrive
+      ).toLocaleDateString("id-ID", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
@@ -57,17 +60,16 @@ export const columns :  ColumnDef<TestDrive>[] = [
       return <span>{formattedDate}</span>;
     },
     header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Date Test Drive
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-    
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date Test Drive
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "carType",
@@ -79,8 +81,7 @@ export const columns :  ColumnDef<TestDrive>[] = [
   //   id: "actions",
   //   cell: ({ row }) => {
   //     const prospek = row.original.prospekId;
-      
-     
+
   //     return (
   //       <DropdownMenu>
   //         <DropdownMenuTrigger asChild>
@@ -96,12 +97,10 @@ export const columns :  ColumnDef<TestDrive>[] = [
   //           >
   //             Copy ID
   //           </DropdownMenuItem>
-  //           <DropdownMenuSeparator />       
+  //           <DropdownMenuSeparator />
   //         </DropdownMenuContent>
   //       </DropdownMenu>
   //     )
   //   }
   // },
-]
-
-
+];

@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button"
+import { Retail } from "@/interface/retail.interface"
 
 // import {
 //   DropdownMenu,
@@ -13,29 +13,29 @@ import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
  
-interface SalesId {     
-    id: string; 
-    username: string;  
-}
+// interface SalesId {     
+//     id: string; 
+//     username: string;  
+// }
 
-interface ProspekId  {
-  // id: string;
-  name: string;
-  whatsappNum: string;
-}
+// interface ProspekId  {
+//   // id: string;
+//   name: string;
+//   whatsappNum: string;
+// }
 
-interface SpkId {
-  prospekId: ProspekId;
-}
+// interface SpkId {
+//   prospekId: ProspekId;
+// }
 
-interface Retail {  
-  id: string;  
-  salesId: SalesId;
-  spkId: SpkId;
-  dateRetail: string;
-  status: string;
-  carType: string;
-}
+// interface Retail {  
+//   id: string;  
+//   salesId: SalesId;
+//   spkId: SpkId;
+//   dateRetail: string;
+//   status: string;
+//   carType: string;
+// }
 
 export const columns :  ColumnDef<Retail>[] = [
   
@@ -75,22 +75,7 @@ export const columns :  ColumnDef<Retail>[] = [
       },
     
   },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const status = row.original.status;
-      const statusColors: Record<string, string> = {       
-        Retail: "border-yellow-600 text-yellow-600",
-      };
-
-      return (
-        <span className={`px-1 rounded-sm border ${statusColors[status]}`}>
-          {status}
-        </span>
-      );
-    },
-  },
+  
   {
     accessorKey: "carType",
     header: "Car Type",

@@ -36,22 +36,23 @@ const ViewDetails = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <CardContent>
-          <p>Prospek Name</p>
-          <p>Date</p>
-          <p>No Whatsapp</p>
-          <p>Address</p>
-          <p>Soure</p>
+          <p>Nama Prospek</p>
+          <p>Tanggal</p>
+          <p>No Telepon</p>
+          <p>Alamat</p>
+          <p>Tipe Mobil</p>
           <p>Status</p>
-          <p>Car Type</p>          
+          <p>Kateogri</p>
         </CardContent>
         <CardContent>
           <p>:{data.name}</p>
-          <p>:{data?.date ? format(new Date(data.date), "dd-MM-yyyy") : "-"}</p>
-          <p>:{data.whatsappNum}</p>
-          <p>:{data.address}</p>          
+          <p>:{data?.date ? format(new Date(data.date), "dd-MM-yyyy") : "-"}
+          </p>
+          <p>:{data.whatsappNum}</p>                   
           <p>:{data.source}</p>
-          <p>:{data.status}</p>
           <p>:{data.carType}</p>
+          <p>:{data.status}</p>
+          <p>:{data.scoreCategory}</p>
         </CardContent>
       </div>
 

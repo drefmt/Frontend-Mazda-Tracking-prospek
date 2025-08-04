@@ -8,9 +8,10 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { useFetchRetail } from "@/hooks/retail/useFetchRetail";
 import { Card } from "@/components/ui/card";
+import toast from "react-hot-toast";
 
 const GenerateFeedbackLinkForm = () => {
-  const { mutateAsync, isPending } = useGenerateFeedbackLink();
+  const { mutateAsync } = useGenerateFeedbackLink();
   const { data: retailOptions, isLoading } = useFetchRetail();
   const [link, setLink] = useState<string | null>(null);
 
@@ -20,12 +21,13 @@ const GenerateFeedbackLinkForm = () => {
     },
     onSubmit: async (values) => {
       try {
-        // ✅ kirim object, bukan string
         const res = await mutateAsync({ retailId: values.retailId });
         const generatedLink = `${window.location.origin}/feedback/${res.token}`;
         setLink(generatedLink);
+        toast.success("Berhasil membuat link feedback");
       } catch (error) {
         console.error("Gagal generate link:", error);
+        toast.error("Gagal membuat link feedback");
       }
     },
   });
@@ -54,8 +56,8 @@ const GenerateFeedbackLinkForm = () => {
           </select>
         </div>
 
-        <Button type="submit" disabled={isPending || !formik.values.retailId}>
-          {isPending ? "Membuat..." : "Buat Link Feedback"}
+        <Button type="submit" disabled={formik.isSubmitting}>
+          {formik.isSubmitting ? "Membuat..." : "Buat Link Feedback"}
         </Button>
 
         {link && (
@@ -66,7 +68,16 @@ const GenerateFeedbackLinkForm = () => {
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => navigator.clipboard.writeText(link)}
+                onClick={() => {
+                  navigator.clipboard
+                    .writeText(link)
+                    .then(() => {
+                      toast.success("Link berhasil disalin!");
+                    })
+                    .catch(() => {
+                      toast.error("Gagal menyalin link.");
+                    });
+                }}
               >
                 Salin
               </Button>

@@ -30,6 +30,7 @@ export type SalesId = {
 export type Spk = {  
   prospekId: ProspekId;
   salesId: SalesId;
+  status: string;
   dateSpk: string;
   noKtp: string;  
   cashOrCredit: string;
@@ -38,13 +39,13 @@ export type Spk = {
 
 export const columns: ColumnDef<Spk>[] = [
   {    
+    accessorFn: (row) => row.salesId.username,
+    header: "Sales Name",
+  },
+  {    
     header: "Prospek Id",
     id: "prospekName",
     accessorFn: (row) => row.prospekId.name,
-  },
-  {    
-    accessorFn: (row) => row.salesId.username,
-    header: "Sales Name",
   },
   {
     accessorKey: "dateSpk",
@@ -94,6 +95,24 @@ export const columns: ColumnDef<Spk>[] = [
       return (
         <span className={`px-1 rounded-sm border ${statusColors[cashOrCredit]}`}>
           {cashOrCredit}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    
+    cell: ({ row }) => {
+      const status = row.original.status;
+      const statusColors: Record<string, string> = {
+        "Process Do": "border-yellow-600 text-yellow-600",
+        "Cancel": "border-red-600 text-red-600",        
+      };
+
+      return (
+        <span className={`px-1 rounded-sm border ${statusColors[status]}`}>
+          {status}
         </span>
       );
     },

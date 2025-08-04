@@ -20,15 +20,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+// import { Progress } from "@/components/ui/progress";
 import { Prospek } from "@/interface/prospek.interface";
 import { useNavigate } from "react-router-dom";
 import { JSX } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const columns = (
-  handleDelete: (id: string) => void): ColumnDef<Prospek>[] => {
+  handleDelete: (id: string) => void
+): ColumnDef<Prospek>[] => {
   return [
     {
       header: "No",
@@ -107,29 +112,29 @@ export const columns = (
         }
 
         return (
-           <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span
-              className={`inline-flex items-center gap-2 border px-3 rounded-md text-sm ${colorClass}`}
-            >
-              <Icon className="w-3 h-3" />
-              {label}
-            </span>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{count} Follow-Up</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span
+                  className={`inline-flex items-center gap-2 border px-3 rounded-md text-sm ${colorClass}`}
+                >
+                  <Icon className="w-3 h-3" />
+                  {label}
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{count} Follow-Up</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         );
       },
     },
     {
-      accessorKey: "category",
-      header: "Category",
+      accessorKey: "scoreCategory",
+      header: "Scor Category",
       cell: ({ row }) => {
-        const category = row.original.category;
+        const category = row.original.scoreCategory;
 
         const statusIcon: Record<string, JSX.Element> = {
           Low: <MoveDown size={16} className="mr-2" />,
@@ -145,6 +150,50 @@ export const columns = (
         );
       },
     },
+    {
+      header: "Predicted Score",
+      cell: ({ row }) => {
+        const score = row.original.score;
+        const category = row.original.scoreCategory;
+
+        if (score === undefined || category === undefined) {
+          return <span className="text-gray-400 italic">Belum diisi</span>;
+        }
+
+        const categoryColors: Record<string, string> = {
+          Low: "bg-red-600",
+          Medium: "bg-yellow-500",
+          Hot: "bg-blue-600",
+        };
+
+        const barColor = categoryColors[category] || "bg-gray-300";
+
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex flex-col items-start gap-1">
+                  <div className="w-full bg-gray-300 rounded-full h-3 overflow-hidden">
+                    <div
+                      className={`h-full ${barColor}`}
+                      style={{ width: `${score}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    Score: {score} / 100 ({category})
+                  </span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Predicted Score: {score}</p>
+                <p>Kategori: {category}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      },
+    },
+
     {
       header: "Detail",
       cell: ({ row }) => {

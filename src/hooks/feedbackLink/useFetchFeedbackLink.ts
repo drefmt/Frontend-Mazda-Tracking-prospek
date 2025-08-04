@@ -27,6 +27,7 @@ const fetchFeedbackLink = async(): Promise<FeedbackLink[]> => {
     if(response.status !== 200 ) {
         throw new Error('Failed to fetch feedback data');
     }
+    console.log(response.data)
     return response.data;
 }
 

@@ -2,12 +2,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useCreateFollowUp } from "@/hooks/follow-up/useCreateFollowUp";
 import { useEditFollowUp } from "@/hooks/follow-up/useEditFollowUp";
 import { useFetchFollowUpById } from "@/hooks/follow-up/useFetchFollowUpById";
 import { Interaction } from "@/types/interaction.type";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 interface FollowUpFormValues {
   followUpDate: string;
@@ -27,7 +29,6 @@ const FollowUpSchema = Yup.object().shape({
 });
 
 const FollowUpForm = () => {
-  const navigate = useNavigate();
   const { id, followUpId } = useParams<{ id: string; followUpId: string }>();
   const prospekId = id || "";
   const { data: followUpData } = useFetchFollowUpById(prospekId, followUpId);
@@ -50,6 +51,7 @@ const FollowUpForm = () => {
     onSubmit: async (values) => {
       if (!prospekId) {
         console.error("ID SPK tidak ditemukan");
+        toast.error("Prospect ID is missing");
         return;
       }
       try {
@@ -62,9 +64,31 @@ const FollowUpForm = () => {
         } else {
           await createMutation.mutateAsync({ id: prospekId, followUp: values });
         }
-        navigate(`/sales/prospek/detail/${prospekId}`);
-      } catch (error) {
-        console.error("Failed to submit follow-up:", error);
+        formik.resetForm();
+        toast.success("Follow-up updated successfully!");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        if (axios.isAxiosError(error)) {
+          const errorMessage =
+            error.response?.data?.message || "Failed to submit follow-up.";
+
+          // Tampilkan pesan custom jika error spesifik
+          if (
+            error.response?.data?.error?.includes("Retail") &&
+            errorMessage.includes("validation failed")
+          ) {
+            toast.error(
+              "This prospect has already been marked as Retail. No more follow-ups needed."
+            );
+          } else {
+            toast.error("Failed to submit follow-up. Please try again.");
+          }
+
+          console.error("Follow-up error:", errorMessage);
+        } else {
+          toast.error("Unexpected error occurred.");
+        }
+
       }
     },
   });
@@ -85,7 +109,10 @@ const FollowUpForm = () => {
   }, [followUpData, followUpId]);
 
   return (
-    <form className="space-y-4 p-4 dark:text-white" onSubmit={formik.handleSubmit}>
+    <form
+      className="space-y-4 p-4 dark:text-white"
+      onSubmit={formik.handleSubmit}
+    >
       <div>
         <h1 className="text-lg font-semibold">
           {isEditMode ? "Edit" : "Tambah"} Follow-Up
@@ -156,7 +183,7 @@ const FollowUpForm = () => {
         onBlur={formik.handleBlur}
         value={formik.values.note}
       />
-      <label className="text-lg">Customer Response</label>
+      <label className="text-lg">Respon Customer</label>
       <Textarea
         name="customerResponse"
         placeholder="Masukkan respon customer"
@@ -169,9 +196,10 @@ const FollowUpForm = () => {
       )}
       <button
         type="submit"
+        disabled={formik.isSubmitting}
         className="py-1 w-full border-2 bg-black border-black text-white rounded-md hover:bg-black/90 transition duration-150"
       >
-        Kirim
+        {formik.isSubmitting ? "Loading..." : "Submit"}
       </button>
     </form>
   );

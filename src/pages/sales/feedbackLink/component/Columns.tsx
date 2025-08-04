@@ -1,10 +1,15 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
-import { copyToClipboard } from "@/utils/copyToClipboard"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, Star } from "lucide-react";
+import { copyToClipboard } from "@/utils/copyToClipboard";
 
 export interface FeedbackLink {
   id: string;
@@ -28,7 +33,9 @@ export interface FeedbackLink {
   };
 }
 
-export const columns = ( handleDelete: (id: string) => void ): ColumnDef<FeedbackLink>[] => {
+export const columns = (
+  handleDelete: (id: string) => void
+): ColumnDef<FeedbackLink>[] => {
   return [
     {
       header: "No",
@@ -50,7 +57,9 @@ export const columns = ( handleDelete: (id: string) => void ): ColumnDef<Feedbac
       accessorKey: "expiredAt",
       header: "Expired",
       cell: ({ row }) => {
-        const formattedDate = new Date(row.original.expiredAt).toLocaleDateString("id-ID", {
+        const formattedDate = new Date(
+          row.original.expiredAt
+        ).toLocaleDateString("id-ID", {
           day: "2-digit",
           month: "short",
           year: "numeric",
@@ -68,29 +77,45 @@ export const columns = ( handleDelete: (id: string) => void ): ColumnDef<Feedbac
       ),
     },
     {
-  accessorKey: "feedbackId.rating",
-  header: "Rating",
-  cell: ({ row }) => {
-    const rating = row.original.feedbackId?.rating;
-    return rating ? `${rating} ⭐` : "-";
-  },
-},
-{
-  accessorKey: "feedbackId.message",
-  header: "Pesan",
-  cell: ({ row }) => {
-    const msg = row.original.feedbackId?.message;
-    return msg || "-";
-  },
-},
+      id: "rating", // custom id
+      accessorFn: (row) => row.feedbackId?.rating,
+      header: "Rating",
+      filterFn: "equals", // penting agar bisa filter angka sama persis
+      cell: ({ row }) => {
+        const rating = row.original.feedbackId?.rating;
 
+        if (!rating) return "-";
+
+        return (
+          <div className="flex items-center gap-1 text-yellow-500">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                size={16}
+                strokeWidth={1.5}
+                fill={i < rating ? "currentColor" : "none"}
+              />
+            ))}
+          </div>
+        );
+      },
+    },
+
+    {
+      accessorKey: "feedbackId.message",
+      header: "Pesan",
+      cell: ({ row }) => {
+        const msg = row.original.feedbackId?.message;
+        return msg || "-";
+      },
+    },
 
     {
       accessorKey: "actions",
       header: "Aksi",
       cell: ({ row }) => {
         const { id, token } = row.original;
-        const link: string = `${window.location.origin}/feedback/${token}`;         
+        const link: string = `${window.location.origin}/feedback/${token}`;
 
         return (
           <DropdownMenu>

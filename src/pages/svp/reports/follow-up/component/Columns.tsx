@@ -13,7 +13,7 @@ export const columns :  ColumnDef<FollowUpData>[] = [
   },
   {        
     header: "Sales Name", 
-    cell: ({ row }) => row.original.name,
+    cell: ({ row }) => row.original.salesName,
   },
   {    
     header: "Prospect Name", 

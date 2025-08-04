@@ -34,17 +34,15 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
+// import { Input } from "@/components/ui/input";
+import { Filter } from "lucide-react";
 
 export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [selectedScoreCategory, setSelectedScoreCategory] = React.useState<string | null>(null); // State kategori
+  // const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
 
 
   const table = useReactTable({
@@ -64,44 +62,13 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
     },
   });
 
-  // Function untuk mengubah filter kategori
-  const handleCategoryChange = (scoreCategory: string | null) => {
-    setSelectedScoreCategory(scoreCategory);
-    table.getColumn("scoreCategory")?.setFilterValue(scoreCategory || undefined);
-  };
+
 
   return (
     <>
     
       <div className="flex gap-4 pb-4 justify-between">
-        <Link to="add">
-          <Button className="bg-black hover:bg-black/90">Add Prospek</Button>
-        </Link>
-
         <div className="pr-10 flex gap-4">
-          {/* 🔽 Dropdown Filter Kategori */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>              
-              <Button variant="outline"> <Filter width={18} />{selectedScoreCategory || "Filter by Category"}</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleCategoryChange(null)}>All Categories</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleCategoryChange("Low")} className="flex items-center cursor-pointer">
-
-                <MoveDown size={16} absoluteStrokeWidth className="pr-1" />
-                Low
-
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleCategoryChange("Medium")} className="flex items-center cursor-pointer">
-                <MoveRight size={16} absoluteStrokeWidth className="pr-1" />
-                Medium
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleCategoryChange("Hot")} className="flex items-center cursor-pointer">
-                <MoveUp size={16} absoluteStrokeWidth className="pr-1" />
-                Hot
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto" >
@@ -131,7 +98,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
           </DropdownMenu>
           {/* Filter status */}
           <div className="items-center">
-            <Input
+            {/* <Input
               placeholder="Search By Name..."
               value={
                 (table.getColumn("name")?.getFilterValue() as string) ?? ""
@@ -140,7 +107,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
                 table.getColumn("name")?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
-            />
+            /> */}
 
           </div>
         </div>

@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { id } from "date-fns/locale/id";
 
-
 import { useFetchReminder } from "@/hooks/notification/useFetchNotification";
 import { useMarkAsRead } from "@/hooks/notification/useMarkAsRead";
 import { useDeleteNotification } from "@/hooks/notification/useDeleteNotification";
@@ -85,9 +84,9 @@ export default function NotificationDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className=" absolute flex h-[380px] w-[350px] flex-col rounded-2xl border border-gray-200 p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
+        className="dark:bg-gray-950 absolute flex h-[380px] w-[350px] flex-col rounded-2xl border border-gray-200 p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
       >
-        <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
+        <div className="flex items-center  justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
           <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
             Notification
           </h5>
@@ -125,13 +124,13 @@ export default function NotificationDropdown() {
                 className={`flex gap-3 rounded-lg border-b m-1 px-4.5 py-3 transition-colors
     ${
       notif.isRead
-        ? "bg-white text-muted-foreground hover:bg-gray-100  dark:hover:bg-gray-800"
+        ? "bg-white text-muted-foreground hover:bg-gray-100  dark:hover:bg-gray-800 dark:bg-gray-950 "
         : "bg-slate-100 text-gray-900 font-medium hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20"
     }
     border-gray-100 dark:border-gray-800
   `}
               >
-                <span className="block">
+                <span className="block dark:border-gray-900">
                   <span className="font-sm text-gray-800 dark:text-white/90">
                     {notif.title}
                   </span>

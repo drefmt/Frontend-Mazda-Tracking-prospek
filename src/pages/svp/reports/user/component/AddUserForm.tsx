@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import toast from "react-hot-toast";
 
 const AddUserForm = () => {
   const formik = useFormik({
@@ -26,18 +27,18 @@ const AddUserForm = () => {
         .email("Email tidak valid")
         .required("Email wajib diisi"),
       password: Yup.string()
-        .min(6, "Minimal 6 karakter")
+        .min(3, "Minimal 3 karakter")
         .required("Password wajib diisi"),
       level: Yup.string().oneOf(["sales", "svp"]),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
         await axiosInstance.post("/users/register", values);
-        alert("User berhasil ditambahkan!");
+        toast.success("User berhasil ditambahkan")
         console.log("okeee");
         resetForm();
       } catch (error) {
-        alert("Gagal menambahkan user");
+        toast.error("terjadi kesalahaan saat menambahkan user")
         console.log(error);
       }
     },

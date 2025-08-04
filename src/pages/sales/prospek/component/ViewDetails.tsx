@@ -45,13 +45,11 @@ const ViewDetails = () => {
       <div className="grid grid-cols-2 gap-4">
         <CardContent>
           <p>Nama Prospek</p>
-          <p>Tanggal SPK</p>
-          <p>No KTP</p>
+          <p>Tanggal</p>
+          <p>No Telepon</p>
           <p>Alamat</p>
-          <p>No WA</p>
-          <p>Down Payment</p>
-          <p>Leasing</p>
-          <p>Tenor</p>
+          <p>Tipe Mobil</p>
+          <p>Status</p>
           <p>Kateogri</p>
         </CardContent>
         <CardContent>
@@ -60,9 +58,9 @@ const ViewDetails = () => {
           </p>
           <p>:{data.whatsappNum}</p>                   
           <p>:{data.source}</p>
-          <p>:{data.status}</p>
           <p>:{data.carType}</p>
-          <p>:{data.category}</p>
+          <p>:{data.status}</p>
+          <p>:{data.scoreCategory}</p>
         </CardContent>
       </div>
 

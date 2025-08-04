@@ -38,11 +38,12 @@ const SalesSpkDetails = lazy(() => import("@/pages/sales/spk/component/ViewDetai
 const SalesTestDrive = lazy(() => import("@/pages/sales/testDrive"));
 const SalesTestDriveFrom = lazy(() => import("@/pages/sales/testDrive/component/Test-drive-form"));
 
-const Activity = lazy(() => import("@/pages/sales/activity"));
 const ActivityForm = lazy(() => import("@/pages/sales/activity/component/ActivityForm"));
 
 const SalesRetail = lazy(() => import("@/pages/sales/retail"));
 const SalesRetailForm = lazy(() => import("@/pages/sales/retail/component/RetailForm"));
+
+const SalesActivity = lazy(() => import("@/pages/sales/activity"));
 
 const FeedbackLink = lazy(() => import("@/pages/sales/feedbackLink"));
 const GenerateFeedbackLinkForm = lazy(() => import("@/pages/sales/feedbackLink/component/GenerateFeedbackLinkForm"));
@@ -50,6 +51,7 @@ const GenerateFeedbackLinkForm = lazy(() => import("@/pages/sales/feedbackLink/c
 
 
 // HALAMAN SPV
+const Activity = lazy(() => import("@/pages/svp/activity"));
 const SvpProspek = lazy(() => import("@/pages/svp/prospek/"));
 const SvpSpk = lazy(() => import("@/pages/svp/spk"));
 const SvpTestDrive = lazy(() => import("@/pages/svp/testDrive"));
@@ -59,6 +61,11 @@ const SvpViewDetailProspek = lazy(() => import("@/pages/svp/prospek/component/Vi
 const SpvFollowUpForm = lazy(() => import("@/pages/svp/prospek/component/FollowUpForm"));
 const SvpRetail = lazy(() => import("@/pages/svp/retail"));
 const AddUserForm = lazy(() => import("@/pages/svp/reports/user/component/AddUserForm"));
+const Feedback = lazy(() => import("@/pages/svp/feedbackLink"));
+
+
+
+
 
 // REPORT
 const svpReportProspek = lazy(() => import("@/pages/svp/reports/prospek"));
@@ -181,7 +188,7 @@ export const salesRoute: RouteType[] = [
   {
     name: "Activity",
     path: "activity",
-    component: Activity,
+    component: SalesActivity,
   },
   {
     name: "Activity Add",
@@ -258,9 +265,14 @@ export const svpRoute: RouteType[] = [
     component: SvpRetail,
   },
   {
-    name: "Customer Complain",
-    path: "/customer-complain",
-    component: SvpRetail,
+    name: "Feedback",
+    path: "/feedback",
+    component: Feedback,
+  },
+  {
+    name: "activity",
+    path: "/activity",
+    component: Activity,
   },
   {
     name: "prospek Report",
@@ -385,8 +397,8 @@ export const sidebarMenus: Record<"sales" | "svp", MenuItem[]> = {
       icon: CarFront,
     },
     {
-      title: "Customer Complain",
-      path: "/svp/customer-complain",
+      title: "Feedback",
+      path: "/svp/feedback",
       icon: CarFront,
     },
     {

@@ -1,5 +1,11 @@
-
+/* eslint-disable react-hooks/rules-of-hooks */
+import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+// import { useNavigate } from "react-router-dom";
+import { copyToClipboard } from "@/utils/copyToClipboard"
+// import {FeedbackReportItem} from "@/interface/feedback.interface"
 export interface FeedbackLink {
   id: string;
   token: string;
@@ -30,8 +36,8 @@ export interface FeedbackLink {
 //   id: string;
 // }
 
-export const columns: ColumnDef<FeedbackLink>[] = [
-  
+export const columns = ( handleDelete: (id: string) => void ): ColumnDef<FeedbackLink>[] => {
+  return [
     {
       header: "No",
       cell: ({ row }) => <span>{row.index + 1}</span>,
@@ -96,5 +102,36 @@ export const columns: ColumnDef<FeedbackLink>[] = [
     return msg || "-";
   },
 },
-]
 
+
+    {
+      accessorKey: "actions",
+      header: "Aksi",
+      cell: ({ row }) => {
+        const { id, token } = row.original;
+        const link: string = `${window.location.origin}/feedback/${token}`;         
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => copyToClipboard(link)}>
+                Salin Link
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDelete(id)}>
+                Hapus
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
+};

@@ -37,6 +37,7 @@ export const handleExportPDF = (report: RetailReport) => {
     startY,
     head: [
       [
+        "No",
         "Sales Name",
         "SPK Name",
         "Date Retail",
@@ -46,6 +47,7 @@ export const handleExportPDF = (report: RetailReport) => {
 
     body: data.map((row, index) => [
       index + 1,
+      row.salesId.username ?? '',
       row.spkId?.prospekId.name ?? "-",
       formatDate(row.dateRetail),
       row.carType,
