@@ -91,9 +91,9 @@ export function DataTable<TData, TValue>({columns,data,}: DataTableProps<TData, 
         </div>        
         <div className="items-center">
           <Input
-            placeholder="Search By SPk Name"
-            value={(table.getColumn("SpkName")?.getFilterValue() as string) ?? ""}
-            onChange={ (event) =>table.getColumn("SpkName")?.setFilterValue(event.target.value) }
+            placeholder="Search By Sales Name"
+            value={(table.getColumn("salesName")?.getFilterValue() as string) ?? ""}
+            onChange={ (event) =>table.getColumn("salesName")?.setFilterValue(event.target.value) }
             className="max-w-sm"/>
         </div>
         </div>          

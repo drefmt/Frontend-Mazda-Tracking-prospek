@@ -45,7 +45,7 @@ export const AppHeader = () => {
       </div>
       <div className="flex md:items-center justify-between grow lg:flex-row lg:px-6 py-1 ">
         <div className="items-center justify-between w-full gap-4  lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none">
-          <div className="flex items-end gap-2 2xsm:gap-3 justify-end">
+          <div className="flex items-end gap-2 2xsm:gap-3 justify-end px-4">
             <ModeToggle></ModeToggle>
             <NotificationDropdown />
             {/* <UserDropdown /> */}

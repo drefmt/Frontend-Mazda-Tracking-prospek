@@ -78,7 +78,7 @@ export default function FeedbackPage() {
             Beri Penilaian Anda
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4"> 
           {status === "success" && (
             <Alert
               variant="default"

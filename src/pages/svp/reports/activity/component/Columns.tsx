@@ -12,6 +12,7 @@ export const columns :  ColumnDef<Activity>[] = [
     cell: ({ row }) => <span>{row.index + 1}</span>
   },
   {        
+    id: "salesName",
     header: "Sales Name", 
     cell: ({ row }) => row.original.salesId?.username,
   },  

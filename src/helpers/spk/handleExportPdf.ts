@@ -37,8 +37,8 @@ export const handleExportPDF = (report: SpkReport) => {
     startY,
     head: [
       [
-        "Prospect Name",
         "Sales Name",
+        "Prospect Name",
         "Date Spk",
         "Ktp Number",
         "Cash Or Credit",
@@ -51,6 +51,7 @@ export const handleExportPDF = (report: SpkReport) => {
 
     body: data.map((row, index) => [
       index + 1,
+      row.salesId?.username ?? "-",
       row.prospekId?.name ?? "-",
       formatDate(row.dateSpk),
       row.noKtp,
@@ -58,7 +59,7 @@ export const handleExportPDF = (report: SpkReport) => {
       "Rp. " + new Intl.NumberFormat('id-ID').format(row.downPayment),
       // row.downPayment,
       row.tenor,
-      row.leasing,
+      row.leasing ?? "-",
       row.status,
     ]),
 

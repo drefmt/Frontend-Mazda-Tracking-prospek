@@ -11,6 +11,7 @@ export const handleExportPDF = (report: SummaryFeedbackReport) => {
   const doc = new jsPDF({
     unit: "cm",
     format: "a4",
+    orientation:"landscape",
   });
 
   const { data, period, generatedBy, count } = report;
@@ -20,7 +21,7 @@ export const handleExportPDF = (report: SummaryFeedbackReport) => {
 
   // Header
   const startY = renderPdfHeader(doc, {
-    title: "Sales Evaluation",
+    title: "Feedback",
     period,
     count,
     generatedBy,
@@ -50,8 +51,8 @@ export const handleExportPDF = (report: SummaryFeedbackReport) => {
       row.retailId?.carType ?? "-",            
       formatDate(row.expiredAt),
       row.used ? "Used" : "Un Used",      
-      row.feedbackId.message,
-      row.feedbackId.rating,      
+      row.feedbackId?.rating ?? '-',      
+      row.feedbackId?.message ?? '-',
     ]),
 
     styles: {

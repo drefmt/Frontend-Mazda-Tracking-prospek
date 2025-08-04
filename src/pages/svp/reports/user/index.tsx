@@ -59,8 +59,6 @@ const UserListReport = () => {
         <DataTable columns={columns} data={dataUsers} />
       )}
     </div>
-    // </div>
-    // </div>
   );
 
   

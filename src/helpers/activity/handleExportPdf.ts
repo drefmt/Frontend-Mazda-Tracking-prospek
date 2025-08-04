@@ -11,6 +11,7 @@ export const handleExportPDF = (report: ActivityReport) => {
   const doc = new jsPDF({
     unit: "cm",
     format: "a4",
+    orientation: "landscape",
   });
 
   const { data, period, generatedBy, count } = report;
@@ -20,7 +21,7 @@ export const handleExportPDF = (report: ActivityReport) => {
 
   // Header
   const startY = renderPdfHeader(doc, {
-    title: "Sales Evaluation",
+    title: "Activity",
     period,
     count,
     generatedBy,
