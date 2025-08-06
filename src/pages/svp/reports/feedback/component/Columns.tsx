@@ -1,36 +1,8 @@
 
 import { ColumnDef } from "@tanstack/react-table";
-export interface FeedbackLink {
-  id: string;
-  token: string;
-  used: boolean;
-  expiredAt: string;
-  createdAt: string;
-  retailId: {
-    carType: string;
-    spkId: {
-      prospekId: {
-        name: string;
-      };
-    };
-    salesId: {
-      username: string;
-    }
-  };
-  feedbackId?: {
-    rating: number;
-    message: string;
-    customerName: string;
-    submittedAt: string;
-  };
-}
+import { FeedbackReportItem } from "@/interface/feedback.interface";
 
-// interface Feedback extends FeedbackReportItem {
-//   token: string;
-//   id: string;
-// }
-
-export const columns: ColumnDef<FeedbackLink>[] = [
+export const columns: ColumnDef<FeedbackReportItem>[] = [
   
     {
       header: "No",
@@ -38,23 +10,16 @@ export const columns: ColumnDef<FeedbackLink>[] = [
     },
      {
     header: "Sales Name",
-    cell: ({ row }) => row.original.retailId.salesId.username || "-",
+    cell: ({ row }) => row.original.retailId.salesId?.username || "-",
   },
    {
-    id: "prospectName", // id penting untuk filtering!
+    id: "prospectName", 
     header: "Nama Prospek",
-    accessorFn: (row) => row.retailId.spkId.prospekId.name || "-", // ambil nested value
-    cell: ({ getValue }) => getValue() ?? "-", // opsional, bisa pakai row.original
-    filterFn: "includesString", // default filter string cocok
+    accessorFn: (row) => row.retailId.spkId.prospekId.name || "-", 
+    cell: ({ getValue }) => getValue() ?? "-", 
+    filterFn: "includesString",
   },
-    // {
-    //   accessorKey: "name",
-    //   header: "Nama Customer",
-    //   cell: ({ row }) => {
-    //     const name = row.original.retailId?.spkId?.prospekId?.name || "-";
-    //     return <span>{name}</span>;
-    //   },
-    // },
+ 
     {
       accessorKey: "retailId.carType",
       header: "Tipe Mobil",

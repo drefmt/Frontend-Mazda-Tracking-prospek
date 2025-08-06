@@ -109,14 +109,7 @@ const TestDriveReport = () => {
             disabled={!report}
           >
             Export PDF
-          </Button>
-          <Button
-            variant="outline"
-            // onClick={() => report && handleExportExcel(report)}
-            // disabled={!report}
-          >
-            Export Excel
-          </Button>
+          </Button>     
         </div>
       </Card>
 

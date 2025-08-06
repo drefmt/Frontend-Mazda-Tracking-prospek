@@ -11,7 +11,6 @@ import * as Yup from "yup";
 import { useCreateSpk } from "@/hooks/spk/useCreateSpk";
 import { useEditSpk } from "@/hooks/spk/useEditSpk";
 import { useFetchSpkById } from "@/hooks/spk/useSpkById";
-// import { useFetchAvailableForSpk } from "@/hooks/prospek/useAvailableForSpk";
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 
 import toast from "react-hot-toast";

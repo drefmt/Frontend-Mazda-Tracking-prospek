@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -68,7 +69,6 @@ const TestDriveForm = () => {
     },
   });
 
-  // navigate("/sales/test-drive");
   useEffect(() => {
     if (id && testDriveData) {
       const testDrive = testDriveData.find(

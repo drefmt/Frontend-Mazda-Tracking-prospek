@@ -4,7 +4,6 @@ import { DataTable } from "./component/Data-table";
 import { useFetchProspekReport } from "@/hooks/reports/useFetchProspekReport";
 import { monthNames } from "@/lib/constant/monthName";
 import { handleExportPDF } from "@/helpers/prospek/handleExportPdf";
-import { handleExportExcel } from "@/helpers/prospek/handleReportExcel";
 
 import { Select, SelectValue } from "@radix-ui/react-select";
 import { Label } from "recharts";
@@ -104,9 +103,7 @@ const SalesProspekReport = () => {
         <Button variant="outline"  onClick={() => report && handleExportPDF(report)}disabled={!report}>
           Export PDF
         </Button>
-        <Button variant="outline" onClick={() => report && handleExportExcel(report)}disabled={!report}>
-          Export Excel
-        </Button>
+   
         </div>
       </Card>
 
