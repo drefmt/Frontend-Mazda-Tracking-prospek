@@ -266,8 +266,6 @@ const SalesProspekForm = () => {
                   onBlur={formik.handleBlur}
                 />
               </div>
-
-
           <Card className="p-4">
             <div>
               <div className="py-2">
@@ -307,7 +305,6 @@ const SalesProspekForm = () => {
                 </select>
               </div>
               <div className="py-2">
-
                 <label
                   htmlFor="demografi.penghasilan"
                   className="text-sm font-medium"
@@ -333,7 +330,6 @@ const SalesProspekForm = () => {
               </div>
             </div>
             <div>
-
               <div className="py-2">
                 <label
                   htmlFor="psikografis.gayaHidup"
@@ -341,8 +337,6 @@ const SalesProspekForm = () => {
                 >
                   Gaya Hidup
                 </label>
-
-
                 <select
                   name="psikografis.gayaHidup"
                   id="psikografis.gayaHidup"
@@ -365,7 +359,6 @@ const SalesProspekForm = () => {
                 </select>
               </div>
               <div className="py-2">
-
                 <label
                   htmlFor="psikografis.motivasi"
                   className="text-sm font-medium"
@@ -431,7 +424,6 @@ const SalesProspekForm = () => {
                 </div>
               </div>
             </div>
-
             <div>
               <div className="grid gap-4">
 

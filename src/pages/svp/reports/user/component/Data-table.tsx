@@ -61,9 +61,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
 
   return (
     <>
-      <div className=" pb-4">        
-      </div>
-      <div className="flex gap-4 pb-4  pr-10">
+      <div className="flex pr-10">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">

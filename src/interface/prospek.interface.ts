@@ -22,10 +22,6 @@ export interface BaseProspek {
 export interface Prospek extends BaseProspek {
   id: string;
   salesId: SalesId;  
-
-export interface Prospek extends BaseProspek {
-  id: string;
-  salesId: SalesId;
   followUps: FollowUp[];
   followUpCount: number;
   createdAt: string;

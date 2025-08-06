@@ -41,7 +41,6 @@ export interface FeedbackLink {
     rating: number;
     message: string;
     customerName: string;
-    submittedAt: string;
   };
 }
 export interface SummaryFeedbackReport {

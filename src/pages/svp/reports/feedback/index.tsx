@@ -43,7 +43,7 @@ const RetailReport = () => {
 
   const safeData = (feedbackData || []).map((feedback) => ({
     ...feedback,
-    salesId: feedback.retailId.salesId.username ?? { id: "unknown", username: "-" },
+    salesId: feedback.retailId.salesId?.username ?? { id: "unknown", username: "-" },
   }));
 
   return (
@@ -110,14 +110,7 @@ const RetailReport = () => {
                     disabled={!report}
                   >
                     Export PDF
-                  </Button>
-                  <Button
-                    variant="outline"
-                    // onClick={() => report && handleExportExcel(report)}
-                    // disabled={!report}
-                  >
-                    Export Excel
-                  </Button>
+                  </Button>               
         </div>
       </Card>
 

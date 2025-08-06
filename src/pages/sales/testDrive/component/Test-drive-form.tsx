@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -55,7 +56,6 @@ const TestDriveForm = () => {
             prospekId: values.prospekId,
           });
         }
-
         toast.success(
           id
             ? "Test-Drive berhasil diperbarui."
@@ -64,13 +64,12 @@ const TestDriveForm = () => {
         resetForm();
       } catch (error) {
         toast.error("Terjadi kesalahan saat mengirim test drive");
-
         console.error(error);
       }
     },
   });
 
-  // navigate("/sales/test-drive");
+
   useEffect(() => {
     if (id && testDriveData) {
       const testDrive = testDriveData.find(

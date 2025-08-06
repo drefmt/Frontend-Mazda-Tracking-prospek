@@ -25,7 +25,6 @@ const SpkForm = () => {
   const editSpk = useEditSpk();
   const createSpk = useCreateSpk();
 
-
   const isEditMode = Boolean(id);
   const prospekData = isEditMode
     ? allProspek
@@ -70,7 +69,6 @@ const SpkForm = () => {
         .matches(/^\d+$/, "No KTP harus berupa angka")
         .max(16, "No KTP maksimal 16 digit")
         .min(16, "No KTP harus 16 digit"),
-
       leasing: Yup.string().required("Leasing wajib diisi"),
       status: Yup.string().required(
         "Status terdiri dari Process Do dan Cancel"
@@ -98,7 +96,9 @@ const SpkForm = () => {
 
   console.log("spkData.prospekId.id =>", spkData?.prospekId?.id);
   console.log("formik.values.prospekId =>", formik.values.prospekId);
-  console.log("prospekData IDs =>",prospekData?.map((p) => p.id));
+
+  console.log("prospekData IDs =>",prospekData?.map((p) => p.id)
+  );
 
 
   if ((isEditMode && !spkData) || loadingProspek) {

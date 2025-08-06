@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import toast from "react-hot-toast";
+import { Label } from "@/components/ui/label";
 
 const AddUserForm = () => {
   const formik = useFormik({
@@ -45,8 +46,10 @@ const AddUserForm = () => {
   });
 
   return (
-    <Card className="p-4">
-      <form onSubmit={formik.handleSubmit} className="space-y-4 py-10">
+    <Card className="p-4 mt-4">
+      <h1 className="text-2xl">Form Add User Form</h1>
+      <form onSubmit={formik.handleSubmit} className="space-y-4">
+        <Label htmlFor="username" className="text-md text-gray-900">Username</Label>
         <Input
           name="username"
           placeholder="username"
@@ -56,6 +59,7 @@ const AddUserForm = () => {
         {formik.touched.username && formik.errors.username && (
           <p className="text-sm text-red-500">{formik.errors.username}</p>
         )}
+        <Label htmlFor="email" className="text-md text-gray-900">Email</Label>
         <Input
           name="email"
           placeholder="Email"
@@ -66,6 +70,7 @@ const AddUserForm = () => {
         {formik.touched.email && formik.errors.email && (
           <p className="text-sm text-red-500">{formik.errors.email}</p>
         )}
+        <Label htmlFor="password" className="text-md text-gray-900">Password</Label>
         <Input
           name="password"
           placeholder="Password"
@@ -73,6 +78,8 @@ const AddUserForm = () => {
           value={formik.values.password}
           onChange={formik.handleChange}
         />
+        
+        <Label htmlFor="role" className="text-md text-gray-900">Role</Label>
         <Select
           value={formik.values.level}
           onValueChange={(val) => formik.setFieldValue("level", val)}

@@ -66,7 +66,6 @@ export const columns = (
         const rating = row.original.feedbackId?.rating;
 
         if (!rating) return "-";
-
         return (
           <div className="flex items-center gap-1 text-yellow-500">
             {[...Array(5)].map((_, i) => (

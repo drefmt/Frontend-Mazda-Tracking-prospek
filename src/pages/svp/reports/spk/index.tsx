@@ -105,13 +105,6 @@ const SpkReport = () => {
           >
             Export PDF
           </Button>
-          <Button
-            variant="outline"
-            // onClick={() => report && handleExportExcel(report)}
-            // disabled={!report}
-          >
-            Export Excel
-          </Button>
         </div>
       </Card>
 
