@@ -1,5 +1,5 @@
 export type ProspekId = {
-    _id: string;
+    id: string;
     name: string;
     whatsappNum: string;
   }

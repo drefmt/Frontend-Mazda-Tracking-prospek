@@ -1,25 +1,25 @@
-export interface Prospek {
+type Prospek = {
   name: string;
-}
+};
 
-export interface SPK {
+type SPK = {
   prospekId: Prospek;
-}
+};
 
-export type salesId = {
-    username: string
-}
+type salesId = {
+  username: string;
+};
 
-export interface Retail {
-  salesId: salesId;
+type Retail = {
+  salesId?: salesId;
   spkId: SPK;
   carType: string;
-}
+};
 
 export interface Feedback {
   retailId: Retail;
   rating: number;
-  message: string;  
+  message: string;
 }
 
 export interface FeedbackReportItem {
@@ -29,6 +29,21 @@ export interface FeedbackReportItem {
   feedbackId: Feedback;
 }
 
+
+export interface FeedbackLink {
+  id: string;
+  token: string;
+  used: boolean;
+  expiredAt: string;
+  createdAt: string;
+  retailId: Retail;
+  feedbackId?: {
+    rating: number;
+    message: string;
+    customerName: string;
+    submittedAt: string;
+  };
+}
 export interface SummaryFeedbackReport {
   count: number;
   period: string;

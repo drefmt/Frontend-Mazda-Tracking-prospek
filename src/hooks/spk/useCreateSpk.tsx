@@ -1,20 +1,9 @@
 import { axiosInstance } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { SpkRequest } from "@/interface/spk.interface"
 
 
-
-export type SpkData = {
-  prospekId: string;  
-  dateSpk: string;
-  noKtp: string;  
-  cashOrCredit: string;
-  downPayment: number;
-  tenor: string;
-  leasing: string;
-  status: string;  
-};
-
-const createSpk = async (spkData: SpkData) => {
+const createSpk = async (spkData: SpkRequest) => {
   const response = await axiosInstance.post('/spk', spkData);
 
   if (response.status !== 201) {

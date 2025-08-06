@@ -1,5 +1,6 @@
+// ==== PROSPEK DAN SALES ====
 export type ProspekId = {
-  // id: string;
+  id: string;
   name: string;
   whatsappNum: string;
   address: string;
@@ -7,26 +8,39 @@ export type ProspekId = {
 };
 
 export type SalesId = {
-  // id: string;
   username: string;
 };
 
-export interface Spk  {  
+// ==== FULL RESPONSE DARI API ====
+export interface Spk {
   prospekId: ProspekId;
   salesId: SalesId;
   dateSpk: string;
-  noKtp: string;  
+  noKtp: string;
   cashOrCredit: string;
   downPayment: number;
   tenor: string;
   leasing: string;
-  status:string;
+  status: string;
   id: string;
-};
+}
 
+// ==== REQUEST BODY UNTUK CREATE/EDIT ====
+export interface SpkRequest {
+  prospekId: string; // hanya id saja
+  dateSpk: string;
+  noKtp: string;
+  cashOrCredit: string;
+  downPayment: number;
+  tenor: string;
+  leasing: string;
+  status: string;
+}
+
+// ==== REPORT ====
 export interface SpkReport {
   count: number;
   period: string;
   generatedBy: string;
-  data: Spk[]
+  data: Spk[];
 }

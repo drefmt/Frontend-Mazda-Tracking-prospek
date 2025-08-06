@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/lib/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BaseProspek as ProspekData } from "@/interface/base-prospek.interface"
+import { BaseProspek as ProspekData } from "@/interface/prospek.interface"
 
 const editProspek = async (id: string, prospekData: ProspekData) => {
   const response = await axiosInstance.put(`/prospek/${id}`, prospekData);

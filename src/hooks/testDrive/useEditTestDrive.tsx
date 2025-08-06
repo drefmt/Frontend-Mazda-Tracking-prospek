@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface TestDriveData {
     prospekId: string;    
     dateTestDrive: string;
-    carType: string;    
+    carType: string;        
 }
 
 const editTestDrive = async (id: string, testDriveData: TestDriveData) => {

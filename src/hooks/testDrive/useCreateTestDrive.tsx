@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface TestDriveData {
     prospekId: string;
-    salesId: string;
+    // salesId: string;
     dateTestDrive: string;
     carType: string;    
 }

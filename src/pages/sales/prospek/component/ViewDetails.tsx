@@ -20,7 +20,7 @@ const ViewDetails = () => {
   if (!data) return <p>Data tidak ditemukan</p>;
 
   return (
-    <Card>
+    <Card className="mt-4">
       <CardHeader>
         <CardTitle className="text-lg">Detail Prospek</CardTitle>
         <CardDescription>Informasi lengkap Prospek</CardDescription>
@@ -32,14 +32,6 @@ const ViewDetails = () => {
             Kembali{" "}
           </Link>
         </div>
-        {/* <div className="pt-2">
-          <Link
-            to="follow-up"
-            className="bg-white border-1  border-black focus:ring-2 ring-gray-500 py-2 px-4 text-center rounded-lg text-black"
-          >
-            Tambah{" "}
-          </Link>
-        </div> */}
       </CardHeader>
 
       <div className="grid grid-cols-2 gap-4">

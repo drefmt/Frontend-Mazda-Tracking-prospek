@@ -1,13 +1,9 @@
 import { axiosInstance } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { RetailRequest } from "@/interface/Retail.interface";
 
 
-  interface RetailData {  
-    spkId: string;
-    dateRetail: string;    
-    carType: string;
-  }
-const createRetail = async(retailData: RetailData) => {
+const createRetail = async(retailData: RetailRequest) => {
     const response = await axiosInstance.post('/retail', retailData);
     return response.data;
 }

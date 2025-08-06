@@ -5,8 +5,8 @@ import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { useCreateProspek } from "@/hooks/prospek/useCreateProspek";
 import { useEditProspek } from "@/hooks/prospek/useEditProspek";
-import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
-import {} from "@/hooks/prospek/useFetchProspekById"
+import { useFetchProspekById } from "@/hooks/prospek/useFetchProspekById";
+
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { X } from "lucide-react";
@@ -24,9 +24,11 @@ import { NumericFormat } from "react-number-format";
 import toast from "react-hot-toast";
 
 const SalesProspekForm = () => {
-  const { id } = useParams();
+
+  const { id } = useParams<{ id: string }>();
   const [minatInput, setMinatInput] = useState("");
-  const { data: prospekData } = useFetchProspek();
+  const { data: prospekData } = useFetchProspekById(id);
+
   const createProspek = useCreateProspek();
   const editProspek = useEditProspek();
 
@@ -99,39 +101,37 @@ const SalesProspekForm = () => {
 
   useEffect(() => {
     if (id && prospekData) {
-      const prospek = prospekData.find((p) => p.id === id);
-      console.log(prospek);
-      if (prospek) {
+      if (prospekData) {
         formik.setValues({
-          name: prospek.name ?? "",
-          date: prospek.date
-            ?  format(new Date(prospek.date), "yyyy-MM-dd")
+          name: prospekData.name ?? "",
+          date: prospekData.date
+            ? format(new Date(prospekData.date), "yyyy-MM-dd")
             : "",
-          whatsappNum: prospek.whatsappNum ?? "",
-          address: prospek.address ?? "",
-          source: prospek.source ?? "",
-          status: prospek.status ?? "Prospek",
-          carType: prospek.carType ?? "",          
+          whatsappNum: prospekData.whatsappNum ?? "",
+          address: prospekData.address ?? "",
+          source: prospekData.source ?? "",
+          status: prospekData.status ?? "Prospek",
+          carType: prospekData.carType ?? "",
 
           demografi: {
-            usia: prospek.demografi?.usia ?? 0,
-            pekerjaan: prospek.demografi?.pekerjaan ?? "",
-            penghasilan: prospek.demografi?.penghasilan ?? 0,
+            usia: prospekData.demografi?.usia ?? 0,
+            pekerjaan: prospekData.demografi?.pekerjaan ?? "",
+            penghasilan: prospekData.demografi?.penghasilan ?? 0,
           },
           psikografis: {
-            minat: Array.isArray(prospek.psikografis?.minat)
-              ? prospek.psikografis.minat
+            minat: Array.isArray(prospekData.psikografis?.minat)
+              ? prospekData.psikografis.minat
               : [],
-            gayaHidup: prospek.psikografis?.gayaHidup ?? "",
-            motivasi: prospek.psikografis?.motivasi ?? "",
+            gayaHidup: prospekData.psikografis?.gayaHidup ?? "",
+            motivasi: prospekData.psikografis?.motivasi ?? "",
           },
           perilaku: {
-            frekuensiKontak: prospek.perilaku?.frekuensiKontak ?? 0,
-            responAwal: prospek.perilaku?.responAwal ?? "",
-            interaksiFavorit: prospek.perilaku?.interaksiFavorit ?? "",
+            frekuensiKontak: prospekData.perilaku?.frekuensiKontak || 0,
+            responAwal: prospekData.perilaku?.responAwal ?? "",
+            interaksiFavorit: prospekData.perilaku?.interaksiFavorit ?? "",
           },
           lingkungan: {
-            sumber: prospek.lingkungan?.sumber ?? "",
+            sumber: prospekData.lingkungan?.sumber ?? "",
           },
         });
       }
@@ -161,6 +161,7 @@ const SalesProspekForm = () => {
               {formik.isSubmitting ? "Loading..." : "Submit"}
             </Button>
           </div>
+
           <div className="flex-grow pb-4">
             <Label htmlFor="name">Name</Label>
             <Input
@@ -172,6 +173,7 @@ const SalesProspekForm = () => {
               onChange={formik.handleChange}
             />
           </div>
+
           <div className="flex-col pb-4">
             <Label htmlFor="date">Date</Label>
             <div className="w-full">
@@ -183,6 +185,7 @@ const SalesProspekForm = () => {
               />
             </div>
           </div>
+
           <div className="flex-grow pb-4">
             <Label htmlFor="whatsappNum">WhatsApp Number</Label>
             <Input
@@ -205,6 +208,7 @@ const SalesProspekForm = () => {
               onChange={formik.handleChange}
             />
           </div>
+
           <div className="flex-grow">
             <Label htmlFor="source">Source</Label>
             <Input
@@ -228,7 +232,8 @@ const SalesProspekForm = () => {
               className="w-full py-1 border border-gray-300 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
             >
               <option value="Prospek">Prospek</option>
-              <option value="TestDrive">Test Drive</option>
+              <option value="Test-Drive">Test Drive</option>
+              <option value="SPK">SPK</option>
               <option value="Retail">Retail</option>
             </select>
           </div>
@@ -262,38 +267,47 @@ const SalesProspekForm = () => {
                 />
               </div>
 
-              {/* === Input Pekerjaan === */}
-              <div className="space-y-2">
-                <Label
+
+          <Card className="p-4">
+            <div>
+              <div className="py-2">
+                <label htmlFor="demografi.usia" className="text-sm font-medium">
+                  Usia
+                </label>
+                <Input
+                  type="number"
+                  id="demografi.usia"
+                  name="demografi.usia"
+                  value={formik.values.demografi.usia}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="py-2">
+                <label
                   htmlFor="demografi.pekerjaan"
                   className="text-sm font-medium"
-                >
-                  Pekerjaan
-                </Label>
-                <Select
+                />
+                Pekerjaan
+                <select
+                  className="w-full py-1 border border-gray-300 dark:border-gray-800 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+                  name="demografi.pekerjaan"
+                  id="demografi.pekerjaan"
+                  onChange={formik.handleChange}
                   value={formik.values.demografi.pekerjaan}
-                  onValueChange={(value) =>
-                    formik.setFieldValue("demografi.pekerjaan", value)
-                  }
+                  defaultValue={formik.values.demografi.pekerjaan}
                 >
-                  <SelectTrigger id="demografi.pekerjaan" className="w-full">
-                    <SelectValue placeholder="Pilih pekerjaan" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Pengusaha">Pengusaha</SelectItem>
-                    <SelectItem value="PNS">PNS</SelectItem>
-                    <SelectItem value="Karyawan Swasta">
-                      Karyawan Swasta
-                    </SelectItem>
-                    <SelectItem value="Freelancer">Freelancer</SelectItem>
-                    <SelectItem value="Mahasiswa">Mahasiswa</SelectItem>
-                    <SelectItem value="Lainnya">Lainnya</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <option value="">Pekerjaan</option>
+                  <option value="pengusaha">Pengusaha</option>
+                  <option value="PNS">PNS</option>
+                  <option value="Karyawan Swasta">Karyawan Swasta</option>
+                  <option value="Freelancer">Freelancer</option>
+                  <option value="Mahasiswa">Mahasiswa</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
               </div>
+              <div className="py-2">
 
-              {/* === Input Penghasilan === */}
-              <div className="space-y-2">
                 <label
                   htmlFor="demografi.penghasilan"
                   className="text-sm font-medium"
@@ -319,49 +333,39 @@ const SalesProspekForm = () => {
               </div>
             </div>
             <div>
-              <h1>Psikografis</h1>
-              {/* === Gaya Hidup ===*/}
-              <div className="space-y-2">
+
+              <div className="py-2">
                 <label
                   htmlFor="psikografis.gayaHidup"
                   className="text-sm font-medium"
                 >
                   Gaya Hidup
                 </label>
-                <Select
+
+
+                <select
                   name="psikografis.gayaHidup"
+                  id="psikografis.gayaHidup"
+                  className="w-full py-1 border border-gray-300 dark:border-gray-800 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+                  onChange={formik.handleChange}
                   value={formik.values.psikografis.gayaHidup}
-                  onValueChange={(value) =>
-                    formik.setFieldValue("psikografis.gayaHidup", value)
-                  }
                   defaultValue={formik.values.psikografis.gayaHidup}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih gaya hidup" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Modern">Modern</SelectItem>
-                    <SelectItem value="Aktif">Aktif</SelectItem>
-                    <SelectItem value="Keluarga">Keluarga</SelectItem>
-                    <SelectItem value="Karier">Karier</SelectItem>
-                    <SelectItem value="Minimalis">Minimalis</SelectItem>
-                    <SelectItem value="Trendi">Trendi</SelectItem>
-                    <SelectItem value="Pencari Keamanan">
-                      Pencari Keamanan
-                    </SelectItem>
-                    <SelectItem value="Pecinta Teknologi">
-                      Pecinta Teknologi
-                    </SelectItem>
-                    <SelectItem value="Hobi Outdoor">Hobi Outdoor</SelectItem>
-                    <SelectItem value="Hobi Indoor">Hobi Indoor</SelectItem>
-                    <SelectItem value="Mobilitas Tinggi">
-                      Mobilitas Tinggi
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                  <option value="">Gaya Hidup</option>
+                  <option value="Modern">Modern</option>
+                  <option value="Aktif">Aktif</option>
+                  <option value="Keluarga">Keluarga</option>
+                  <option value="Karier">Karier</option>
+                  <option value="Minimalis">Minimalis</option>
+                  <option value="Trendi">trendi</option>
+                  <option value="Pencari Keamanan">Pencari Keamanan</option>
+                  <option value="Pencinta Teknologi">Pecinta Teknologi</option>
+                  <option value="Hobi Outdoor">Hobi Outdoor</option>
+                  <option value="Mobilitas Tinggi">Mobilitas Tinggi</option>
+                </select>
               </div>
-              {/* === Motivasi === */}
-              <div className="space-y-2">
+              <div className="py-2">
+
                 <label
                   htmlFor="psikografis.motivasi"
                   className="text-sm font-medium"
@@ -389,7 +393,6 @@ const SalesProspekForm = () => {
                   </SelectContent>
                 </Select>
               </div>
-              {/* Minat */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Minat</label>
                 <div className="flex flex-wrap gap-2">
@@ -428,11 +431,10 @@ const SalesProspekForm = () => {
                 </div>
               </div>
             </div>
-            {/* === Perilaku === */}
+
             <div>
               <div className="grid gap-4">
-                <h1>Perilaku</h1>
-                {/* Frekuensi Kontak (number) */}
+
                 <div>
                   <label>Frekuensi Kontak</label>
                   <Input
@@ -442,71 +444,53 @@ const SalesProspekForm = () => {
                     onChange={formik.handleChange}
                   />
                 </div>
-
-                {/* Respon Awal */}
-                <div>
-                  <label>Respon Awal</label>
-                  <Select
+                <div className="py-2">
+                  <label htmlFor="responAwal">Respon Awal</label>
+                  <select
+                    name="perilaku.responAwal"
+                    id="perilaku.responAwal"
+                    className="w-full py-1 border border-gray-300 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+                    onChange={formik.handleChange}
                     value={formik.values.perilaku.responAwal}
-                    onValueChange={(value) =>
-                      formik.setFieldValue("perilaku.responAwal", value)
-                    }
+                    defaultValue={formik.values.perilaku.responAwal}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Pilih Respon Awal" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Cepat">Cepat</SelectItem>
-                      <SelectItem value="Biasa">Biasa</SelectItem>
-                      <SelectItem value="Lambat">Lambat</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <option value="">Pilih Respon Awal</option>
+                    <option value="Cepat">Cepat</option>
+                    <option value="Biasa">Biasa</option>
+                    <option value="Lambat">Lambat</option>
+                  </select>
                 </div>
-
-                {/* Interaksi Favorit */}
-                <div>
-                  <label>Interaksi Favorit</label>
-                  <Select
+                <div className="py-2">
+                  <label htmlFor="interaksi favorit">Interaksi Favorit</label>
+                  <select
+                    name="perilaku.interaksiFavorit"
+                    id="perilaku.interaksiFavorit"
+                    className="w-full py-1 border border-gray-300 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+                    onChange={formik.handleChange}
                     value={formik.values.perilaku.interaksiFavorit}
-                    onValueChange={(value) =>
-                      formik.setFieldValue("perilaku.interaksiFavorit", value)
-                    }
+                    defaultValue={formik.values.perilaku.interaksiFavorit}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Pilih Interaksi" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="WhatsApp">WhatsApp</SelectItem>
-                      <SelectItem value="Kunjungan">Kunjungan</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    <option value="" >Pilih Interaksi Favorit</option>
+                    <option value="Whatsapp">Whatsap</option>
+                    <option value="Kunjungan">Kunjungan</option>
+                  </select>
                 </div>
-                <div className="grid gap-4">
-                  <div>
-                    <label>Sumber</label>
-                    <Select
-                      value={formik.values.lingkungan.sumber}
-                      onValueChange={(value) =>
-                        formik.setFieldValue("lingkungan.sumber", value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Pilih Sumber" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Keluarga">Keluarga</SelectItem>
-                        <SelectItem value="Teman">Teman</SelectItem>
-                        <SelectItem value="Media Sosial">
-                          Media Sosial
-                        </SelectItem>
-                        <SelectItem value="Iklan">Iklan</SelectItem>
-                        <SelectItem value="Komunitas">Komunitas</SelectItem>
-                        <SelectItem value="Marketplace Mobil">
-                          Marketplace Mobil
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+            
+                <div className="py-2">
+                  <label htmlFor="sumber">Sumber</label>
+                  <select
+                    name="lingkungan.sumber"
+                    id="lingkungan.sumber"
+                    className="w-full py-1 border border-gray-300 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+                    onChange={formik.handleChange}
+                    value={formik.values.lingkungan.sumber}
+                    defaultValue={formik.values.lingkungan.sumber}
+                  >
+                    <option value="">Sumber</option>
+                    <option value="Keluarga">Keluarga</option>
+                    <option value="Teman">Teman</option>
+                    <option value="Media Sosial">Media Sosial</option>
+                  </select>
                 </div>
               </div>
             </div>

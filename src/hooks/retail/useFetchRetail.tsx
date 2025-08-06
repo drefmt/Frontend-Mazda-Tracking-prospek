@@ -1,30 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
+import { Retail } from "@/interface/Retail.interface"
 
-interface SalesId {
-  id: string;
-  username: string;
-}
-
-interface ProspekId {
-  _id: string;
-  name: string;
-  whatsappNum: string;
-}
-
-interface SpkId {
-  _id: string;
-  prospekId: ProspekId;
-}
-
-interface Retail {
-  salesId: SalesId;
-  id: string;
-  spkId: SpkId;
-  dateRetail: string;
-  status: string;
-  carType: string;
-}
 
 const fetchRetail = async (): Promise<Retail[]> => {
   const response = await axiosInstance.get("/retail");

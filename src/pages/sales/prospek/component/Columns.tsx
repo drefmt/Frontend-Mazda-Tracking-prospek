@@ -31,9 +31,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export const columns = (
-  handleDelete: (id: string) => void
-): ColumnDef<Prospek>[] => {
+
+export const columns = (handleDelete: (id: string) => void): ColumnDef<Prospek>[] => {
   return [
     {
       header: "No",
@@ -228,12 +227,7 @@ export const columns = (
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(prospekId)}
-              >
-                Copy ID
-              </DropdownMenuItem>
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>              
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => navigate(`${prospekId}/follow-up/`)}

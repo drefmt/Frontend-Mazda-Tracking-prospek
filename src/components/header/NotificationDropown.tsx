@@ -4,7 +4,7 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Trash2 } from "lucide-react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { id } from "date-fns/locale/id";
 
@@ -117,7 +117,7 @@ export default function NotificationDropdown() {
           {data?.map((notif, index) => (
             <li
               key={index}
-              onClick={() => handleReadAndNavigate(notif._id, notif.link)}
+              onClick={() => handleReadAndNavigate(notif.id, notif.link)}
             >
               <DropdownItem
                 onItemClick={closeDropdown}
@@ -155,7 +155,7 @@ export default function NotificationDropdown() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation(); // agar tidak trigger navigate
-                    deleteNotification(notif._id);
+                    deleteNotification(notif.id);
                   }}
                   className="text-gray-400 hover:text-red-600"
                   title="Hapus Notifikasi"
@@ -166,13 +166,6 @@ export default function NotificationDropdown() {
             </li>
           ))}
         </ul>
-
-        <Link
-          to=""
-          className="block px-4 py-2 mt-3 text-sm font-medium text-center text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-        >
-          View All Notifications
-        </Link>
       </Dropdown>
     </div>
   );

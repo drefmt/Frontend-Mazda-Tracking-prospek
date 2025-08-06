@@ -16,6 +16,13 @@ export interface TestDrive {
   id: string;
 }
 
+export interface TestDriveDataRequest {
+    prospekId: string;
+    salesId: string;
+    dateTestDrive: string;
+    carType: string;    
+}
+
 export interface TestDriveReport {
   count: number;
   period: string;
