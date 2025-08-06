@@ -20,7 +20,7 @@ const ViewDetails = () => {
   if (!data) return <p>Data tidak ditemukan</p>;
 
   return (
-    <Card>
+    <Card className="mt-4">
       <CardHeader>
         <CardTitle className="text-lg">Detail SPK</CardTitle>
         <CardDescription>Informasi lengkap SPK</CardDescription>
@@ -56,7 +56,7 @@ const ViewDetails = () => {
           <p>:{data?.prospekId?.whatsappNum ?? "Data tidak tersedia"}</p>
           <p>:Rp {new Intl.NumberFormat('id-ID').format(data.downPayment)}</p>
           <p>:{data.leasing}</p>
-          <p>:{data.tenor}</p>
+          <p>:{data.tenor || " -"}</p>
           :<span >
           {data?.prospekId?.carType}
           </span>

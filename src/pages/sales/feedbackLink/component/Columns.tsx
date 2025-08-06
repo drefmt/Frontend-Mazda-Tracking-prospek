@@ -10,28 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Star } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
+import { FeedbackLink } from "@/interface/feedback.interface";
 
-export interface FeedbackLink {
-  id: string;
-  token: string;
-  used: boolean;
-  expiredAt: string;
-  createdAt: string;
-  retailId: {
-    carType: string;
-    spkId: {
-      prospekId: {
-        name: string;
-      };
-    };
-  };
-  feedbackId?: {
-    rating: number;
-    message: string;
-    customerName: string;
-    submittedAt: string;
-  };
-}
 
 export const columns = (
   handleDelete: (id: string) => void

@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useCreateFollowUp } from "@/hooks/follow-up/useCreateFollowUp";
 import { useEditFollowUp } from "@/hooks/follow-up/useEditFollowUp";
 import { useFetchFollowUpById } from "@/hooks/follow-up/useFetchFollowUpById";
 import { Interaction } from "@/types/interaction.type";
+import toast from "react-hot-toast";
 
 
 
@@ -26,15 +28,14 @@ const FollowUpSchema = Yup.object().shape({
   interaction: Yup.string().required("interaksi wajib di isi"),
   note: Yup.string(),
   customerResponse: Yup.string().required("Respon customer wajib diisi"),
+  recommendation: Yup.string().required("Rekomendasi Prospek wajib diisi"),
 });
 
 const FollowUpForm = () => {
-  const navigate = useNavigate();
   const { id, followUpId } = useParams<{ id: string; followUpId: string }>();
   const prospekId = id || ""; 
   const { data: followUpData } = useFetchFollowUpById(prospekId, followUpId);
 
-  const isEditMode = Boolean(followUpId); 
 
   const createMutation = useCreateFollowUp();
   const updateMutation = useEditFollowUp();
@@ -60,9 +61,10 @@ const FollowUpForm = () => {
         } else {
           await createMutation.mutateAsync({ id: prospekId, followUp: values });
         }
-        navigate(`/svp/prospek/detail/${prospekId}`);
+        toast.success('Berhasil Memberi Rekomendasi Kepada Sales')
       } catch (error) {
         console.error("Failed to submit follow-up:", error);
+        toast.success('Failed to submit follow-up')
       }
     },
   });
@@ -85,7 +87,7 @@ const FollowUpForm = () => {
   return (
     <form className="space-y-4 p-4" onSubmit={formik.handleSubmit}>
       <div>
-        <h1 className="text-lg font-semibold">{isEditMode ? "Edit" : "Tambah"} Follow-Up</h1>
+        <h1 className="text-lg font-semibold">Rekomendation Follow-Up</h1>
         <p className="text-gray-500 pb-4">Isi form berikut sesuai kebutuhan.</p>
         <Link to={`/svp/prospek/detail/${prospekId}`}>
           <button type="button" className="py-1 px-4 border border-black text-black rounded-md">
@@ -94,44 +96,6 @@ const FollowUpForm = () => {
         </Link>
       </div>
       <hr className="border-gray-300" />
-
-      {/* <label className="text-lg">Tanggal Follow-Up</label>
-      <Input
-        type="date"
-        name="followUpDate"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.followUpDate}
-      />
-      {formik.touched.followUpDate && formik.errors.followUpDate && (
-        <p className="text-red-500">{formik.errors.followUpDate}</p>
-      )}
-
-      <label className="text-lg">Sales Proses</label>
-      <Input
-        type="text"
-        name="salesProses"
-        placeholder="Masukkan Sales Proses"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.salesProces}
-      />
-      {formik.touched.salesProces && formik.errors.salesProces && (
-        <p className="text-red-500">{formik.errors.salesProces}</p>
-      )}
-
-      <label className="text-lg">Customer Response</label>
-      <Textarea
-        name="customerResponse"
-        placeholder="Masukkan respon customer"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.customerResponse}
-      />
-      {formik.touched.customerResponse && formik.errors.customerResponse && (
-        <p className="text-red-500">{formik.errors.customerResponse}</p>
-      )} */}
-
       <label className="text-lg">Rekomendasi Dari Manager/SPV</label>
       <Textarea
         name="recommendation"
@@ -149,7 +113,7 @@ const FollowUpForm = () => {
         className="py-1 w-full bg-black text-white rounded-md disabled:opacity-50"
        
       >
-        {isEditMode ? "Update" : "Submit"}
+        Submit
       </button>
     </form>
   );

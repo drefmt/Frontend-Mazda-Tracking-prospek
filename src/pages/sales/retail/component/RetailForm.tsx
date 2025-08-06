@@ -68,7 +68,7 @@ const RetailForm = () => {
 
       if (retail) {
         formik.setValues({
-          spkId: retail.spkId?._id || "",
+          spkId: retail.spkId?.id || "",
           dateRetail: retail.dateRetail ? format(new Date(retail.dateRetail), "yyyy-MM-dd") : "",          
           carType: retail.carType || "",
         });

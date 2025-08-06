@@ -3,29 +3,48 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import { NumericFormat } from "react-number-format";
 
 import * as Yup from "yup";
 
+// ********** Custom Hook **********
 import { useCreateSpk } from "@/hooks/spk/useCreateSpk";
 import { useEditSpk } from "@/hooks/spk/useEditSpk";
-import { useEffect } from "react";
-import { useFetchSpk } from "@/hooks/spk/useFetchSpk";
-import { useFetchAvailableForSpk } from "@/hooks/prospek/useAvailableForSpk";
+import { useFetchSpkById } from "@/hooks/spk/useSpkById";
+// import { useFetchAvailableForSpk } from "@/hooks/prospek/useAvailableForSpk";
+import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
+
 import toast from "react-hot-toast";
+import React from "react";
 
 const SpkForm = () => {
   const { id } = useParams();
-  const { data: prospekData, isLoading: loadingProspek } =
-    useFetchAvailableForSpk();
-  const { data: spkData } = useFetchSpk();
+  const { data: allProspek, isLoading: loadingProspek } = useFetchProspek();
+  const { data: spkData } = useFetchSpkById(id);
   const editSpk = useEditSpk();
   const createSpk = useCreateSpk();
-  const navigate = useNavigate();
 
-  const formik = useFormik({
-    initialValues: {
+  const isEditMode = Boolean(id);
+  const prospekData = isEditMode
+    ? allProspek
+    : allProspek?.filter((p) => p.status !== "SPK");
+
+  const initialValues = React.useMemo(() => {
+    if (isEditMode && spkData) {
+      return {
+        prospekId: spkData.prospekId?.id ??  "",
+        dateSpk: spkData.dateSpk
+          ? new Date(spkData.dateSpk).toISOString().split("T")[0]
+          : "",
+        noKtp: spkData.noKtp ?? "",
+        cashOrCredit: spkData.cashOrCredit ?? "Cash",
+        downPayment: spkData.downPayment ?? 0,
+        tenor: spkData.tenor ?? "",
+        leasing: spkData.leasing ?? "",
+        status: spkData.status ?? "Process Do",
+      };
+    }
+    return {
       prospekId: "",
       dateSpk: "",
       noKtp: "",
@@ -34,15 +53,21 @@ const SpkForm = () => {
       tenor: "",
       leasing: "",
       status: "Process Do",
-    },
+    };
+  }, [spkData, isEditMode]);
 
+  const formik = useFormik({
+    initialValues,
     enableReinitialize: true,
     validationSchema: Yup.object({
       prospekId: Yup.string().required("Prospek wajib dipilih"),
       dateSpk: Yup.string().required("Tanggal SPK wajib diisi"),
       noKtp: Yup.string()
         .required("No KTP wajib diisi")
-        .typeError("No KTP harus berupa angka"),
+        .typeError("No KTP harus berupa angka")
+        .matches(/^\d+$/, "No KTP harus berupa angka")
+        .max(16, "No KTP maksimal 16 digit")
+        .min(16, "No KTP harus 16 digit"),
       leasing: Yup.string().required("Leasing wajib diisi"),
       status: Yup.string().required(
         "Status terdiri dari Process Do dan Cancel"
@@ -51,57 +76,31 @@ const SpkForm = () => {
 
     onSubmit: async (values, { resetForm }) => {
       try {
-        const spkData = {
-          ...values,
-          noKtp: values.noKtp,
-        };
-        console.log(spkData);
-        if (id) {
-          await editSpk.mutateAsync({
-            id,
-            spkData: { ...spkData, prospekId: values.prospekId },
-          });
+        if (id && spkData) {
+          await editSpk.mutateAsync({ id, spkData: values });
         } else {
-          await createSpk.mutateAsync({
-            ...spkData,
-            prospekId: values.prospekId,
-          });
+          const payload = { ...values };
+          await createSpk.mutateAsync(payload);
         }
-        toast.success(id ? "SPK berhasil diperbarui" : "SPK berhasil di tambahkan")
+        toast.success(
+          id ? "SPK berhasil diperbarui" : "SPK berhasil di tambahkan"
+        );
         resetForm();
-        navigate("/sales/spk");
       } catch (error) {
         toast.error("Gagal menambahkan SPK");
         console.log("failed to submit PSK", error);
-        
       }
     },
   });
 
-  useEffect(() => {
-    if (id && spkData) {
-      const spk = spkData.find(
-        (parameter: { id: string }) => parameter.id === id
-      );
+  console.log("spkData.prospekId.id =>", spkData?.prospekId?.id);
+  console.log("formik.values.prospekId =>", formik.values.prospekId);
+  console.log("prospekData IDs =>",prospekData?.map((p) => p.id)
+  );
 
-      if (spk) {
-        const formattedDateSpk = spk.dateSpk
-          ? new Date(spk.dateSpk).toISOString().split("T")[0]
-          : "";
-        formik.setValues({
-          prospekId: spk.prospekId._id || "",
-          dateSpk: formattedDateSpk || "",
-          noKtp: spk.noKtp || "",
-          cashOrCredit: spk.cashOrCredit || "Cash",
-          downPayment: spk.downPayment || 0,
-          tenor: spk.tenor || "",
-          leasing: spk.leasing || "",
-          status: spk.status || "",
-        });
-      }
-    }
-  }, [id, spkData]);
-
+  if ((isEditMode && !spkData) || loadingProspek) {
+    return <p>Loading...</p>;
+  }
   return (
     <div>
       <div className="p-4 my-4 rounded-md border border-gray-300 shadow-sm h-full mb-10 dark:border-gray-800 dark:text-white">

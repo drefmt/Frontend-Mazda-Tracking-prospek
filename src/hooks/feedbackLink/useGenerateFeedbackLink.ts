@@ -1,8 +1,8 @@
-// src/hooks/feedback/useGenerateFeedbackLink.ts
+
 import { axiosInstance } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-// Tipe data input, jika hanya butuh retailId:
+
 interface GenerateFeedbackLinkPayload {
   retailId: string;
 }

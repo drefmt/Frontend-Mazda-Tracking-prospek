@@ -147,14 +147,8 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<Spk>[] =>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(spkId)}
-            >
-              Copy ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate(`${spkId}/follow-up/`)}>Follow-Up</DropdownMenuItem>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>            
+            <DropdownMenuSeparator />            
             <DropdownMenuItem onClick={() => navigate(`edit/${spkId}`)}>Edit</DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleDelete(spkId)}>Delete</DropdownMenuItem>
           </DropdownMenuContent>

@@ -18,15 +18,14 @@ const TestDriveForm = () => {
   const { id } = useParams();
   const { data: prospekData, isLoading: loadingProspek } = useFetchProspek();
   const { data: testDriveData } = useFetchTestDrive();
-  
+
   const editTestDrive = useEditTestDrive();
   const createTestDrive = useCreateTestDrive();
   // const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
-      prospekId: "",
-      salesId: "",
+      prospekId: "",      
       dateTestDrive: "",
       carType: "",
     },
@@ -39,36 +38,49 @@ const TestDriveForm = () => {
 
     onSubmit: async (values, { resetForm }) => {
       try {
-        const testDriveData = { 
-          ...values, 
-          prospekId: values.prospekId, 
+        const testDriveData = {
+          ...values,
+          prospekId: values.prospekId,
         };
+      
+
         if (id) {
-          await editTestDrive.mutateAsync({ id, testDriveData: { ...testDriveData, prospekId: values.prospekId } });
+          await editTestDrive.mutateAsync({
+            id,
+            testDriveData: { ...testDriveData, prospekId: values.prospekId },
+          });
         } else {
-          await createTestDrive.mutateAsync({ ...testDriveData, prospekId: values.prospekId });
+          await createTestDrive.mutateAsync({
+            ...testDriveData,
+            prospekId: values.prospekId,
+          });
         }
-          toast.success(
-          id ? "Test-Drive berhasil diperbarui." : "Test-Drive berhasil ditambahkan"
+        toast.success(
+          id
+            ? "Test-Drive berhasil diperbarui."
+            : "Test-Drive berhasil ditambahkan"
         );
         resetForm();
       } catch (error) {
-        toast.error('Terjadi kesalahan saat mengirim test drive')
+        toast.error("Terjadi kesalahan saat mengirim test drive");
         console.error(error);
       }
     },
   });
-  
+
   // navigate("/sales/test-drive");
   useEffect(() => {
     if (id && testDriveData) {
-      const testDrive = testDriveData.find((parameter: { id: string }) => parameter.id === id);
-      if (testDrive) {      
+      const testDrive = testDriveData.find(
+        (parameter: { id: string }) => parameter.id === id
+      );
+      if (testDrive) {
         formik.setValues({
-          prospekId: testDrive.prospekId?._id || "",
-          salesId: testDrive.salesId?._id|| "",
-          dateTestDrive: testDrive.dateTestDrive ? format(new Date(testDrive.dateTestDrive), "yyyy-MM-dd") : "",          
-          carType: testDrive.carType|| "",
+          prospekId: testDrive.prospekId?.id || "",          
+          dateTestDrive: testDrive.dateTestDrive
+            ? format(new Date(testDrive.dateTestDrive), "yyyy-MM-dd")
+            : "",
+          carType: testDrive.carType || "",
         });
       }
     }
@@ -77,7 +89,9 @@ const TestDriveForm = () => {
   return (
     <>
       <div className="mt-4 p-4 rounded-md border border-gray-300 shadow-sm h-full dark:text-white dark:border-gray-800">
-        <h1 className="text-3xl pb-4">{id ? "Edit Test Drive" : "Add New Test Drive"}</h1>
+        <h1 className="text-3xl pb-4">
+          {id ? "Edit Test Drive" : "Add New Test Drive"}
+        </h1>
         <form className="h-full justify-between" onSubmit={formik.handleSubmit}>
           <div className="flex justify-between pb-4">
             <Link to="/sales/test-drive">
@@ -85,8 +99,11 @@ const TestDriveForm = () => {
                 Back
               </Button>
             </Link>
-            <Button type="submit" className="bg-black hover:bg-black/90" disabled={formik.isSubmitting}>
-              
+            <Button
+              type="submit"
+              className="bg-black hover:bg-black/90"
+              disabled={formik.isSubmitting}
+            >
               {formik.isSubmitting ? "Loading..." : "Submit"}
             </Button>
           </div>
@@ -99,7 +116,9 @@ const TestDriveForm = () => {
               onChange={formik.handleChange}
               value={formik.values.prospekId}
             >
-              <option value="" className="rounded-xl">Pilih Nama Prospek</option>
+              <option value="" className="rounded-xl">
+                Pilih Nama Prospek
+              </option>
               {loadingProspek ? (
                 <option>Loading...</option>
               ) : (

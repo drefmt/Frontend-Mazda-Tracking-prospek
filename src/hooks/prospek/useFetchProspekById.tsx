@@ -14,10 +14,10 @@ const fetchProspekById = async(id: string): Promise<Prospek> => {
     
 }
 
-export const useFetchProspekById = (id: string) => {
+export const useFetchProspekById = (id?: string) => {
     return useQuery<Prospek, Error>({
         queryKey: ['prospek', id],
-        queryFn: () => fetchProspekById(id),
+        queryFn: () => fetchProspekById(id!),
         enabled: !!id,
         retry: 1
     })

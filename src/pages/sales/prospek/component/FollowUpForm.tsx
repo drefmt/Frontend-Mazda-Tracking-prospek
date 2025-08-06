@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormik } from "formik";
@@ -65,7 +66,7 @@ const FollowUpForm = () => {
           await createMutation.mutateAsync({ id: prospekId, followUp: values });
         }
         formik.resetForm();
-        toast.success("Follow-up updated successfully!");
+        toast.success(followUpId ? "Follow-up Updated successfully!" : "Follow-up Created Succesfully");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (axios.isAxiosError(error)) {

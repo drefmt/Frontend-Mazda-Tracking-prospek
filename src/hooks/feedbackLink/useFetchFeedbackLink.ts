@@ -4,23 +4,8 @@
 
 import { axiosInstance  } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-// import { Activity } from "@/interface/activity.interface";
+import { FeedbackLink } from "@/interface/feedback.interface";
 
-export interface FeedbackLink {
-  id: string;
-  token: string;
-  used: boolean;
-  expiredAt: string;
-  createdAt: string;
-  retailId: {
-    carType: string;
-    spkId: {
-      prospekId: {
-        name: string;
-      };
-    };
-  };
-}
 
 const fetchFeedbackLink = async(): Promise<FeedbackLink[]> => {
     const response = await axiosInstance.get('/feedback');

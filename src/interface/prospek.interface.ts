@@ -1,6 +1,5 @@
 import { FollowUp } from "./followUp.interface";
 import { SalesId } from "@/types/salesId.type";
-import { BaseProspek } from "./base-prospek.interface";
 import {
   Demografi,
   Psikografis,
@@ -8,10 +7,19 @@ import {
   Lingkungan,
 } from "@/types/predictScore.type";
 
+export interface BaseProspek {
+    name: string;
+    date: string;
+    whatsappNum: string;
+    address: string;
+    source: string;
+    carType: string;
+    status: string;
+  }
+
 export interface Prospek extends BaseProspek {
   id: string;
-  salesId: SalesId;
-  // category: string;
+  salesId: SalesId;  
   followUps: FollowUp[];
   followUpCount: number;
   createdAt: string;
@@ -34,14 +42,14 @@ export interface ProspekFormValue {
   source: string;
   status: string;
   carType: string;
-  // category: string;
+  
   demografi: {
     usia: number;
     pekerjaan: string;
     penghasilan: number;
   };
   psikografis: {
-    minat: string[]; // <--- ini harus string[]
+    minat: string[]; 
     gayaHidup: string;
     motivasi: string;
   };
