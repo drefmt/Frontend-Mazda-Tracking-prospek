@@ -13,6 +13,7 @@ import { copyToClipboard } from "@/utils/copyToClipboard";
 import { FeedbackLink } from "@/interface/feedback.interface";
 
 
+
 export const columns = (
   handleDelete: (id: string) => void
 ): ColumnDef<FeedbackLink>[] => {

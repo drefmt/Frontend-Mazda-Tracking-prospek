@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
+
 import { NumericFormat } from "react-number-format";
 
 import * as Yup from "yup";
@@ -11,7 +12,6 @@ import * as Yup from "yup";
 import { useCreateSpk } from "@/hooks/spk/useCreateSpk";
 import { useEditSpk } from "@/hooks/spk/useEditSpk";
 import { useFetchSpkById } from "@/hooks/spk/useSpkById";
-// import { useFetchAvailableForSpk } from "@/hooks/prospek/useAvailableForSpk";
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 
 import toast from "react-hot-toast";
@@ -21,8 +21,10 @@ const SpkForm = () => {
   const { id } = useParams();
   const { data: allProspek, isLoading: loadingProspek } = useFetchProspek();
   const { data: spkData } = useFetchSpkById(id);
+
   const editSpk = useEditSpk();
   const createSpk = useCreateSpk();
+
 
   const isEditMode = Boolean(id);
   const prospekData = isEditMode
@@ -68,6 +70,7 @@ const SpkForm = () => {
         .matches(/^\d+$/, "No KTP harus berupa angka")
         .max(16, "No KTP maksimal 16 digit")
         .min(16, "No KTP harus 16 digit"),
+
       leasing: Yup.string().required("Leasing wajib diisi"),
       status: Yup.string().required(
         "Status terdiri dari Process Do dan Cancel"
@@ -95,8 +98,8 @@ const SpkForm = () => {
 
   console.log("spkData.prospekId.id =>", spkData?.prospekId?.id);
   console.log("formik.values.prospekId =>", formik.values.prospekId);
-  console.log("prospekData IDs =>",prospekData?.map((p) => p.id)
-  );
+  console.log("prospekData IDs =>",prospekData?.map((p) => p.id));
+
 
   if ((isEditMode && !spkData) || loadingProspek) {
     return <p>Loading...</p>;

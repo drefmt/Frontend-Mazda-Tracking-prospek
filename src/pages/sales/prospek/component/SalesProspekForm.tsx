@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { useCreateProspek } from "@/hooks/prospek/useCreateProspek";
 import { useEditProspek } from "@/hooks/prospek/useEditProspek";
 import { useFetchProspekById } from "@/hooks/prospek/useFetchProspekById";
+
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { X } from "lucide-react";
@@ -23,9 +24,11 @@ import { NumericFormat } from "react-number-format";
 import toast from "react-hot-toast";
 
 const SalesProspekForm = () => {
+
   const { id } = useParams<{ id: string }>();
   const [minatInput, setMinatInput] = useState("");
   const { data: prospekData } = useFetchProspekById(id);
+
   const createProspek = useCreateProspek();
   const editProspek = useEditProspek();
 
@@ -62,7 +65,7 @@ const SalesProspekForm = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         if (id) {
-          await editProspek.mutateAsync({ id, prospekData: values });
+          await editProspek.mutateAsync({ id, prospekData: values });          
         } else {
           await createProspek.mutateAsync(values);
         }
@@ -246,6 +249,24 @@ const SalesProspekForm = () => {
               onChange={formik.handleChange}
             />
           </div>
+          <Card className="p-4">
+            <div>
+              <h1>Demografis</h1>
+              {/* === Input Usia === */}
+              <div className="space-y-2">
+                <label htmlFor="demografi.usia" className="text-sm font-medium">
+                  Usia
+                </label>
+                <Input
+                  type="number"
+                  id="demografi.usia"
+                  name="demografi.usia"
+                  value={formik.values.demografi.usia}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+
 
           <Card className="p-4">
             <div>
@@ -286,6 +307,7 @@ const SalesProspekForm = () => {
                 </select>
               </div>
               <div className="py-2">
+
                 <label
                   htmlFor="demografi.penghasilan"
                   className="text-sm font-medium"
@@ -311,6 +333,7 @@ const SalesProspekForm = () => {
               </div>
             </div>
             <div>
+
               <div className="py-2">
                 <label
                   htmlFor="psikografis.gayaHidup"
@@ -318,6 +341,7 @@ const SalesProspekForm = () => {
                 >
                   Gaya Hidup
                 </label>
+
 
                 <select
                   name="psikografis.gayaHidup"
@@ -341,6 +365,7 @@ const SalesProspekForm = () => {
                 </select>
               </div>
               <div className="py-2">
+
                 <label
                   htmlFor="psikografis.motivasi"
                   className="text-sm font-medium"
@@ -406,8 +431,10 @@ const SalesProspekForm = () => {
                 </div>
               </div>
             </div>
+
             <div>
               <div className="grid gap-4">
+
                 <div>
                   <label>Frekuensi Kontak</label>
                   <Input
