@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
+
 import { NumericFormat } from "react-number-format";
 
 import * as Yup from "yup";
@@ -20,6 +21,7 @@ const SpkForm = () => {
   const { id } = useParams();
   const { data: allProspek, isLoading: loadingProspek } = useFetchProspek();
   const { data: spkData } = useFetchSpkById(id);
+
   const editSpk = useEditSpk();
   const createSpk = useCreateSpk();
 
@@ -94,8 +96,10 @@ const SpkForm = () => {
 
   console.log("spkData.prospekId.id =>", spkData?.prospekId?.id);
   console.log("formik.values.prospekId =>", formik.values.prospekId);
+
   console.log("prospekData IDs =>",prospekData?.map((p) => p.id)
   );
+
 
   if ((isEditMode && !spkData) || loadingProspek) {
     return <p>Loading...</p>;

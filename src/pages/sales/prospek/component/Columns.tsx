@@ -31,6 +31,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+
 export const columns = (handleDelete: (id: string) => void): ColumnDef<Prospek>[] => {
   return [
     {

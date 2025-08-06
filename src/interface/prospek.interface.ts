@@ -1,11 +1,13 @@
 import { FollowUp } from "./followUp.interface";
 import { SalesId } from "@/types/salesId.type";
+
 import {
   Demografi,
   Psikografis,
   Perilaku,
   Lingkungan,
 } from "@/types/predictScore.type";
+
 
 export interface BaseProspek {
     name: string;
@@ -42,7 +44,6 @@ export interface ProspekFormValue {
   source: string;
   status: string;
   carType: string;
-  
   demografi: {
     usia: number;
     pekerjaan: string;

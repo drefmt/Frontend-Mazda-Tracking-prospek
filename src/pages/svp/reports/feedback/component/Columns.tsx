@@ -1,9 +1,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { FeedbackReportItem } from "@/interface/feedback.interface";
-
 export const columns: ColumnDef<FeedbackReportItem>[] = [
-  
     {
       header: "No",
       cell: ({ row }) => <span>{row.index + 1}</span>,
@@ -20,6 +18,7 @@ export const columns: ColumnDef<FeedbackReportItem>[] = [
     filterFn: "includesString",
   },
  
+
     {
       accessorKey: "retailId.carType",
       header: "Tipe Mobil",

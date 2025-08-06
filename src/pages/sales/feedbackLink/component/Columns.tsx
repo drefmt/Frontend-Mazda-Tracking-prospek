@@ -13,6 +13,7 @@ import { copyToClipboard } from "@/utils/copyToClipboard";
 import { FeedbackLink } from "@/interface/feedback.interface";
 
 
+
 export const columns = (
   handleDelete: (id: string) => void
 ): ColumnDef<FeedbackLink>[] => {
@@ -65,7 +66,6 @@ export const columns = (
         const rating = row.original.feedbackId?.rating;
 
         if (!rating) return "-";
-
         return (
           <div className="flex items-center gap-1 text-yellow-500">
             {[...Array(5)].map((_, i) => (
