@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-// import { useNavigate } from "react-router-dom";
+
 
 import * as Yup from "yup";
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";

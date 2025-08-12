@@ -21,35 +21,26 @@ export const handleExportPDF = (report: TestDriveReport) => {
   const gray900: [number, number, number] = [17, 24, 39];
   const gray600: [number, number, number] = [75, 85, 99];
 
-    //   Header
-    const startY = renderPdfHeader(doc, {
+  //   Header
+  const startY = renderPdfHeader(doc, {
     title: "Prospek Summary",
     period,
     count,
     generatedBy,
   });
 
-
-//   Table
-autoTable(doc, {
+  //   Table
+  autoTable(doc, {
     // Header
     startY,
-    head: [
-        [
-            "No",
-            "sales Name",
-            "prospek Name",
-            "Date TestDrive",
-            "Car Type"
-        ],
-    ],
+    head: [["No", "sales Name", "prospek Name", "Date TestDrive", "Car Type"]],
     // Body
     body: data.map((row, index) => [
-        index + 1,
-        row.salesId?.username ?? "-",
-        row.prospekId.name,
-        formatDate(row.dateTestDrive),
-        row.carType,
+      index + 1,
+      row.salesId?.username ?? "-",
+      row.prospekId.name,
+      formatDate(row.dateTestDrive),
+      row.carType,
     ]),
 
     // Style
@@ -58,7 +49,7 @@ autoTable(doc, {
       fontSize: 11,
       textColor: gray900,
       lineColor: gray600,
-      lineWidth: 0.01,      
+      lineWidth: 0.01,
       halign: "left",
       valign: "middle",
     },
@@ -71,14 +62,14 @@ autoTable(doc, {
       fillColor: [245, 245, 245],
     },
     tableLineColor: gray900,
-})
+  });
 
-const finalY = doc.lastAutoTable?.finalY || 6;
-    // Footer
-    renderPdfFooter(doc, {
-        finalY,
-        generatedBy,
-    });
-    const pdfUrl = doc.output('bloburi');
-    window.open(pdfUrl)
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  // Footer
+  renderPdfFooter(doc, {
+    finalY,
+    generatedBy,
+  });
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

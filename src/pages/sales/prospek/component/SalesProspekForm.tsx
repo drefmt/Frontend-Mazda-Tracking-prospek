@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card } from "@/components/ui/card";
+// import { Card } from "@/components/ui/card";
 import { ProspekFormValue } from "@/interface/prospek.interface";
 import { NumericFormat } from "react-number-format";
 import toast from "react-hot-toast";
@@ -62,7 +62,7 @@ const SalesProspekForm = () => {
     onSubmit: async (values, { resetForm }) => {
       try {
         if (id) {
-          await editProspek.mutateAsync({ id, prospekData: values });
+          await editProspek.mutateAsync({ id, prospekData: values });          
         } else {
           await createProspek.mutateAsync(values);
         }
@@ -246,8 +246,180 @@ const SalesProspekForm = () => {
               onChange={formik.handleChange}
             />
           </div>
-
-          <Card className="p-4">
+          
+            <div>
+              {/* === Input Usia === */}
+              <div className="space-y-2">
+                <label htmlFor="demografi.usia" className="text-sm font-medium">
+                  Usia
+                </label>
+                <Input
+                  type="number"
+                  id="demografi.usia"
+                  name="demografi.usia"
+                  value={formik.values.demografi.usia}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              </div>               
+            <div>
+              <div className="py-2">
+                <label htmlFor="demografi.usia" className="text-sm font-medium">
+                  Usia
+                </label>
+                <Input
+                  type="number"
+                  id="demografi.usia"
+                  name="demografi.usia"
+                  value={formik.values.demografi.usia}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="py-2">
+                <label
+                  htmlFor="demografi.pekerjaan"
+                  className="text-sm font-medium"
+                />
+                Pekerjaan
+                <select
+                  className="w-full py-1 border border-gray-300 dark:border-gray-800 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+                  name="demografi.pekerjaan"
+                  id="demografi.pekerjaan"
+                  onChange={formik.handleChange}
+                  value={formik.values.demografi.pekerjaan}
+                  defaultValue={formik.values.demografi.pekerjaan}
+                >
+                  <option value="">Pekerjaan</option>
+                  <option value="pengusaha">Pengusaha</option>
+                  <option value="PNS">PNS</option>
+                  <option value="Karyawan Swasta">Karyawan Swasta</option>
+                  <option value="Freelancer">Freelancer</option>
+                  <option value="Mahasiswa">Mahasiswa</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+              <div className="py-2">
+                <label
+                  htmlFor="demografi.penghasilan"
+                  className="text-sm font-medium"
+                >
+                  Penghasilan
+                </label>
+                <NumericFormat
+                  id="demografi.penghasilan"
+                  name="demografi.penghasilan"
+                  thousandSeparator="."
+                  decimalSeparator=","
+                  prefix="Rp "
+                  allowNegative={false}
+                  customInput={Input} // dari ShadCN
+                  value={formik.values.demografi.penghasilan}
+                  onValueChange={(values) => {
+                    formik.setFieldValue(
+                      "demografi.penghasilan",
+                      values.floatValue || 0
+                    );
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="py-2">
+                <label
+                  htmlFor="psikografis.gayaHidup"
+                  className="text-sm font-medium"
+                >
+                  Gaya Hidup
+                </label>
+                <select
+                  name="psikografis.gayaHidup"
+                  id="psikografis.gayaHidup"
+                  className="w-full py-1 border border-gray-300 dark:border-gray-800 rounded-md focus:border-1 focus:border-black focus:ring-3 focus:ring-gray-400"
+                  onChange={formik.handleChange}
+                  value={formik.values.psikografis.gayaHidup}
+                  defaultValue={formik.values.psikografis.gayaHidup}
+                >
+                  <option value="">Gaya Hidup</option>
+                  <option value="Modern">Modern</option>
+                  <option value="Aktif">Aktif</option>
+                  <option value="Keluarga">Keluarga</option>
+                  <option value="Karier">Karier</option>
+                  <option value="Minimalis">Minimalis</option>
+                  <option value="Trendi">trendi</option>
+                  <option value="Pencari Keamanan">Pencari Keamanan</option>
+                  <option value="Pencinta Teknologi">Pecinta Teknologi</option>
+                  <option value="Hobi Outdoor">Hobi Outdoor</option>
+                  <option value="Mobilitas Tinggi">Mobilitas Tinggi</option>
+                </select>
+              </div>
+              <div className="py-2">
+                <label
+                  htmlFor="psikografis.motivasi"
+                  className="text-sm font-medium"
+                >
+                  Motivasi
+                </label>
+                <Select
+                  name="psikografis.motivasi"
+                  value={formik.values.psikografis.motivasi}
+                  onValueChange={(value) =>
+                    formik.setFieldValue("psikografis.motivasi", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih motivasi utama" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Gengsi">Gengsi</SelectItem>
+                    <SelectItem value="Kebutuhan Keluarga">
+                      Kebutuhan Keluarga
+                    </SelectItem>
+                    <SelectItem value="Efisiensi BBM">Efisiensi BBM</SelectItem>
+                    <SelectItem value="Keamanan">Keamanan</SelectItem>
+                    <SelectItem value="Promo">Promo</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Minat</label>
+                <div className="flex flex-wrap gap-2">
+                  {formik.values.psikografis.minat.map((tag, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center bg-slate-100 px-3 py-1 rounded-full text-sm"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => removeMinat(index)}
+                        className="ml-2 text-red-500"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    value={minatInput}
+                    onChange={(e) => setMinatInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addMinat();
+                      }
+                    }}
+                    placeholder="Tambah minat lalu tekan Enter"
+                  />
+                  <Button type="button" onClick={addMinat}>
+                    Tambah
+                  </Button>
+                </div>
+              </div>          
             <div>
               <div className="py-2">
                 <label htmlFor="demografi.usia" className="text-sm font-medium">
@@ -377,13 +549,13 @@ const SalesProspekForm = () => {
                       className="flex items-center bg-slate-100 px-3 py-1 rounded-full text-sm"
                     >
                       {tag}
-                      <button
-                        type="button"
-                        onClick={() => removeMinat(index)}
-                        className="ml-2 text-red-500"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => removeMinat(index)}
+                          className="ml-2 text-red-500"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
                     </div>
                   ))}
                 </div>
@@ -466,11 +638,10 @@ const SalesProspekForm = () => {
                   </select>
                 </div>
               </div>
-            </div>
-          </Card>
-        </form>
-      </div>
+            </div>          
+      </form>
     </div>
+  </div>
   );
 };
 

@@ -29,7 +29,6 @@ export interface FeedbackReportItem {
   feedbackId: Feedback;
 }
 
-
 export interface FeedbackLink {
   id: string;
   token: string;
@@ -40,7 +39,7 @@ export interface FeedbackLink {
   feedbackId?: {
     rating: number;
     message: string;
-    customerName: string; 
+    customerName: string;
   };
 }
 export interface SummaryFeedbackReport {

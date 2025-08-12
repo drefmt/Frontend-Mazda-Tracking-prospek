@@ -1,1 +1,6 @@
-export type Interaction = 'Telepon' | 'WhatsApp' | 'Email' | 'Kunjungan' | 'Lainnya';
+export type Interaction =
+  | "Telepon"
+  | "WhatsApp"
+  | "Email"
+  | "Kunjungan"
+  | "Lainnya";

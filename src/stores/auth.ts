@@ -3,7 +3,7 @@ import { create } from "zustand";
 type User = {
   id: string;
   username: string;
-  level: "sales" | "svp";  
+  level: "sales" | "svp";
 } | null;
 
 type AuthStore = {
@@ -44,14 +44,19 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ user, token });
     }
   },
-  
+
   logout: () => {
     sessionStorage.clear();
     set({ user: null, token: null });
   },
 }));
 
-export const handleLoginResponse = (response: { message: string; username: string; token: string; user: { id: string; level: "sales" | "svp"; username: string } }) => {
+export const handleLoginResponse = (response: {
+  message: string;
+  username: string;
+  token: string;
+  user: { id: string; level: "sales" | "svp"; username: string };
+}) => {
   const { username, user, token } = response;
   const userData = { id: user.id, level: user.level, username };
   useAuthStore.getState().setUser(userData, token);

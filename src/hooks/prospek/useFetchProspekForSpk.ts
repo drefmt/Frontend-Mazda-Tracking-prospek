@@ -9,6 +9,8 @@ export const useProspekForSpk = (isEditMode: boolean) => {
   // Pilih data & loading sesuai mode
   return {
     prospekData: isEditMode ? allProspek.data : availableProspek.data,
-    loadingProspek: isEditMode ? allProspek.isLoading : availableProspek.isLoading,
+    loadingProspek: isEditMode
+      ? allProspek.isLoading
+      : availableProspek.isLoading,
   };
 };

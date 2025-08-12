@@ -1,4 +1,3 @@
-
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
@@ -11,15 +10,15 @@ const SalesProspek = () => {
 
   const safeDataProspek = (dataProspek || []).map((prospek) => ({
     ...prospek,
-    salesId: prospek.salesId ?? { id: "unknown", username: "-" }, 
+    salesId: prospek.salesId ?? { id: "unknown", username: "-" },
   }));
-  
+
   const columns: ColumnDef<Prospek>[] = useMemo(() => defaultColumns, []);
 
   if (isLoading) {
     return <p>Loading data...</p>;
   }
-  
+
   if (isError) {
     return <p>Terjadi kesalahan saat mengambil data.</p>;
   }

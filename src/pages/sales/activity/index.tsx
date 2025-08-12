@@ -1,4 +1,3 @@
-
 // import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 import { useDeleteActivity } from "@/hooks/daily-activity/useDeleteActivity";
 import { columns as defaultColumns } from "./component/Columns";
@@ -7,7 +6,7 @@ import { useFetchActifity } from "@/hooks/daily-activity/useFetchActivity";
 import { useCallback, useMemo } from "react";
 
 const SalesProspek = () => {
-  const { data: activityData, isLoading, isError } =  useFetchActifity();
+  const { data: activityData, isLoading, isError } = useFetchActifity();
   const { mutate: deleteActivity } = useDeleteActivity();
 
   const handleDelete = useCallback(
@@ -16,7 +15,7 @@ const SalesProspek = () => {
         deleteActivity(id);
       }
     },
-    [deleteActivity] 
+    [deleteActivity],
   );
 
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);
@@ -24,7 +23,7 @@ const SalesProspek = () => {
   if (isLoading) {
     return <p>Loading data...</p>;
   }
-  
+
   if (isError) {
     return <p>Terjadi kesalahan saat mengambil data.</p>;
   }

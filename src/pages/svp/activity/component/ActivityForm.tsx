@@ -18,8 +18,6 @@ const ActivityForm = () => {
   const editActivity = useEditActivity();
   const { data: activities } = useFetchActifity();
 
-
-
   const formik = useFormik({
     initialValues: {
       date: "",
@@ -50,7 +48,9 @@ const ActivityForm = () => {
       if (activity) {
         formik.setValues({
           ...activity,
-          date: activity.date ? format(new Date(activity.date), "yyyy-MM-dd") : "",
+          date: activity.date
+            ? format(new Date(activity.date), "yyyy-MM-dd")
+            : "",
         });
       }
     }
@@ -59,9 +59,13 @@ const ActivityForm = () => {
   return (
     <div>
       <div className="overflow-hidden mt-4 p-4 rounded-md border border-gray-300 dark:border-gray-800 dark:text-white shadow-sm h-full mb-10">
-        <h1 className="text-3xl">{id ? "Edit Activity" : "Add New Activity"}</h1>
+        <h1 className="text-3xl">
+          {id ? "Edit Activity" : "Add New Activity"}
+        </h1>
         <p className="pb-4">
-          {id ? "Edit your activity details" : "Fill in the new activity information."}
+          {id
+            ? "Edit your activity details"
+            : "Fill in the new activity information."}
         </p>
         <form className="h-full justify-between" onSubmit={formik.handleSubmit}>
           <div className="flex justify-between pb-4">

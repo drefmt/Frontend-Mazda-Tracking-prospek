@@ -12,9 +12,8 @@ import { MoreHorizontal, Star } from "lucide-react";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { FeedbackLink } from "@/interface/feedback.interface";
 
-
 export const columns = (
-  handleDelete: (id: string) => void
+  handleDelete: (id: string) => void,
 ): ColumnDef<FeedbackLink>[] => {
   return [
     {
@@ -38,7 +37,7 @@ export const columns = (
       header: "Expired",
       cell: ({ row }) => {
         const formattedDate = new Date(
-          row.original.expiredAt
+          row.original.expiredAt,
         ).toLocaleDateString("id-ID", {
           day: "2-digit",
           month: "short",
@@ -65,7 +64,6 @@ export const columns = (
         const rating = row.original.feedbackId?.rating;
 
         if (!rating) return "-";
-
         return (
           <div className="flex items-center gap-1 text-yellow-500">
             {[...Array(5)].map((_, i) => (

@@ -35,4 +35,3 @@ export const columns: ColumnDef<SalesPerformance>[] = [
     header: "Konversi Retail",
   },
 ];
-

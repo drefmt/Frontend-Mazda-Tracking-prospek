@@ -13,7 +13,7 @@ const SalesEvaluation = () => {
   const [year, setYear] = useState<number | "">("");
 
   const { data, isLoading, isError, refetch } = useFetchSalesEvaluation(
-    Number(year)
+    Number(year),
   );
 
   const report = data;
@@ -66,13 +66,6 @@ const SalesEvaluation = () => {
             disabled={!report}
           >
             Export PDF
-          </Button>
-          <Button
-            variant="outline"
-            // onClick={() => report && handleExportExcel(report)}
-            // disabled={!report}
-          >
-            Export Excel
           </Button>
         </div>
       </Card>

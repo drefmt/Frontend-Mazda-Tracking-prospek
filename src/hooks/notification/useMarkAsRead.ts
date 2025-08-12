@@ -11,7 +11,7 @@ export const useMarkAsRead = () => {
     },
     onSuccess: () => {
       // Refresh notifikasi setelah berhasil
-      queryClient.invalidateQueries({ queryKey: ['prospect-reminder'] });
+      queryClient.invalidateQueries({ queryKey: ["prospect-reminder"] });
     },
   });
 };

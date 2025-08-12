@@ -1,10 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 // import { useNavigate } from "react-router-dom";
-import { copyToClipboard } from "@/utils/copyToClipboard"
+import { copyToClipboard } from "@/utils/copyToClipboard";
 // import {FeedbackReportItem} from "@/interface/feedback.interface"
 export interface FeedbackLink {
   id: string;
@@ -21,7 +28,7 @@ export interface FeedbackLink {
     };
     salesId: {
       username: string;
-    }
+    };
   };
   feedbackId?: {
     rating: number;
@@ -36,23 +43,25 @@ export interface FeedbackLink {
 //   id: string;
 // }
 
-export const columns = ( handleDelete: (id: string) => void ): ColumnDef<FeedbackLink>[] => {
+export const columns = (
+  handleDelete: (id: string) => void,
+): ColumnDef<FeedbackLink>[] => {
   return [
     {
       header: "No",
       cell: ({ row }) => <span>{row.index + 1}</span>,
     },
-     {
-    header: "Sales Name",
-    cell: ({ row }) => row.original.retailId.salesId.username || "-",
-  },
-   {
-    id: "prospectName", // id penting untuk filtering!
-    header: "Nama Prospek",
-    accessorFn: (row) => row.retailId.spkId.prospekId.name || "-", // ambil nested value
-    cell: ({ getValue }) => getValue() ?? "-", // opsional, bisa pakai row.original
-    filterFn: "includesString", // default filter string cocok
-  },
+    {
+      header: "Sales Name",
+      cell: ({ row }) => row.original.retailId.salesId.username || "-",
+    },
+    {
+      id: "prospectName", // id penting untuk filtering!
+      header: "Nama Prospek",
+      accessorFn: (row) => row.retailId.spkId.prospekId.name || "-", // ambil nested value
+      cell: ({ getValue }) => getValue() ?? "-", // opsional, bisa pakai row.original
+      filterFn: "includesString", // default filter string cocok
+    },
     // {
     //   accessorKey: "name",
     //   header: "Nama Customer",
@@ -69,7 +78,9 @@ export const columns = ( handleDelete: (id: string) => void ): ColumnDef<Feedbac
       accessorKey: "expiredAt",
       header: "Expired",
       cell: ({ row }) => {
-        const formattedDate = new Date(row.original.expiredAt).toLocaleDateString("id-ID", {
+        const formattedDate = new Date(
+          row.original.expiredAt,
+        ).toLocaleDateString("id-ID", {
           day: "2-digit",
           month: "short",
           year: "numeric",
@@ -87,29 +98,28 @@ export const columns = ( handleDelete: (id: string) => void ): ColumnDef<Feedbac
       ),
     },
     {
-  accessorKey: "feedbackId.rating",
-  header: "Rating",
-  cell: ({ row }) => {
-    const rating = row.original.feedbackId?.rating;
-    return rating ? `${rating} ⭐` : "-";
-  },
-},
-{
-  accessorKey: "feedbackId.message",
-  header: "Pesan",
-  cell: ({ row }) => {
-    const msg = row.original.feedbackId?.message;
-    return msg || "-";
-  },
-},
-
+      accessorKey: "feedbackId.rating",
+      header: "Rating",
+      cell: ({ row }) => {
+        const rating = row.original.feedbackId?.rating;
+        return rating ? `${rating} ⭐` : "-";
+      },
+    },
+    {
+      accessorKey: "feedbackId.message",
+      header: "Pesan",
+      cell: ({ row }) => {
+        const msg = row.original.feedbackId?.message;
+        return msg || "-";
+      },
+    },
 
     {
       accessorKey: "actions",
       header: "Aksi",
       cell: ({ row }) => {
         const { id, token } = row.original;
-        const link: string = `${window.location.origin}/feedback/${token}`;         
+        const link: string = `${window.location.origin}/feedback/${token}`;
 
         return (
           <DropdownMenu>

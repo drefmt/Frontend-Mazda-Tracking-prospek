@@ -16,9 +16,12 @@ import {
 import { Prospek } from "@/interface/prospek.interface";
 import { useNavigate } from "react-router-dom";
 import { JSX } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const columns: ColumnDef<Prospek>[] = [
   {
@@ -51,7 +54,7 @@ export const columns: ColumnDef<Prospek>[] = [
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
-        }
+        },
       );
       return <span>{formattedDate}</span>;
     },
@@ -72,38 +75,40 @@ export const columns: ColumnDef<Prospek>[] = [
       };
 
       return (
-        <span className={`px-1 rounded-sm border ${statusColors[status] || "border-gray-400 text-gray-600"}`}>
+        <span
+          className={`px-1 rounded-sm border ${statusColors[status] || "border-gray-400 text-gray-600"}`}
+        >
           {status}
         </span>
       );
     },
   },
   {
-        accessorKey: "followUpcount",
-        header: "Follow-Ups",
-        cell: ({ row }) => {
-          const count = row.original.followUpCount;
-  
-          let Icon = Ban;
-          let colorClass = "text-gray-500 border-gray-400";
-          let label = "Belum Follow-Up";
-  
-          if (count >= 5) {
-            Icon = CheckCircle2;
-            colorClass = "text-green-600 border-green-600";
-            label = "Siap Closing";
-          } else if (count >= 3) {
-            Icon = Activity;
-            colorClass = "text-blue-600 border-blue-600";
-            label = "Sedang Proses";
-          } else if (count >= 1) {
-            Icon = Clock;
-            colorClass = "text-yellow-600 border-yellow-600";
-            label = "Awal Follow-Up";
-          }
-  
-          return (
-             <TooltipProvider>
+    accessorKey: "followUpcount",
+    header: "Follow-Ups",
+    cell: ({ row }) => {
+      const count = row.original.followUpCount;
+
+      let Icon = Ban;
+      let colorClass = "text-gray-500 border-gray-400";
+      let label = "Belum Follow-Up";
+
+      if (count >= 5) {
+        Icon = CheckCircle2;
+        colorClass = "text-green-600 border-green-600";
+        label = "Siap Closing";
+      } else if (count >= 3) {
+        Icon = Activity;
+        colorClass = "text-blue-600 border-blue-600";
+        label = "Sedang Proses";
+      } else if (count >= 1) {
+        Icon = Clock;
+        colorClass = "text-yellow-600 border-yellow-600";
+        label = "Awal Follow-Up";
+      }
+
+      return (
+        <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <span
@@ -118,74 +123,73 @@ export const columns: ColumnDef<Prospek>[] = [
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-          );
-        },
-      },
+      );
+    },
+  },
   {
-      accessorKey: "scoreCategory",
-      header: "Scor Category",
-      cell: ({ row }) => {
-        const category = row.original.scoreCategory;
+    accessorKey: "scoreCategory",
+    header: "Scor Category",
+    cell: ({ row }) => {
+      const category = row.original.scoreCategory;
 
-        const statusIcon: Record<string, JSX.Element> = {
-          Low: <MoveDown size={16} className="mr-2" />,
-          Medium: <MoveRight size={16} className="mr-2" />,
-          Hot: <MoveUp size={16} className="mr-2" />,
-        };
+      const statusIcon: Record<string, JSX.Element> = {
+        Low: <MoveDown size={16} className="mr-2" />,
+        Medium: <MoveRight size={16} className="mr-2" />,
+        Hot: <MoveUp size={16} className="mr-2" />,
+      };
 
-        return (
-          <span className="flex items-center">
-            {statusIcon[category]}
-            {category}
-          </span>
-        );
-      },
+      return (
+        <span className="flex items-center">
+          {statusIcon[category]}
+          {category}
+        </span>
+      );
     },
-    {
-      header: "Predicted Score",
-      cell: ({ row }) => {
-        const score = row.original.score;
-        const category = row.original.scoreCategory;
+  },
+  {
+    header: "Predicted Score",
+    cell: ({ row }) => {
+      const score = row.original.score;
+      const category = row.original.scoreCategory;
 
-        if (score === undefined || category === undefined) {
-          return <span className="text-gray-400 italic">Belum diisi</span>;
-        }
+      if (score === undefined || category === undefined) {
+        return <span className="text-gray-400 italic">Belum diisi</span>;
+      }
 
-        const categoryColors: Record<string, string> = {
-          Low: "bg-red-600",
-          Medium: "bg-yellow-500",
-          Hot: "bg-blue-600",
-        };
+      const categoryColors: Record<string, string> = {
+        Low: "bg-red-600",
+        Medium: "bg-yellow-500",
+        Hot: "bg-blue-600",
+      };
 
-        const barColor = categoryColors[category] || "bg-gray-300";
+      const barColor = categoryColors[category] || "bg-gray-300";
 
-        return (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex flex-col items-start gap-1">
-                  <div className="w-full bg-gray-300 rounded-full h-3 overflow-hidden">
-                    <div
-                      className={`h-full ${barColor}`}
-                      style={{ width: `${score}%` }}
-                    />
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    Score: {score} / 100 ({category})
-                  </span>
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex flex-col items-start gap-1">
+                <div className="w-full bg-gray-300 rounded-full h-3 overflow-hidden">
+                  <div
+                    className={`h-full ${barColor}`}
+                    style={{ width: `${score}%` }}
+                  />
                 </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Predicted Score: {score}</p>
-                <p>Kategori: {category}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        );
-      },
+                <span className="text-xs text-muted-foreground">
+                  Score: {score} / 100 ({category})
+                </span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Predicted Score: {score}</p>
+              <p>Kategori: {category}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
     },
+  },
 
-   
   {
     header: "Detail",
     cell: ({ row }) => {

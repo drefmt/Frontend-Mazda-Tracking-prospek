@@ -7,14 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useFetchSpkById } from "@/hooks/spk/useSpkById";
-import { Link,  useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
-
 
 const SpvViewDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useFetchSpkById(id ?? "");
-
 
   if (isLoading) return <p>Loading...</p>;
   if (!data) return <p>Data tidak ditemukan</p>;
@@ -49,18 +47,21 @@ const SpvViewDetails = () => {
         </CardContent>
         <CardContent>
           <p>:{data.prospekId?.name}</p>
-          <p>:{data?.dateSpk ? format(new Date(data.dateSpk), "dd-MM-yyyy") : "-"}</p>
+          <p>
+            :
+            {data?.dateSpk ? format(new Date(data.dateSpk), "dd-MM-yyyy") : "-"}
+          </p>
           <p>:{data.noKtp}</p>
           <p>:{data.prospekId?.address}</p>
           <p>:{data?.prospekId?.whatsappNum ?? "Data tidak tersedia"}</p>
-          <p>:Rp {new Intl.NumberFormat('id-ID').format(data.downPayment)}</p>
+          <p>:Rp {new Intl.NumberFormat("id-ID").format(data.downPayment)}</p>
           <p>:{data.leasing}</p>
           <p>:{data.tenor}</p>
           <p>:{data?.prospekId?.carType}</p>
           <p>:{data.status}</p>
         </CardContent>
       </div>
-      
+
       <CardFooter className="items-center flex justify-center "></CardFooter>
     </Card>
   );

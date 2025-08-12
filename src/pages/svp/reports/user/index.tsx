@@ -1,8 +1,7 @@
-import {  useMemo } from "react";
+import { useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
-import { useFetchUserListReport } from "@/hooks/reports/useFetchUserReport"
-
+import { useFetchUserListReport } from "@/hooks/reports/useFetchUserReport";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,6 @@ import { handleExportPDF } from "@/helpers/user/handleExportPdf";
 import { Link } from "react-router-dom";
 
 const UserListReport = () => {
-
   const { data, isLoading, isError } = useFetchUserListReport();
 
   const columns = useMemo(() => defaultColumns, []);
@@ -36,15 +34,10 @@ const UserListReport = () => {
             Export PDF
           </Button>
           <Link to="add">
-          <Button
-            variant="default"
-            
-            >
-            Add User
-          </Button>
-            </Link>
+            <Button variant="default">Add User</Button>
+          </Link>
         </div>
-        </Card>
+      </Card>
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
       {dataUsers && dataUsers.length === 0 && (
@@ -60,8 +53,5 @@ const UserListReport = () => {
       )}
     </div>
   );
-
-  
 };
 export default UserListReport;
-

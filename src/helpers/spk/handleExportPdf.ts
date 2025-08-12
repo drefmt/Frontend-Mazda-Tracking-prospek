@@ -29,8 +29,6 @@ export const handleExportPDF = (report: SpkReport) => {
     generatedBy,
   });
 
-  
-
   // Table
   autoTable(doc, {
     // Header
@@ -56,7 +54,7 @@ export const handleExportPDF = (report: SpkReport) => {
       formatDate(row.dateSpk),
       row.noKtp,
       row.cashOrCredit,
-      "Rp. " + new Intl.NumberFormat('id-ID').format(row.downPayment),
+      "Rp. " + new Intl.NumberFormat("id-ID").format(row.downPayment),
       // row.downPayment,
       row.tenor,
       row.leasing ?? "-",
@@ -83,14 +81,13 @@ export const handleExportPDF = (report: SpkReport) => {
     tableLineColor: gray900,
   });
 
-  const finalY = doc.lastAutoTable?.finalY || 6
-//   Footer
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  //   Footer
   renderPdfFooter(doc, {
     finalY,
     generatedBy,
   });
 
-
-  const pdfUrl = doc.output('bloburi');
-  window.open(pdfUrl)
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

@@ -15,7 +15,6 @@ export const handleExportPDF = (report: SummarySalesPerformance) => {
 
   const { data, period, generatedBy, count } = report;
 
-
   const gray900: [number, number, number] = [17, 24, 39];
   const gray600: [number, number, number] = [75, 85, 99];
 
@@ -26,8 +25,6 @@ export const handleExportPDF = (report: SummarySalesPerformance) => {
     count,
     generatedBy,
   });
-
-  
 
   // Table
   autoTable(doc, {
@@ -42,22 +39,20 @@ export const handleExportPDF = (report: SummarySalesPerformance) => {
         "Total Retails",
         "Test Drive Convertion",
         "SPK Convertion",
-        "Retail Convertion",      
+        "Retail Convertion",
       ],
     ],
 
     body: data.map((row, index) => [
       index + 1,
-        row.salesName,
-        row.totalProspek,
-        row.totalTestDrive,
-        row.totalSpk,
-        row.totalRetail,
-        row.konversiTestDrive,
-        row.konversiSpk,
-        row.konversiRetail,
-
-
+      row.salesName,
+      row.totalProspek,
+      row.totalTestDrive,
+      row.totalSpk,
+      row.totalRetail,
+      row.konversiTestDrive,
+      row.konversiSpk,
+      row.konversiRetail,
     ]),
 
     styles: {
@@ -80,14 +75,13 @@ export const handleExportPDF = (report: SummarySalesPerformance) => {
     tableLineColor: gray900,
   });
 
-  const finalY = doc.lastAutoTable?.finalY || 6
-//   Footer
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  //   Footer
   renderPdfFooter(doc, {
     finalY,
     generatedBy,
   });
 
-
-  const pdfUrl = doc.output('bloburi');
-  window.open(pdfUrl)
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

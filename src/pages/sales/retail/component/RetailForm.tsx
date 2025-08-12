@@ -51,7 +51,6 @@ const RetailForm = () => {
         } else {
           await createRetail.mutateAsync(payload);
         }
-
         toast.success(
           id ? "Retail berhasil diperbarui" : "retail berhasil disimpan"
         );

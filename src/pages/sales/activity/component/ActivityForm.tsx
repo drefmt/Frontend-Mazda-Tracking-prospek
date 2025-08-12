@@ -18,8 +18,6 @@ const ActivityForm = () => {
   const editActivity = useEditActivity();
   const { data: activities } = useFetchActifity();
 
-
-
   const formik = useFormik({
     initialValues: {
       date: "",
@@ -37,10 +35,12 @@ const ActivityForm = () => {
           await createActivity.mutateAsync(values);
         }
         resetForm();
-        toast.success(id ? "Aktivitas berhasil Di perbarui" : "Aktivitas berhasil disimpan")
+        toast.success(
+          id ? "Aktivitas berhasil Di perbarui" : "Aktivitas berhasil disimpan",
+        );
       } catch (err) {
         console.error("Failed to submit activity:", err);
-        toast.error("terjadi kesalahaan saat menambah aktivitas")
+        toast.error("terjadi kesalahaan saat menambah aktivitas");
       }
     },
   });
@@ -51,7 +51,9 @@ const ActivityForm = () => {
       if (activity) {
         formik.setValues({
           ...activity,
-          date: activity.date ? format(new Date(activity.date), "yyyy-MM-dd") : "",
+          date: activity.date
+            ? format(new Date(activity.date), "yyyy-MM-dd")
+            : "",
         });
       }
     }
@@ -60,9 +62,13 @@ const ActivityForm = () => {
   return (
     <div>
       <div className="overflow-hidden mt-4 p-4 rounded-md border border-gray-300 dark:border-gray-800 dark:text-white shadow-sm h-full mb-10">
-        <h1 className="text-3xl">{id ? "Edit Activity" : "Add New Activity"}</h1>
+        <h1 className="text-3xl">
+          {id ? "Edit Activity" : "Add New Activity"}
+        </h1>
         <p className="pb-4">
-          {id ? "Edit your activity details" : "Fill in the new activity information."}
+          {id
+            ? "Edit your activity details"
+            : "Fill in the new activity information."}
         </p>
         <form className="h-full justify-between" onSubmit={formik.handleSubmit}>
           <div className="flex justify-between pb-4">
@@ -71,7 +77,11 @@ const ActivityForm = () => {
                 Back
               </Button>
             </Link>
-            <Button type="submit" className="bg-black hover:bg-black/90" disabled={formik.isSubmitting}>
+            <Button
+              type="submit"
+              className="bg-black hover:bg-black/90"
+              disabled={formik.isSubmitting}
+            >
               {formik.isSubmitting ? "Loading.." : "Submit"}
             </Button>
           </div>

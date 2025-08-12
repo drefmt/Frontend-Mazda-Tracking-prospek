@@ -25,7 +25,7 @@ const SpkReport = () => {
   const { data, isLoading, isError } = useFetchSpkReport(
     Number(month),
     Number(year),
-    isReady
+    isReady,
   );
 
   const report = data;
@@ -104,13 +104,6 @@ const SpkReport = () => {
             disabled={!report}
           >
             Export PDF
-          </Button>
-          <Button
-            variant="outline"
-            // onClick={() => report && handleExportExcel(report)}
-            // disabled={!report}
-          >
-            Export Excel
           </Button>
         </div>
       </Card>

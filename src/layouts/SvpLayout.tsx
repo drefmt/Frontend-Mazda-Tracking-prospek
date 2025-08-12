@@ -3,10 +3,9 @@ import Layout from "@/components/sidebar/Layout";
 import { Routes, Route } from "react-router-dom";
 import { svpRoute } from "@/routes";
 
-
 const SvpLayout = () => {
   return (
-    <div className="dark:bg-gray-950">        
+    <div className="dark:bg-gray-950">
       <div className="flex-grow">
         <Layout>
           <Suspense fallback={<div>Loading...</div>}>

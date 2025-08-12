@@ -1,4 +1,3 @@
-
 // import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 import { useDeleteFeedbackLink } from "@/hooks/feedbackLink/useDeleteFeedbackLink";
 import { columns as defaultColumns } from "./component/Columns";
@@ -7,7 +6,7 @@ import { useFetchFeedbackLink } from "@/hooks/feedbackLink/useFetchFeedbackLink"
 import { useCallback, useMemo } from "react";
 
 const FeedbackLink = () => {
-  const { data: feedbackLinkData, isLoading, isError } =  useFetchFeedbackLink();
+  const { data: feedbackLinkData, isLoading, isError } = useFetchFeedbackLink();
   const { mutate: deleteFeedbackLink } = useDeleteFeedbackLink();
 
   const handleDelete = useCallback(
@@ -16,7 +15,7 @@ const FeedbackLink = () => {
         deleteFeedbackLink(id);
       }
     },
-    [deleteFeedbackLink] 
+    [deleteFeedbackLink],
   );
 
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);
@@ -24,7 +23,7 @@ const FeedbackLink = () => {
   if (isLoading) {
     return <p>Loading data...</p>;
   }
-  
+
   if (isError) {
     return <p>Terjadi kesalahan saat mengambil data.</p>;
   }

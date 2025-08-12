@@ -29,19 +29,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-
-
-export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+
   const table = useReactTable({
     data,
     columns,
@@ -61,14 +64,10 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
 
   return (
     <>
-      <div className=" pb-4">        
-      </div>
-      <div className="flex gap-4 pb-4  pr-10">
+      <div className="flex pr-10">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              Columns
-            </Button>
+            <Button variant="outline">Columns</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {table
@@ -106,7 +105,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -126,7 +125,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

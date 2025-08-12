@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchActivityReport } from "@/hooks/reports/useFetchActivityReport";
-import { monthNames } from "@/lib/constant/monthName"
+import { monthNames } from "@/lib/constant/monthName";
 
 import { Select, SelectValue } from "@radix-ui/react-select";
 import { Label } from "recharts";
@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { handleExportPDF } from "@/helpers/activity/handleExportPdf";
 
-
 const RetailReport = () => {
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
@@ -27,12 +26,11 @@ const RetailReport = () => {
   const { data, isLoading, isError } = useFetchActivityReport(
     Number(month),
     Number(year),
-    isReady
+    isReady,
   );
 
   const report = data;
   const activityData = report?.data;
-
 
   const handleFetch = () => {
     if (!month || !year) return;
@@ -56,11 +54,8 @@ const RetailReport = () => {
           <p className="text-muted-foreground text-sm text-slate-600">
             Menampilkan daftar aktivitas yang masuk dan status tindak lanjut
           </p>
-          
         </div>
         <div className="flex flex-wrap items-end gap-4">
-          
-
           {/* Filter Bulan */}
           <div className="flex flex-col space-y-1">
             <Label>Bulan</Label>
@@ -104,20 +99,13 @@ const RetailReport = () => {
           <div className="mt-4">
             <Button onClick={handleFetch}>Tampilkan</Button>
           </div>
-         <Button
-                    variant="outline"
-                    onClick={() => report && handleExportPDF(report)}
-                    disabled={!report}
-                  >
-                    Export PDF
-                  </Button>
-                  <Button
-                    variant="outline"
-                    // onClick={() => report && handleExportExcel(report)}
-                    // disabled={!report}
-                  >
-                    Export Excel
-                  </Button>
+          <Button
+            variant="outline"
+            onClick={() => report && handleExportPDF(report)}
+            disabled={!report}
+          >
+            Export PDF
+          </Button>
         </div>
       </Card>
 

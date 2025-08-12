@@ -32,7 +32,6 @@ import {
 import { Filter, MoveDown, MoveRight, MoveUp } from "lucide-react";
 import { Prospek } from "@/interface/prospek.interface";
 
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -47,12 +46,12 @@ export function DataTable<TData extends Prospek, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
-    null
+    null,
   ); // State kategori
 
   const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
@@ -87,13 +86,9 @@ export function DataTable<TData extends Prospek, TValue>({
 
   return (
     <>
-  
       <div className="flex gap-4 pb-4 justify-end mx-auto">
-
         {/* Report pdf and excel */}
-        <div className="flex gap-2 ">
-            
-          </div>
+        <div className="flex gap-2 "></div>
         {/* Dropdown Filter Sales */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -111,8 +106,8 @@ export function DataTable<TData extends Prospek, TValue>({
             </DropdownMenuItem>
             {Array.from(
               new Set(
-                data.map((row) => row.salesId?.username).filter(Boolean) // hilangkan undefined/null
-              )
+                data.map((row) => row.salesId?.username).filter(Boolean), // hilangkan undefined/null
+              ),
             ).map((salesName) => (
               <DropdownMenuItem
                 key={salesName}
@@ -193,7 +188,7 @@ export function DataTable<TData extends Prospek, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -214,7 +209,7 @@ export function DataTable<TData extends Prospek, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

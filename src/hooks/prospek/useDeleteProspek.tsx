@@ -1,5 +1,5 @@
-import { axiosInstance } from '@/lib/axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { axiosInstance } from "@/lib/axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deleteProspek = async (id: string) => {
   const response = await axiosInstance.delete(`/prospek/${id}`);
@@ -12,11 +12,10 @@ export const useDeleteProspek = () => {
   return useMutation({
     mutationFn: deleteProspek,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['prospek'] });
-      
+      queryClient.invalidateQueries({ queryKey: ["prospek"] });
     },
     onError: (error: Error) => {
-      console.error('Error deleting prospek:', error);
+      console.error("Error deleting prospek:", error);
     },
   });
 };

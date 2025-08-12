@@ -13,10 +13,9 @@ import { Activity } from "@/interface/activity.interface";
 import { useNavigate } from "react-router-dom";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
-
-
-
-export const columns = (handleDelete: (id: string) => void): ColumnDef<Activity>[] => {
+export const columns = (
+  handleDelete: (id: string) => void,
+): ColumnDef<Activity>[] => {
   return [
     {
       header: "No",
@@ -39,7 +38,7 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<Activity>
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
-          }
+          },
         );
         return <span>{formattedDate}</span>;
       },
@@ -60,7 +59,7 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<Activity>
       accessorKey: "notes",
       header: "notes",
     },
-   
+
     {
       accessorKey: "Action",
       cell: ({ row }) => {
@@ -77,9 +76,9 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<Activity>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>             
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              
+
               <DropdownMenuItem onClick={() => navigate(`edit/${id}`)}>
                 Edit
               </DropdownMenuItem>

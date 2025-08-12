@@ -1,4 +1,3 @@
-
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
@@ -15,7 +14,7 @@ const SalesProspek = () => {
         deleteProspek(id);
       }
     },
-    [deleteProspek] 
+    [deleteProspek],
   );
 
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);
@@ -23,7 +22,7 @@ const SalesProspek = () => {
   if (isLoading) {
     return <p>Loading data...</p>;
   }
-  
+
   if (isError) {
     return <p>Terjadi kesalahan saat mengambil data.</p>;
   }

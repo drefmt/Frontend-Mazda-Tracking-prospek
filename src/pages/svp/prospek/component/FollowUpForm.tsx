@@ -11,8 +11,6 @@ import { useFetchFollowUpById } from "@/hooks/follow-up/useFetchFollowUpById";
 import { Interaction } from "@/types/interaction.type";
 import toast from "react-hot-toast";
 
-
-
 interface FollowUpFormValues {
   followUpDate: string;
   salesProces: string;
@@ -33,15 +31,14 @@ const FollowUpSchema = Yup.object().shape({
 
 const FollowUpForm = () => {
   const { id, followUpId } = useParams<{ id: string; followUpId: string }>();
-  const prospekId = id || ""; 
+  const prospekId = id || "";
   const { data: followUpData } = useFetchFollowUpById(prospekId, followUpId);
-
 
   const createMutation = useCreateFollowUp();
   const updateMutation = useEditFollowUp();
 
   const formik = useFormik<FollowUpFormValues>({
-     initialValues: {
+    initialValues: {
       followUpDate: "",
       salesProces: "",
       interaction: "Telepon",
@@ -57,21 +54,25 @@ const FollowUpForm = () => {
       }
       try {
         if (followUpId) {
-          await updateMutation.mutateAsync({ prospekId, followUpId, followUp: values });
+          await updateMutation.mutateAsync({
+            prospekId,
+            followUpId,
+            followUp: values,
+          });
         } else {
           await createMutation.mutateAsync({ id: prospekId, followUp: values });
         }
-        toast.success('Berhasil Memberi Rekomendasi Kepada Sales')
+        toast.success("Berhasil Memberi Rekomendasi Kepada Sales");
       } catch (error) {
         console.error("Failed to submit follow-up:", error);
-        toast.success('Failed to submit follow-up')
+        toast.success("Failed to submit follow-up");
       }
     },
   });
 
   useEffect(() => {
     if (followUpId && followUpData) {
-     formik.setValues({
+      formik.setValues({
         followUpDate: followUpData.followUpDate
           ? followUpData.followUpDate.split("T")[0]
           : "",
@@ -90,7 +91,10 @@ const FollowUpForm = () => {
         <h1 className="text-lg font-semibold">Rekomendation Follow-Up</h1>
         <p className="text-gray-500 pb-4">Isi form berikut sesuai kebutuhan.</p>
         <Link to={`/svp/prospek/detail/${prospekId}`}>
-          <button type="button" className="py-1 px-4 border border-black text-black rounded-md">
+          <button
+            type="button"
+            className="py-1 px-4 border border-black text-black rounded-md"
+          >
             Kembali
           </button>
         </Link>
@@ -111,7 +115,6 @@ const FollowUpForm = () => {
       <button
         type="submit"
         className="py-1 w-full bg-black text-white rounded-md disabled:opacity-50"
-       
       >
         Submit
       </button>

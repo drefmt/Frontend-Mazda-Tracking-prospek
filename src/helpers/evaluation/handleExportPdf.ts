@@ -24,7 +24,6 @@ export const handleExportPDF = (report: ReportSummaryEvaluation) => {
     generatedBy,
   });
 
-
   autoTable(doc, {
     // Header
     startY,
@@ -38,13 +37,13 @@ export const handleExportPDF = (report: ReportSummaryEvaluation) => {
         "Total Retails",
         "Test Drive Convertion",
         "SPK Convertion",
-        "Retail Convertion",             
+        "Retail Convertion",
       ],
     ],
 
     body: data.map((row, index) => [
       index + 1,
-      row.month,      
+      row.month,
       row.totalProspects,
       row.totalTestDrives,
       row.totalSpks,
@@ -52,7 +51,6 @@ export const handleExportPDF = (report: ReportSummaryEvaluation) => {
       row.testDriveConversion,
       row.spkConversion,
       row.retailConversion,
-
     ]),
 
     styles: {
@@ -75,14 +73,13 @@ export const handleExportPDF = (report: ReportSummaryEvaluation) => {
     tableLineColor: gray900,
   });
 
-  const finalY = doc.lastAutoTable?.finalY || 6
-//   Footer
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  //   Footer
   renderPdfFooter(doc, {
     finalY,
     generatedBy,
   });
 
-
-  const pdfUrl = doc.output('bloburi');
-  window.open(pdfUrl)
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

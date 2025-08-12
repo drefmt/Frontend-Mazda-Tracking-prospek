@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-import { UserListResponse } from "@/interface/user.interface"
+import { UserListResponse } from "@/interface/user.interface";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { renderPdfHeader } from "../pdf/renderPdfHeader";
@@ -23,33 +23,23 @@ export const handleExportPDF = (report: UserListResponse) => {
 
   // Header
   const startY = renderPdfHeader(doc, {
-    title: "Retail Report",    
+    title: "Retail Report",
     count,
     generatedBy,
   });
-
-  
 
   // Table
   autoTable(doc, {
     // Header
     startY,
-    head: [
-      [
-        "No",
-        "Username",
-        "Role",
-        "Email",
-        "Created At ",       
-      ],
-    ],
+    head: [["No", "Username", "Role", "Email", "Created At "]],
 
     body: data.map((row, index) => [
       index + 1,
       row.username,
       row.level,
-      row.email,  
-      formatDate(row.createdAt), 
+      row.email,
+      formatDate(row.createdAt),
     ]),
 
     styles: {
@@ -72,14 +62,13 @@ export const handleExportPDF = (report: UserListResponse) => {
     tableLineColor: gray900,
   });
 
-  const finalY = doc.lastAutoTable?.finalY || 6
-//   Footer
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  //   Footer
   renderPdfFooter(doc, {
     finalY,
     generatedBy,
   });
 
-
-  const pdfUrl = doc.output('bloburi');
-  window.open(pdfUrl)
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

@@ -1,10 +1,9 @@
 import { axiosInstance } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { SpkRequest } from "@/interface/spk.interface"
-
+import { SpkRequest } from "@/interface/spk.interface";
 
 const createSpk = async (spkData: SpkRequest) => {
-  const response = await axiosInstance.post('/spk', spkData);
+  const response = await axiosInstance.post("/spk", spkData);
 
   if (response.status !== 201) {
     throw new Error("Failed to create SPK");

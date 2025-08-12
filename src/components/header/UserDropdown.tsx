@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { Link } from "react-router-dom";
-import Profile from "../../../public/icon-192x292.png"
+import Profile from "../../../public/icon-192x292.png";
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,27 +24,26 @@ export default function UserDropdown() {
         </span>
 
         <span className="hidden md:flex">
-        <span className="block mr-1 text-sm  text-theme-sm">Drefmt</span>
-        <svg
-          className={`stroke-gray-500  dark:stroke-gray-400 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-          width="18"
-          height="20"
-          viewBox="0 0 18 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+          <span className="block mr-1 text-sm  text-theme-sm">Drefmt</span>
+          <svg
+            className={`stroke-gray-500  dark:stroke-gray-400 transition-transform duration-200 ${
+              isOpen ? "rotate-180" : ""
+            }`}
+            width="18"
+            height="20"
+            viewBox="0 0 18 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.3125 8.65625L9 13.3437L13.6875 8.65625"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </span>
-
       </button>
 
       <Dropdown
@@ -54,7 +53,7 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block text-sm text-gray-700 text-theme-sm dark:text-gray-400">
-          Drefmt(Andre)
+            Drefmt(Andre)
           </span>
           <span className="mt-0.5 block text-sm text-theme-xs text-gray-500 dark:text-gray-400">
             Drefmt@gmail.com

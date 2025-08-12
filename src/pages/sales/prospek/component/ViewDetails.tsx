@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useFetchProspekById } from "@/hooks/prospek/useFetchProspekById";
-import { Link,  useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import FollowUpTable from "./FollowUpTable";
 
@@ -15,7 +15,7 @@ const ViewDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useFetchProspekById(id ?? "");
 
-// console.log(data);
+  // console.log(data);
   if (isLoading) return <p>Loading...</p>;
   if (!data) return <p>Data tidak ditemukan</p>;
 
@@ -46,9 +46,8 @@ const ViewDetails = () => {
         </CardContent>
         <CardContent>
           <p>:{data.name}</p>
-          <p>:{data?.date ? format(new Date(data.date), "dd-MM-yyyy") : "-"}
-          </p>
-          <p>:{data.whatsappNum}</p>                   
+          <p>:{data?.date ? format(new Date(data.date), "dd-MM-yyyy") : "-"}</p>
+          <p>:{data.whatsappNum}</p>
           <p>:{data.source}</p>
           <p>:{data.carType}</p>
           <p>:{data.status}</p>

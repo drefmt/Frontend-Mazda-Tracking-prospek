@@ -3,9 +3,12 @@
 import { axiosInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { ProspekReport } from "@/interface/prospek.interface";
-import { ReportParams } from "@/interface/ReportPrams.interface"
+import { ReportParams } from "@/interface/ReportPrams.interface";
 
-const fetchProspekReport = async ({ month, year }: ReportParams): Promise<ProspekReport> => {
+const fetchProspekReport = async ({
+  month,
+  year,
+}: ReportParams): Promise<ProspekReport> => {
   const response = await axiosInstance.get(`/report/prospek`, {
     params: { month, year },
   });
@@ -17,7 +20,11 @@ const fetchProspekReport = async ({ month, year }: ReportParams): Promise<Prospe
   return response.data;
 };
 
-export const useFetchProspekReport = (month: number, year: number, enabled = true) => {
+export const useFetchProspekReport = (
+  month: number,
+  year: number,
+  enabled = true,
+) => {
   return useQuery<ProspekReport>({
     queryKey: ["prospek-report", month, year],
     queryFn: () => fetchProspekReport({ month, year }),

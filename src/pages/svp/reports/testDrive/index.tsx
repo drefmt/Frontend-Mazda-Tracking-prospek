@@ -2,8 +2,7 @@ import { useState, useMemo } from "react";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchTestDriveReport } from "@/hooks/reports/useFetchTestDriveReports";
-import { monthNames } from "@/lib/constant/monthName"
-
+import { monthNames } from "@/lib/constant/monthName";
 
 // Ui Compoent
 import { Select, SelectValue } from "@radix-ui/react-select";
@@ -17,9 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-
-// Function 
-import { handleExportPDF } from "@/helpers/test-drive/handleExportPdf"
+// Function
+import { handleExportPDF } from "@/helpers/test-drive/handleExportPdf";
 const TestDriveReport = () => {
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
@@ -30,7 +28,7 @@ const TestDriveReport = () => {
   const { data, isLoading, isError } = useFetchTestDriveReport(
     Number(month),
     Number(year),
-    isReady
+    isReady,
   );
 
   const report = data;
@@ -109,13 +107,6 @@ const TestDriveReport = () => {
             disabled={!report}
           >
             Export PDF
-          </Button>
-          <Button
-            variant="outline"
-            // onClick={() => report && handleExportExcel(report)}
-            // disabled={!report}
-          >
-            Export Excel
           </Button>
         </div>
       </Card>

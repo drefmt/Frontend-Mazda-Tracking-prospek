@@ -4,7 +4,7 @@ import React from "react";
 import { AppHeader } from "@/components/header/Header";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-     <SidebarProvider >
+    <SidebarProvider>
       <div className="flex min-h-screen w-full">
         {/* Sidebar (paling atas z-index) */}
         <div className="z-50">
@@ -19,9 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Konten utama */}
-          <main className="flex-1 px-4 pb-4 overflow-y-auto">
-            {children}
-          </main>
+          <main className="flex-1 px-4 pb-4 overflow-y-auto">{children}</main>
         </div>
       </div>
     </SidebarProvider>

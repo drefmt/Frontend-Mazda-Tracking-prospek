@@ -5,7 +5,11 @@ import { DataTable } from "./component/Data-table";
 import { useDeleteTestDrive } from "@/hooks/testDrive/useDeleteTestDrive";
 
 const SalesTestDrive = () => {
-  const { data: dataTestDrive, isLoading: testDriveIsLoading, isError: testDriveIsError } = useFetchTestDrive();
+  const {
+    data: dataTestDrive,
+    isLoading: testDriveIsLoading,
+    isError: testDriveIsError,
+  } = useFetchTestDrive();
   const { mutate: deleteTestDrive } = useDeleteTestDrive();
 
   const handleDelete = useCallback(
@@ -14,7 +18,7 @@ const SalesTestDrive = () => {
         deleteTestDrive(id);
       }
     },
-    [deleteTestDrive]
+    [deleteTestDrive],
   );
 
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);

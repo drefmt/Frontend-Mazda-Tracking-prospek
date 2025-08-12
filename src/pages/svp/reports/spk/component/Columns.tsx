@@ -3,7 +3,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Spk } from "@/interface/spk.interface";
 
-
 export const columns: ColumnDef<Spk>[] = [
   {
     accessorFn: (row) => row.salesId?.username ?? "-",
@@ -49,7 +48,7 @@ export const columns: ColumnDef<Spk>[] = [
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
-        }
+        },
       );
       return <span>{formattedDate}</span>;
     },
@@ -89,5 +88,4 @@ export const columns: ColumnDef<Spk>[] = [
     accessorKey: "status",
     header: "Status",
   },
-
 ];

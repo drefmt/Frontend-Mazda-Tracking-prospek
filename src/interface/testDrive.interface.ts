@@ -17,10 +17,10 @@ export interface TestDrive {
 }
 
 export interface TestDriveDataRequest {
-    prospekId: string;
-    salesId: string;
-    dateTestDrive: string;
-    carType: string;    
+  prospekId: string;
+  salesId: string;
+  dateTestDrive: string;
+  carType: string;
 }
 
 export interface TestDriveReport {

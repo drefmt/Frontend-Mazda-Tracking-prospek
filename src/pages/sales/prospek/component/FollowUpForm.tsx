@@ -66,7 +66,11 @@ const FollowUpForm = () => {
           await createMutation.mutateAsync({ id: prospekId, followUp: values });
         }
         formik.resetForm();
-        toast.success(followUpId ? "Follow-up Updated successfully!" : "Follow-up Created Succesfully");
+        toast.success(
+          followUpId
+            ? "Follow-up Updated successfully!"
+            : "Follow-up Created Succesfully",
+        );
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         if (axios.isAxiosError(error)) {
@@ -79,7 +83,7 @@ const FollowUpForm = () => {
             errorMessage.includes("validation failed")
           ) {
             toast.error(
-              "This prospect has already been marked as Retail. No more follow-ups needed."
+              "This prospect has already been marked as Retail. No more follow-ups needed.",
             );
           } else {
             toast.error("Failed to submit follow-up. Please try again.");
@@ -89,7 +93,6 @@ const FollowUpForm = () => {
         } else {
           toast.error("Unexpected error occurred.");
         }
-
       }
     },
   });

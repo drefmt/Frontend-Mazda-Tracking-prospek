@@ -4,14 +4,13 @@ import autoTable from "jspdf-autotable";
 import { SummaryFeedbackReport } from "@/interface/feedback.interface";
 import { renderPdfHeader } from "../pdf/renderPdfHeader";
 import { renderPdfFooter } from "../pdf/RenderPdfFooter";
-import { formatDate } from "@/utils/formatDate"
-
+import { formatDate } from "@/utils/formatDate";
 
 export const handleExportPDF = (report: SummaryFeedbackReport) => {
   const doc = new jsPDF({
     unit: "cm",
     format: "a4",
-    orientation:"landscape",
+    orientation: "landscape",
   });
 
   const { data, period, generatedBy, count } = report;
@@ -27,7 +26,6 @@ export const handleExportPDF = (report: SummaryFeedbackReport) => {
     generatedBy,
   });
 
-
   autoTable(doc, {
     // Header
     startY,
@@ -40,19 +38,19 @@ export const handleExportPDF = (report: SummaryFeedbackReport) => {
         "Expired",
         "Status",
         "Rating",
-        "Message",             
+        "Message",
       ],
     ],
 
     body: data.map((row, index) => [
       index + 1,
-      row.retailId.salesId.username ?? "-",            
-      row.retailId?.spkId.prospekId.name ?? "-",            
-      row.retailId?.carType ?? "-",            
+      row.retailId.salesId.username ?? "-",
+      row.retailId?.spkId.prospekId.name ?? "-",
+      row.retailId?.carType ?? "-",
       formatDate(row.expiredAt),
-      row.used ? "Used" : "Un Used",      
-      row.feedbackId?.rating ?? '-',      
-      row.feedbackId?.message ?? '-',
+      row.used ? "Used" : "Un Used",
+      row.feedbackId?.rating ?? "-",
+      row.feedbackId?.message ?? "-",
     ]),
 
     styles: {
@@ -75,14 +73,13 @@ export const handleExportPDF = (report: SummaryFeedbackReport) => {
     tableLineColor: gray900,
   });
 
-  const finalY = doc.lastAutoTable?.finalY || 6
-//   Footer
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  //   Footer
   renderPdfFooter(doc, {
     finalY,
     generatedBy,
   });
 
-
-  const pdfUrl = doc.output('bloburi');
-  window.open(pdfUrl)
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

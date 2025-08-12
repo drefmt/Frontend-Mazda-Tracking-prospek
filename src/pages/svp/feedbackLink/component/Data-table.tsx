@@ -17,7 +17,7 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,  
+  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -39,13 +39,13 @@ interface DataTableProps<TData, TValue> {
 import { Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-export function DataTable<
-  TData,
-  TValue
->({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -68,13 +68,10 @@ export function DataTable<
     },
   });
 
-
-
   return (
     <>
       <div className="flex gap-4 pb-4 justify-between">
         <div className="pr-10 flex gap-4">
-
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
@@ -137,7 +134,7 @@ export function DataTable<
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </TableHead>
                     );
@@ -158,7 +155,7 @@ export function DataTable<
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}

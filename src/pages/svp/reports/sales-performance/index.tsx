@@ -22,7 +22,7 @@ const SalesPerformance = () => {
 
   const { data, isLoading, isError, refetch } = useFetchSalesPerformance(
     Number(month),
-    Number(year)
+    Number(year),
   );
 
   const report = data;
@@ -43,7 +43,8 @@ const SalesPerformance = () => {
             Laporan Sales Performance
           </h1>
           <p className="text-muted-foreground text-sm text-slate-600">
-            Menampilkan daftar Performa Sales yang masuk dan status tindak lanjut
+            Menampilkan daftar Performa Sales yang masuk dan status tindak
+            lanjut
           </p>
         </div>
         <div className="flex flex-wrap items-end gap-4">
@@ -89,23 +90,23 @@ const SalesPerformance = () => {
           <div className="mt-4">
             <Button onClick={handleFetch}>Tampilkan</Button>
           </div>
-           <Button
-                      variant="outline"
-                      onClick={() => report && handleExportPDF(report)}
-                      disabled={!report}
-                    >
-                      Export PDF
-                    </Button>
-                    <Button
-                      variant="outline"
-                      // onClick={() => report && handleExportExcel(report)}
-                      // disabled={!report}
-                    >
-                      Export Excel
-                    </Button>
+          <Button
+            variant="outline"
+            onClick={() => report && handleExportPDF(report)}
+            disabled={!report}
+          >
+            Export PDF
+          </Button>
+          <Button
+            variant="outline"
+            // onClick={() => report && handleExportExcel(report)}
+            // disabled={!report}
+          >
+            Export Excel
+          </Button>
         </div>
       </Card>
-      
+
       {/* Status */}
       {isLoading && <p>Memuat data...</p>}
       {isError && (

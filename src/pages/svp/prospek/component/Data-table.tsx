@@ -40,16 +40,21 @@ interface DataTableProps<TData, TValue> {
 import { Input } from "@/components/ui/input";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 
-
-export function DataTable<TData extends {
-   salesId: { username: string }
-   }, 
-   TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
-
+export function DataTable<
+  TData extends {
+    salesId: { username: string };
+  },
+  TValue,
+>({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
+    null,
+  ); // State kategori
 
   const [selectedSales, setSelectedSales] = React.useState<string | null>(null);
 
@@ -73,7 +78,6 @@ export function DataTable<TData extends {
   // console.log("Data:", data);
   // console.log("Table Columns:", table.getAllColumns().map(col => col.id));
 
-
   // Handle Filter Category
   const handleCategoryChange = (category: string | null) => {
     setSelectedCategory(category);
@@ -85,16 +89,12 @@ export function DataTable<TData extends {
     table.getColumn("salesName")?.setFilterValue(salesName || undefined);
   };
 
-
   return (
     <>
-      
       <div className="flex gap-4 pb-4 justify-end mx-auto">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" >
-              Columns
-            </Button>
+            <Button variant="outline">Columns</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {table
@@ -126,45 +126,60 @@ export function DataTable<TData extends {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => handleSalesChange(null)} className="cursor-pointer p-1">
+            <DropdownMenuItem
+              onClick={() => handleSalesChange(null)}
+              className="cursor-pointer p-1"
+            >
               All Sales
             </DropdownMenuItem>
-            {Array.from(new Set(data.map((row) => row.salesId.username))).map((salesName) => (
-              <DropdownMenuItem
-                key={salesName}
-                onClick={() => handleSalesChange(salesName)}
-                className="cursor-pointer p-1"
-              >
-                {salesName || '-'}
-              </DropdownMenuItem>
-            ))}
+            {Array.from(new Set(data.map((row) => row.salesId.username))).map(
+              (salesName) => (
+                <DropdownMenuItem
+                  key={salesName}
+                  onClick={() => handleSalesChange(salesName)}
+                  className="cursor-pointer p-1"
+                >
+                  {salesName || "-"}
+                </DropdownMenuItem>
+              ),
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
-
 
         {/*Dropdown Filter Kategori */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" >
+            <Button variant="outline">
               <Filter width={18} />
 
               {selectedCategory || "Filter by Category"}
-
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => handleCategoryChange(null)} className="cursor-pointer">All Categories</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleCategoryChange("Low")} className="flex items-center cursor-pointer">
-
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange(null)}
+              className="cursor-pointer"
+            >
+              All Categories
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange("Low")}
+              className="flex items-center cursor-pointer"
+            >
               <MoveDown size={16} absoluteStrokeWidth className="pr-1" />
               Low
-
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleCategoryChange("Medium")} className="flex items-center cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange("Medium")}
+              className="flex items-center cursor-pointer"
+            >
               <MoveRight size={16} absoluteStrokeWidth className="pr-1" />
               Medium
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleCategoryChange("Hot")} className="flex items-center cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => handleCategoryChange("Hot")}
+              className="flex items-center cursor-pointer"
+            >
               <MoveUp size={16} absoluteStrokeWidth className="pr-1" />
               Hot
             </DropdownMenuItem>
@@ -175,9 +190,7 @@ export function DataTable<TData extends {
         <div className="items-center">
           <Input
             placeholder="Search By name..."
-            value={
-              (table.getColumn("name")?.getFilterValue() as string) ?? ""
-            }
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
@@ -200,9 +213,9 @@ export function DataTable<TData extends {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
@@ -222,7 +235,7 @@ export function DataTable<TData extends {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

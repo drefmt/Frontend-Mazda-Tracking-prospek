@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 // } from "@/components/ui/dropdown-menu";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown,  Eye } from "lucide-react";
+import { ArrowUpDown, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export type ProspekId = {
@@ -27,22 +27,22 @@ export type SalesId = {
   username: string;
 };
 
-export type Spk = {  
+export type Spk = {
   prospekId: ProspekId;
   salesId: SalesId;
   status: string;
   dateSpk: string;
-  noKtp: string;  
+  noKtp: string;
   cashOrCredit: string;
   id: string;
 };
 
 export const columns: ColumnDef<Spk>[] = [
-  {    
+  {
     accessorFn: (row) => row.salesId.username,
     header: "Sales Name",
   },
-  {    
+  {
     header: "Prospek Id",
     id: "prospekName",
     accessorFn: (row) => row.prospekId.name,
@@ -67,7 +67,7 @@ export const columns: ColumnDef<Spk>[] = [
           day: "2-digit",
           month: "2-digit",
           year: "numeric",
-        }
+        },
       );
       return <span>{formattedDate}</span>;
     },
@@ -80,7 +80,6 @@ export const columns: ColumnDef<Spk>[] = [
     header: "Address",
     id: "address",
     accessorFn: (row) => row.prospekId?.address || "-",
-    
   },
   {
     accessorKey: "cashOrCredit",
@@ -89,11 +88,13 @@ export const columns: ColumnDef<Spk>[] = [
       const cashOrCredit = row.original.cashOrCredit;
       const statusColors: Record<string, string> = {
         Credit: "border-cyan-600 text-cyan-600",
-        Cash: "border-green-600 text-green-600",        
+        Cash: "border-green-600 text-green-600",
       };
 
       return (
-        <span className={`px-1 rounded-sm border ${statusColors[cashOrCredit]}`}>
+        <span
+          className={`px-1 rounded-sm border ${statusColors[cashOrCredit]}`}
+        >
           {cashOrCredit}
         </span>
       );
@@ -102,12 +103,12 @@ export const columns: ColumnDef<Spk>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    
+
     cell: ({ row }) => {
       const status = row.original.status;
       const statusColors: Record<string, string> = {
         "Process Do": "border-yellow-600 text-yellow-600",
-        "Cancel": "border-red-600 text-red-600",        
+        Cancel: "border-red-600 text-red-600",
       };
 
       return (
@@ -140,7 +141,7 @@ export const columns: ColumnDef<Spk>[] = [
   //   id: "actions",
   //   cell: ({ row }) => {
   //     const spkId = row.original.id;
-      
+
   //     return (
   //       <DropdownMenu>
   //         <DropdownMenuTrigger asChild>
@@ -155,7 +156,7 @@ export const columns: ColumnDef<Spk>[] = [
   //             onClick={() => navigator.clipboard.writeText(spkId)}
   //           >
   //             Copy ID
-  //           </DropdownMenuItem>          
+  //           </DropdownMenuItem>
 
   //           <DropdownMenuSeparator />
   //         </DropdownMenuContent>

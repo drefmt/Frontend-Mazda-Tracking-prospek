@@ -8,31 +8,29 @@ import {
 } from "@/types/predictScore.type";
 
 export interface BaseProspek {
-    name: string;
-    date: string;
-    whatsappNum: string;
-    address: string;
-    source: string;
-    carType: string;
-    status: string;
-  }
+  name: string;
+  date: string;
+  whatsappNum: string;
+  address: string;
+  source: string;
+  carType: string;
+  status: string;
+}
 
 export interface Prospek extends BaseProspek {
   id: string;
-  salesId: SalesId;  
+  salesId: SalesId;
   followUps: FollowUp[];
   followUpCount: number;
   createdAt: string;
-  updatedAt: string;  
+  updatedAt: string;
   demografi: Demografi;
   psikografis: Psikografis;
   perilaku: Perilaku;
   lingkungan: Lingkungan;
-  score:number;
-  scoreCategory: 'Low' | 'Medium' | 'Hot';
+  score: number;
+  scoreCategory: "Low" | "Medium" | "Hot";
 }
-
-
 
 export interface ProspekFormValue {
   name: string;
@@ -42,14 +40,14 @@ export interface ProspekFormValue {
   source: string;
   status: string;
   carType: string;
-  
+
   demografi: {
     usia: number;
     pekerjaan: string;
     penghasilan: number;
   };
   psikografis: {
-    minat: string[]; 
+    minat: string[];
     gayaHidup: string;
     motivasi: string;
   };
@@ -62,7 +60,6 @@ export interface ProspekFormValue {
     sumber: string;
   };
 }
-
 
 export interface ProspekReport {
   count: number;

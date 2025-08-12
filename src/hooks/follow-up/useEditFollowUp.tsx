@@ -2,7 +2,7 @@ import { axiosInstance } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FollowUp } from "@/interface/followUp.interface";
 
-type NewFollowUp = Omit<FollowUp, '_id'>;
+type NewFollowUp = Omit<FollowUp, "_id">;
 
 type UpdateFollowUpInput = {
   prospekId: string;
@@ -10,8 +10,15 @@ type UpdateFollowUpInput = {
   followUp: NewFollowUp;
 };
 
-const editFollowUp = async (prospekId: string, followUpId: string, followUp: NewFollowUp) => {
-  const response = await axiosInstance.put(`/prospek/${prospekId}/follow-up/${followUpId}`, followUp);
+const editFollowUp = async (
+  prospekId: string,
+  followUpId: string,
+  followUp: NewFollowUp,
+) => {
+  const response = await axiosInstance.put(
+    `/prospek/${prospekId}/follow-up/${followUpId}`,
+    followUp,
+  );
   return response.data;
 };
 

@@ -16,39 +16,46 @@ import {
   Clipboard,
 } from "lucide-react";
 
-
 // Halaman Sales
 const SalesDashboard = lazy(() => import("@/pages/sales/dashboard"));
 
 const SalesProspek = lazy(() => import("@/pages/sales/prospek"));
 const SalesProspekForm = lazy(
-  () => import("@/pages/sales/prospek/component/SalesProspekForm")
+  () => import("@/pages/sales/prospek/component/SalesProspekForm"),
 );
 const SalesProspekDetails = lazy(
-  () => import("@/pages/sales/prospek/component/ViewDetails")
+  () => import("@/pages/sales/prospek/component/ViewDetails"),
 );
 const SalesProspekFollowUp = lazy(
-  () => import("@/pages/sales/prospek/component/FollowUpForm")
+  () => import("@/pages/sales/prospek/component/FollowUpForm"),
 );
 
 const SalesSpk = lazy(() => import("@/pages/sales/spk"));
 const SalesSpkForm = lazy(() => import("@/pages/sales/spk/component/SpkForm"));
-const SalesSpkDetails = lazy(() => import("@/pages/sales/spk/component/ViewDetails"));
+const SalesSpkDetails = lazy(
+  () => import("@/pages/sales/spk/component/ViewDetails"),
+);
 
 const SalesTestDrive = lazy(() => import("@/pages/sales/testDrive"));
-const SalesTestDriveFrom = lazy(() => import("@/pages/sales/testDrive/component/Test-drive-form"));
+const SalesTestDriveFrom = lazy(
+  () => import("@/pages/sales/testDrive/component/Test-drive-form"),
+);
 
-const ActivityForm = lazy(() => import("@/pages/sales/activity/component/ActivityForm"));
+const ActivityForm = lazy(
+  () => import("@/pages/sales/activity/component/ActivityForm"),
+);
 
 const SalesRetail = lazy(() => import("@/pages/sales/retail"));
-const SalesRetailForm = lazy(() => import("@/pages/sales/retail/component/RetailForm"));
+const SalesRetailForm = lazy(
+  () => import("@/pages/sales/retail/component/RetailForm"),
+);
 
 const SalesActivity = lazy(() => import("@/pages/sales/activity"));
 
 const FeedbackLink = lazy(() => import("@/pages/sales/feedbackLink"));
-const GenerateFeedbackLinkForm = lazy(() => import("@/pages/sales/feedbackLink/component/GenerateFeedbackLinkForm"));
-
-
+const GenerateFeedbackLinkForm = lazy(
+  () => import("@/pages/sales/feedbackLink/component/GenerateFeedbackLinkForm"),
+);
 
 // HALAMAN SPV
 const Activity = lazy(() => import("@/pages/svp/activity"));
@@ -56,30 +63,36 @@ const SvpProspek = lazy(() => import("@/pages/svp/prospek/"));
 const SvpSpk = lazy(() => import("@/pages/svp/spk"));
 const SvpTestDrive = lazy(() => import("@/pages/svp/testDrive"));
 const SvpDashboard = lazy(() => import("@/pages/svp/dashboard"));
-const SvpViewDetailSpk = lazy(() => import("@/pages/svp/spk/component/SpvViewDetails"));
-const SvpViewDetailProspek = lazy(() => import("@/pages/svp/prospek/component/ViewDetails"));
-const SpvFollowUpForm = lazy(() => import("@/pages/svp/prospek/component/FollowUpForm"));
+const SvpViewDetailSpk = lazy(
+  () => import("@/pages/svp/spk/component/SpvViewDetails"),
+);
+const SvpViewDetailProspek = lazy(
+  () => import("@/pages/svp/prospek/component/ViewDetails"),
+);
+const SpvFollowUpForm = lazy(
+  () => import("@/pages/svp/prospek/component/FollowUpForm"),
+);
 const SvpRetail = lazy(() => import("@/pages/svp/retail"));
-const AddUserForm = lazy(() => import("@/pages/svp/reports/user/component/AddUserForm"));
+const AddUserForm = lazy(
+  () => import("@/pages/svp/reports/user/component/AddUserForm"),
+);
 const Feedback = lazy(() => import("@/pages/svp/feedbackLink"));
-
-
-
-
 
 // REPORT
 const svpReportProspek = lazy(() => import("@/pages/svp/reports/prospek"));
-const RetailReport = lazy(() => import('@/pages/svp/reports/retail'));
-const testDriveReport = lazy(() => import('@/pages/svp/reports/testDrive'));
-const spkReport = lazy(() => import("@/pages/svp/reports/spk"))
-const followUpReport = lazy(() => import("@/pages/svp/reports/follow-up"))
-const salesEvaluation = lazy(() => import("@/pages/svp/reports/sales-evaluation"))
-const salesPerformance = lazy(() => import("@/pages/svp/reports/sales-performance"))
-const userListReport = lazy(() => import("@/pages/svp/reports/user"))
-const ActivityReport = lazy(() => import("@/pages/svp/reports/activity"))
-const FeedbackReport = lazy(() => import("@/pages/svp/reports/feedback"))
-
-
+const RetailReport = lazy(() => import("@/pages/svp/reports/retail"));
+const testDriveReport = lazy(() => import("@/pages/svp/reports/testDrive"));
+const spkReport = lazy(() => import("@/pages/svp/reports/spk"));
+const followUpReport = lazy(() => import("@/pages/svp/reports/follow-up"));
+const salesEvaluation = lazy(
+  () => import("@/pages/svp/reports/sales-evaluation"),
+);
+const salesPerformance = lazy(
+  () => import("@/pages/svp/reports/sales-performance"),
+);
+const userListReport = lazy(() => import("@/pages/svp/reports/user"));
+const ActivityReport = lazy(() => import("@/pages/svp/reports/activity"));
+const FeedbackReport = lazy(() => import("@/pages/svp/reports/feedback"));
 
 //! Tipe untuk route
 interface RouteType {
@@ -276,59 +289,59 @@ export const svpRoute: RouteType[] = [
   },
   {
     name: "prospek Report",
-    path: 'report/prospect',
+    path: "report/prospect",
     component: svpReportProspek,
   },
   {
     name: "Test-Drive Report",
-    path: 'report/test-drive',
+    path: "report/test-drive",
     component: testDriveReport,
   },
   {
     name: "retail Report",
-    path: 'report/retail',
+    path: "report/retail",
     component: RetailReport,
-  },  
+  },
   {
     name: "spk Report",
-    path: 'report/spk',
+    path: "report/spk",
     component: spkReport,
   },
   {
     name: "Follow-up Report",
-    path: 'report/follow-up',
+    path: "report/follow-up",
     component: followUpReport,
   },
   {
     name: "Sales Evaluation",
-    path: 'report/sales-evaluation',
+    path: "report/sales-evaluation",
     component: salesEvaluation,
   },
   {
     name: "Sales Performance",
-    path: 'report/sales-performance',
+    path: "report/sales-performance",
     component: salesPerformance,
   },
   {
     name: "User Report",
-    path: 'report/users',
+    path: "report/users",
     component: userListReport,
   },
   {
     name: "User add",
-    path: 'report/users/add',
+    path: "report/users/add",
     component: AddUserForm,
   },
   {
     name: "Activity Report",
-    path: 'report/activity',
+    path: "report/activity",
     component: ActivityReport,
   },
   {
     name: "Feedback",
-    path: 'report/feedback',
+    path: "report/feedback",
     component: FeedbackReport,
-  }
+  },
 ];
 
 //* Daftar menu sidebar berdasarkan level user

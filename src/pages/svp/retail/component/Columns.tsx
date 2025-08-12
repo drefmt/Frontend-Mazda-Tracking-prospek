@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Retail } from "@/interface/retail.interface"
+import { Button } from "@/components/ui/button";
+import { Retail } from "@/interface/retail.interface";
 
 // import {
 //   DropdownMenu,
@@ -9,13 +9,13 @@ import { Retail } from "@/interface/retail.interface"
 //   DropdownMenuSeparator,
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu"
- 
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
- 
-// interface SalesId {     
-//     id: string; 
-//     username: string;  
+
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+
+// interface SalesId {
+//     id: string;
+//     username: string;
 // }
 
 // interface ProspekId  {
@@ -28,8 +28,8 @@ import { ArrowUpDown } from "lucide-react"
 //   prospekId: ProspekId;
 // }
 
-// interface Retail {  
-//   id: string;  
+// interface Retail {
+//   id: string;
 //   salesId: SalesId;
 //   spkId: SpkId;
 //   dateRetail: string;
@@ -37,57 +37,56 @@ import { ArrowUpDown } from "lucide-react"
 //   carType: string;
 // }
 
-export const columns :  ColumnDef<Retail>[] = [
-  
-  {    
-    header: "No", 
-    cell: ({ row }) => <span>{row.index + 1}</span>
+export const columns: ColumnDef<Retail>[] = [
+  {
+    header: "No",
+    cell: ({ row }) => <span>{row.index + 1}</span>,
   },
-  {        
-    header: "Sales Name", 
+  {
+    header: "Sales Name",
     cell: ({ row }) => row.original.salesId.username,
   },
-  {    
-    header: "Spk Name", 
+  {
+    header: "Spk Name",
     id: "SpkName",
-    accessorFn: ( row ) => row.spkId.prospekId.name,
+    accessorFn: (row) => row.spkId.prospekId.name,
   },
   {
     accessorKey: "dateRetail",
     header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Date Spk
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      cell: ({ row }) => {
-        const formattedDate = new Date(row.original.dateRetail).toLocaleDateString("id-ID", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        });
-        return <span>{formattedDate}</span>;
-      },
-    
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date Spk
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const formattedDate = new Date(
+        row.original.dateRetail,
+      ).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+      return <span>{formattedDate}</span>;
+    },
   },
-  
+
   {
     accessorKey: "carType",
     header: "Car Type",
   },
-  
+
   // {
   //   accessorKey: "Action",
   //   id: "actions",
   //   cell: ({ row }) => {
-  //     const retailId = row.original.id; 
-      
- 
+  //     const retailId = row.original.id;
+
   //     return (
   //       <DropdownMenu>
   //         <DropdownMenuTrigger asChild>
@@ -103,11 +102,10 @@ export const columns :  ColumnDef<Retail>[] = [
   //           >
   //             Copy ID
   //           </DropdownMenuItem>
-  //           <DropdownMenuSeparator />            
+  //           <DropdownMenuSeparator />
   //         </DropdownMenuContent>
   //       </DropdownMenu>
   //     )
   //   },
   // },
-]
-
+];

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -46,9 +45,7 @@ const Login: React.FC = () => {
     },
 
     onError: () => {
-      setError(
-          "Login gagal. Periksa kembali username dan password."
-      );
+      setError("Login gagal. Periksa kembali username dan password.");
     },
   });
 
@@ -62,7 +59,7 @@ const Login: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
-    loginMutation.mutate(); 
+    loginMutation.mutate();
   };
 
   return (
@@ -77,7 +74,10 @@ const Login: React.FC = () => {
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
           <div className="pb-4 w-full">
-            <label htmlFor="username" className="text-white uppercase text-[14px]">
+            <label
+              htmlFor="username"
+              className="text-white uppercase text-[14px]"
+            >
               Username
             </label>
             <Input
@@ -90,7 +90,10 @@ const Login: React.FC = () => {
           </div>
 
           <div className="pb-3 w-full">
-            <label htmlFor="password" className="text-white uppercase text-[14px]">
+            <label
+              htmlFor="password"
+              className="text-white uppercase text-[14px]"
+            >
               Password
             </label>
             <Input

@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-import { Spk } from "@/interface/spk.interface"
+import { Spk } from "@/interface/spk.interface";
 
 const fetchSpkById = async (id: string): Promise<Spk> => {
   const response = await axiosInstance.get(`spk/${id}`);
@@ -9,9 +9,9 @@ const fetchSpkById = async (id: string): Promise<Spk> => {
 
 export const useFetchSpkById = (id?: string) => {
   return useQuery<Spk, Error>({
-    queryKey: ["spk"], 
+    queryKey: ["spk"],
     queryFn: () => fetchSpkById(id!),
-    enabled: !!id, 
+    enabled: !!id,
     retry: 1,
   });
 };

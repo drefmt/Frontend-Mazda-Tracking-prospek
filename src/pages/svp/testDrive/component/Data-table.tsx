@@ -43,11 +43,11 @@ export function DataTable<
   TData extends {
     salesId: { username: string };
   },
-  TValue
+  TValue,
 >({ columns, data }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -126,7 +126,7 @@ export function DataTable<
                 >
                   {salesName || "-"}
                 </DropdownMenuItem>
-              )
+              ),
             )}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -134,9 +134,14 @@ export function DataTable<
         <div className="items-center">
           <Input
             placeholder="Search By name..."
-            value={(table.getColumn("prospectName")?.getFilterValue() as string) ?? ""}
+            value={
+              (table.getColumn("prospectName")?.getFilterValue() as string) ??
+              ""
+            }
             onChange={(event) =>
-              table.getColumn("prospectName")?.setFilterValue(event.target.value)
+              table
+                .getColumn("prospectName")
+                ?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
@@ -157,7 +162,7 @@ export function DataTable<
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -177,7 +182,7 @@ export function DataTable<
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

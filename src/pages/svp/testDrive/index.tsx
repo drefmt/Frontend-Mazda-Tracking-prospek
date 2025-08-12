@@ -3,10 +3,13 @@ import { columns as defaultColumns } from "./component/Columns";
 import { useFetchTestDrive } from "@/hooks/testDrive/useFetchTestDrive";
 import { DataTable } from "./component/Data-table";
 
-
 const SalesTestDrive = () => {
-  const { data: dataTestDrive, isLoading: testDriveIsLoading, isError: testDriveIsError } = useFetchTestDrive();
-  
+  const {
+    data: dataTestDrive,
+    isLoading: testDriveIsLoading,
+    isError: testDriveIsError,
+  } = useFetchTestDrive();
+
   const columns = useMemo(() => defaultColumns, []);
 
   if (testDriveIsLoading) {

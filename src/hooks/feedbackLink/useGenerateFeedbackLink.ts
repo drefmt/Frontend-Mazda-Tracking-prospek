@@ -1,13 +1,13 @@
-
 import { axiosInstance } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 
 interface GenerateFeedbackLinkPayload {
   retailId: string;
 }
 
-const generateFeedbackLink = async ({ retailId }: GenerateFeedbackLinkPayload) => {
+const generateFeedbackLink = async ({
+  retailId,
+}: GenerateFeedbackLinkPayload) => {
   const response = await axiosInstance.post(`/feedback/generate`, { retailId });
   return response.data;
 };

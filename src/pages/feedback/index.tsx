@@ -34,7 +34,7 @@ export default function FeedbackPage() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -59,11 +59,11 @@ export default function FeedbackPage() {
         onError: (error: any) => {
           setErrorMessage(
             error?.response?.data?.message ||
-              "Terjadi kesalahan saat mengirim feedback"
+              "Terjadi kesalahan saat mengirim feedback",
           );
           setStatus("error");
         },
-      }
+      },
     );
   };
 
@@ -78,7 +78,7 @@ export default function FeedbackPage() {
             Beri Penilaian Anda
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4"> 
+        <CardContent className="space-y-4">
           {status === "success" && (
             <Alert
               variant="default"

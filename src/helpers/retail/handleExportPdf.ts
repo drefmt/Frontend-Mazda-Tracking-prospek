@@ -29,29 +29,18 @@ export const handleExportPDF = (report: RetailReport) => {
     generatedBy,
   });
 
-  
-
   // Table
   autoTable(doc, {
     // Header
     startY,
-    head: [
-      [
-        "No",
-        "Sales Name",
-        "SPK Name",
-        "Date Retail",
-        "Car Type",       
-      ],
-    ],
+    head: [["No", "Sales Name", "SPK Name", "Date Retail", "Car Type"]],
 
     body: data.map((row, index) => [
       index + 1,
-      row.salesId.username ?? '',
+      row.salesId.username ?? "",
       row.spkId?.prospekId.name ?? "-",
       formatDate(row.dateRetail),
       row.carType,
-
     ]),
 
     styles: {
@@ -74,14 +63,13 @@ export const handleExportPDF = (report: RetailReport) => {
     tableLineColor: gray900,
   });
 
-  const finalY = doc.lastAutoTable?.finalY || 6
-//   Footer
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  //   Footer
   renderPdfFooter(doc, {
     finalY,
     generatedBy,
   });
 
-
-  const pdfUrl = doc.output('bloburi');
-  window.open(pdfUrl)
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

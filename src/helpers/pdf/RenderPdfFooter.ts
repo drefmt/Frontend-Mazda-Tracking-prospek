@@ -7,12 +7,12 @@ import jsPDF from "jspdf";
  * @param doc - Instance jsPDF
  * @param options - finalY: posisi akhir konten sebelumnya
  * @param generatedBy - Nama pembuat laporan (di footer)
- */export const renderPdfFooter = (
+ */ export const renderPdfFooter = (
   doc: jsPDF,
   options: {
     finalY: number;
     generatedBy: string;
-  }
+  },
 ) => {
   const { finalY, generatedBy } = options;
 
@@ -20,7 +20,7 @@ import jsPDF from "jspdf";
   const pageWidth = doc.internal.pageSize.getWidth();
   const marginBottom = 3;
 
-   const marginRight = 2; // ⏪ Biar tidak mepet kanan
+  const marginRight = 2; // ⏪ Biar tidak mepet kanan
   const textWidth = 5.5; // Estimasi panjang teks tanda tangan
 
   const signatureX = pageWidth - textWidth - marginRight;
@@ -39,13 +39,13 @@ import jsPDF from "jspdf";
   doc.setFontSize(12);
 
   // ✍️ Signature block
-  doc.text("Supervisor,",  signatureX , signatureY);
-  doc.text("_________________________",  signatureX, signatureY + 2);
+  doc.text("Supervisor,", signatureX, signatureY);
+  doc.text("_________________________", signatureX, signatureY + 2);
 
   // 📎 Footer tetap di bawah halaman
   doc.text(
     `Generated from Mazda Tracking System - ${generatedBy}`,
     1,
-    pageHeight - 0.5
+    pageHeight - 0.5,
   );
 };

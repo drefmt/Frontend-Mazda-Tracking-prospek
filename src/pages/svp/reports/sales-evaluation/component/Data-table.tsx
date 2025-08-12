@@ -34,15 +34,16 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-
-
-
-export function DataTable<TData, TValue>({columns,data,}: DataTableProps<TData, TValue>) {
-
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   // const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
 
   const table = useReactTable({
     data,
@@ -63,45 +64,53 @@ export function DataTable<TData, TValue>({columns,data,}: DataTableProps<TData, 
 
   return (
     <>
-      <div className="pb-4 ">
-
-      </div>
-      <div className="flex pb-4 justify-start gap-4">    
+      <div className="pb-4 "></div>
+      <div className="flex pb-4 justify-start gap-4">
         <div className="flex gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                Columns
-              </Button>
+              <Button variant="outline">Columns</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {table.getAllColumns().filter((column) => column.getCanHide()).map((column) => {
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
                       onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)}>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
                       {column.id}
-                    </DropdownMenuCheckboxItem>);
+                    </DropdownMenuCheckboxItem>
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>                
-        </div>          
-        {/* Data Table */}
+        </div>
+      </div>
+      {/* Data Table */}
       <div className="rounded-md border border-gray-300 p-2">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-b border-b-gray-300">
+                className="border-b border-b-gray-300"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder? null: flexRender(header.column.columnDef.header,header.getContext())}
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
@@ -115,10 +124,14 @@ export function DataTable<TData, TValue>({columns,data,}: DataTableProps<TData, 
                 <TableRow
                   className="border- border-gray-300"
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}>
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell,cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

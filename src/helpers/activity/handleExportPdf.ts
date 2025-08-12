@@ -4,8 +4,7 @@ import autoTable from "jspdf-autotable";
 import { ActivityReport } from "@/interface/activity.interface";
 import { renderPdfHeader } from "../pdf/renderPdfHeader";
 import { renderPdfFooter } from "../pdf/RenderPdfFooter";
-import { formatDate } from "@/utils/formatDate"
-
+import { formatDate } from "@/utils/formatDate";
 
 export const handleExportPDF = (report: ActivityReport) => {
   const doc = new jsPDF({
@@ -27,7 +26,6 @@ export const handleExportPDF = (report: ActivityReport) => {
     generatedBy,
   });
 
-
   autoTable(doc, {
     // Header
     startY,
@@ -40,13 +38,13 @@ export const handleExportPDF = (report: ActivityReport) => {
         "Description",
         "Is Completed",
         "Location",
-        "Notes",             
+        "Notes",
       ],
     ],
 
     body: data.map((row, index) => [
       index + 1,
-      row.salesId?.username ?? "-",      
+      row.salesId?.username ?? "-",
       formatDate(row.date),
       row.activityType,
       row.description,
@@ -54,7 +52,6 @@ export const handleExportPDF = (report: ActivityReport) => {
       row.location,
       row.location,
       row.notes,
-
     ]),
 
     styles: {
@@ -77,14 +74,13 @@ export const handleExportPDF = (report: ActivityReport) => {
     tableLineColor: gray900,
   });
 
-  const finalY = doc.lastAutoTable?.finalY || 6
-//   Footer
+  const finalY = doc.lastAutoTable?.finalY || 6;
+  //   Footer
   renderPdfFooter(doc, {
     finalY,
     generatedBy,
   });
 
-
-  const pdfUrl = doc.output('bloburi');
-  window.open(pdfUrl)
+  const pdfUrl = doc.output("bloburi");
+  window.open(pdfUrl);
 };

@@ -31,7 +31,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export const columns = (handleDelete: (id: string) => void): ColumnDef<Prospek>[] => {
+export const columns = (
+  handleDelete: (id: string) => void,
+): ColumnDef<Prospek>[] => {
   return [
     {
       header: "No",
@@ -58,7 +60,7 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<Prospek>[
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
-          }
+          },
         );
         return <span>{formattedDate}</span>;
       },
@@ -226,7 +228,7 @@ export const columns = (handleDelete: (id: string) => void): ColumnDef<Prospek>[
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>              
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => navigate(`${prospekId}/follow-up/`)}

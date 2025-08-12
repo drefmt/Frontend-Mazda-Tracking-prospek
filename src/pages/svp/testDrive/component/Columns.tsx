@@ -51,7 +51,7 @@ export const columns: ColumnDef<TestDrive>[] = [
     accessorKey: "dateTestDrive",
     cell: ({ row }) => {
       const formattedDate = new Date(
-        row.original.dateTestDrive
+        row.original.dateTestDrive,
       ).toLocaleDateString("id-ID", {
         day: "2-digit",
         month: "2-digit",

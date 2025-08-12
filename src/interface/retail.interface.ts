@@ -2,7 +2,6 @@ import { BaseProspek } from "./prospek.interface";
 import { SalesId } from "@/types/salesId.type";
 import { SpkId } from "@/types/spkId.type";
 
-
 export interface Retail extends BaseProspek {
   salesId: SalesId;
   spkId: SpkId;

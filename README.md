@@ -21,7 +21,7 @@ Sebelum menjalankan aplikasi ini, pastikan sudah terpasang:
 - **Vite** – Build tool untuk development dan production
 - **Tailwind CSS** – Framework Css
 - **ShadCN UI + Radix UI** – Komponen UI
-- **TanStack Query & TanStack Table** – Data fetching & tabel 
+- **TanStack Query & TanStack Table** – Data fetching & tabel
 - **Formik + Yup** – Form handling & validasi
 - **React Router v7** – Routing halaman
 - **Date-fns** – Manipulasi tanggal
@@ -29,7 +29,6 @@ Sebelum menjalankan aplikasi ini, pastikan sudah terpasang:
 - **Axios** – HTTP client untuk komunikasi API
 - **Zustand** – State management
 - **JsPDF + AutoTable** – Export laporan ke PDF
-
 
 ---
 
@@ -41,31 +40,33 @@ Buat file `.env` di root folder `frontend`:
 VITE_API_URL=http://localhost:5000/api
 ```
 
-
 ## 1. Instalasi & Menjalankan Aplikasi
 
 ```bash
 git clone https://github.com/drefmt/Frontend-Mazda-Tracking-prospek
 cd NAMA_REPO
 ```
+
 ## 2. Install Dependencies
+
 ```
 npm install
 ```
 
 ## 3. Jalankan Development Server
+
 ```
 npm run dev
 ```
 
 ## Fitur Utama
+
 - CRUD Prospek – Tambah, edit, hapus prospek
 - CRUD Test Drive, SPK, dan Retail
 - Reminder Follow-up – Notifikasi otomatis untuk prospek yang - harus di-follow-up
 - Dashboard Sales & Supervisor
 - Laporan PDF
--Feedback Pelanggan – Kirim link feedback aman dengan masa berlaku
-
+  -Feedback Pelanggan – Kirim link feedback aman dengan masa berlaku
 
 ```
 frontend/
@@ -91,7 +92,7 @@ frontend/
 ├── .env                   # Konfigurasi environment
 ├── .env.example           # Contoh konfigurasi environment
 ├── .gitignore
-└── package.json    
+└── package.json
 
 ```
 

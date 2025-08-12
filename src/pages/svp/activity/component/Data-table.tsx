@@ -37,13 +37,17 @@ interface DataTableProps<TData, TValue> {
 // import { Input } from "@/components/ui/input";
 import { Filter } from "lucide-react";
 
-export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TData, TValue>) {
-
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   // const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null); // State kategori
-
 
   const table = useReactTable({
     data,
@@ -62,16 +66,13 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
     },
   });
 
-
-
   return (
     <>
-    
       <div className="flex gap-4 pb-4 justify-between">
         <div className="pr-10 flex gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto" >
+              <Button variant="outline" className="ml-auto">
                 <Filter width={18} />
                 Columns
               </Button>
@@ -108,15 +109,12 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
               }
               className="max-w-sm"
             /> */}
-
           </div>
         </div>
-
       </div>
       {/* Looping Header from  column*/}
       <div className="rounded-md border-gray-300 dark:border-gray-800 border">
         <div>
-
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -130,9 +128,9 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
                       </TableHead>
                     );
                   })}
@@ -152,7 +150,7 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
                       <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </TableCell>
                     ))}
@@ -190,7 +188,6 @@ export function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TDat
             </Button>
           </div>
         </div>
-
       </div>
     </>
   );

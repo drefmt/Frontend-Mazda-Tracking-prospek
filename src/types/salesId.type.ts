@@ -1,5 +1,5 @@
 export type SalesId = {
-    id: string;
-    username: string;
-    level?: string
+  id: string;
+  username: string;
+  level?: string;
 };
