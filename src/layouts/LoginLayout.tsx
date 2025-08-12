@@ -45,9 +45,9 @@ const Login: React.FC = () => {
       navigate(user.level === "sales" ? "/sales/dashboard" : "/svp/dashboard");
     },
 
-    onError: (err: Error) => {
+    onError: () => {
       setError(
-        err.message || "Login gagal. Periksa kembali username dan password."
+          "Login gagal. Periksa kembali username dan password."
       );
     },
   });

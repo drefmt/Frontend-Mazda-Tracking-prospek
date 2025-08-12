@@ -40,8 +40,7 @@ export interface FeedbackLink {
   feedbackId?: {
     rating: number;
     message: string;
-    customerName: string;
-    submittedAt: string;
+    customerName: string; 
   };
 }
 export interface SummaryFeedbackReport {

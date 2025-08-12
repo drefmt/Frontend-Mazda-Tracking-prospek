@@ -113,12 +113,12 @@ const SpkForm = () => {
                 variant="ghost"
                 className="border border-gray-300 dark:border-gray-800"
                 disabled={formik.isSubmitting}
-              >
-                {formik.isSubmitting ? "Loading..." : "Submit"}
+              >Back
               </Button>
             </Link>
             <Button type="submit" className="bg-black hover:bg-black/90">
-              Submit
+              
+                {formik.isSubmitting ? "Loading..." : "Submit"}
             </Button>
           </div>
           <div className="pb-4">
