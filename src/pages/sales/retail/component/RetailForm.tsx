@@ -13,9 +13,7 @@ import { useFetchRetailById } from "@/hooks/retail/useFetchRetailById";
 
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-
-const RetailForm = () => {
-  const { id } = useParams();
+import React from "react";
 
   // ********** Validation Schema **********
   const retailValidationSchema = Yup.object({
@@ -24,29 +22,46 @@ const RetailForm = () => {
       carType: Yup.string().required("Tipe Mobil Harus Diisi"),
     });
 
+const RetailForm = () => {
+  const { id } = useParams();
 
   // ********** Data Fecthing **********
-  const { data: retailDataById, isLoading: loadingSpk, error: errorSpk } = useFetchRetailById(id);
-  const { data: spkData, isLoading: loadingRetail, error: errorRetail } = useFetchSpk();
+  const { data: allSpk, isLoading: loadingSpk, error: errorSpk } = useFetchSpk();
+  const { data: retailData, isLoading: loadingRetail, error: errorRetail } = useFetchRetailById(id);
   const editRetail = useEditRetail();
   const createRetail = useCreateRetail();
 
+  const isEditMode = Boolean(id);
+  const spkData = React.useMemo(() => {
+   return isEditMode ? allSpk : allSpk?.filter((spk) => spk.status !== 'Delivered');
+  }, [isEditMode, allSpk])
+
+  // ********** Initial Value **********
+  const initialValues = React.useMemo(() => {
+    if(isEditMode && retailData){
+      return {
+        spkId: retailData?.spkId?.id || "",
+      dateRetail: retailData?.dateRetail ? format(new Date(retailData.dateRetail), "yyyy-MM-dd") : "",
+      carType: retailData?.carType || "",
+      }
+    }
+    return {
+      spkId: "",
+      dateRetail:"",
+      carType: "",
+    };
+  },[retailData, isEditMode]);
+
   // ********** Formik Initial Value **********
   const formik = useFormik({
-    initialValues: {
-      spkId: retailDataById?.spkId?.id || "",
-      dateRetail: retailDataById?.dateRetail
-        ? format(new Date(retailDataById.dateRetail), "yyyy-MM-dd")
-        : "",
-      carType: retailDataById?.carType || "",
-    },
+    initialValues,
     enableReinitialize: true,
     validationSchema: retailValidationSchema,
 
     onSubmit: async (values, { resetForm }) => {
       try {
         const payload = { ...values, spkId: values.spkId };
-        if (id) {
+        if (id && retailData) {
           await editRetail.mutateAsync({ id, retailData: payload });
         } else {
           await createRetail.mutateAsync(payload);

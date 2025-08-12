@@ -4,6 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { NumericFormat } from "react-number-format";
+import toast from "react-hot-toast";
+import React from "react";
 
 import * as Yup from "yup";
 
@@ -13,11 +15,25 @@ import { useEditSpk } from "@/hooks/spk/useEditSpk";
 import { useFetchSpkById } from "@/hooks/spk/useSpkById";
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 
-import toast from "react-hot-toast";
-import React from "react";
+// ********** SPK Validation Schema **********
+const spkValidationShema = Yup.object({
+  prospekId: Yup.string().required("Prospek wajib dipilih"),
+  dateSpk: Yup.string().required("Tanggal SPK wajib diisi"),
+  noKtp: Yup.string()
+    .required("No KTP wajib diisi")
+    .typeError("No KTP harus berupa angka")
+    .matches(/^\d+$/, "No KTP harus berupa angka")
+    .max(16, "No KTP maksimal 16 digit")
+    .min(16, "No KTP harus 16 digit"),
+  leasing: Yup.string().required("Leasing wajib diisi"),
+  downPayment: Yup.number().required("Pembayaran Awal Wajib diIsi").min(1).typeError("Pembayaran Awal Minimal 1"), 
+  status: Yup.string().required("Status terdiri dari Process Do dan Cancel"), 
+});
 
 const SpkForm = () => {
   const { id } = useParams();
+
+  // ********** Hook Data Fetching **********
   const { data: allProspek, isLoading: loadingProspek } = useFetchProspek();
   const { data: spkData } = useFetchSpkById(id);
   const editSpk = useEditSpk();
@@ -28,10 +44,11 @@ const SpkForm = () => {
     ? allProspek
     : allProspek?.filter((p) => p.status !== "SPK");
 
+  // ********** Initial Value **********
   const initialValues = React.useMemo(() => {
     if (isEditMode && spkData) {
       return {
-        prospekId: spkData.prospekId?.id ??  "",
+        prospekId: spkData.prospekId?.id ?? "",
         dateSpk: spkData.dateSpk
           ? new Date(spkData.dateSpk).toISOString().split("T")[0]
           : "",
@@ -43,6 +60,7 @@ const SpkForm = () => {
         status: spkData.status ?? "Process Do",
       };
     }
+
     return {
       prospekId: "",
       dateSpk: "",
@@ -55,30 +73,18 @@ const SpkForm = () => {
     };
   }, [spkData, isEditMode]);
 
+  // ********** Use formik **********
   const formik = useFormik({
     initialValues,
     enableReinitialize: true,
-    validationSchema: Yup.object({
-      prospekId: Yup.string().required("Prospek wajib dipilih"),
-      dateSpk: Yup.string().required("Tanggal SPK wajib diisi"),
-      noKtp: Yup.string()
-        .required("No KTP wajib diisi")
-        .typeError("No KTP harus berupa angka")
-        .matches(/^\d+$/, "No KTP harus berupa angka")
-        .max(16, "No KTP maksimal 16 digit")
-        .min(16, "No KTP harus 16 digit"),
-      leasing: Yup.string().required("Leasing wajib diisi"),
-      status: Yup.string().required(
-        "Status terdiri dari Process Do dan Cancel"
-      ),
-    }),
+    validationSchema: spkValidationShema,
 
     onSubmit: async (values, { resetForm }) => {
       try {
+        const payload = { ...values, prospekId: values.prospekId };
         if (id && spkData) {
           await editSpk.mutateAsync({ id, spkData: values });
         } else {
-          const payload = { ...values };
           await createSpk.mutateAsync(payload);
         }
         toast.success(
@@ -92,11 +98,6 @@ const SpkForm = () => {
     },
   });
 
-  console.log("spkData.prospekId.id =>", spkData?.prospekId?.id);
-  console.log("formik.values.prospekId =>", formik.values.prospekId);
-  console.log("prospekData IDs =>",prospekData?.map((p) => p.id)
-  );
-
   if ((isEditMode && !spkData) || loadingProspek) {
     return <p>Loading...</p>;
   }
@@ -109,15 +110,16 @@ const SpkForm = () => {
           <div className="flex justify-between pb-4">
             <Link to="/sales/spk">
               <Button
+                type="submit"
                 variant="ghost"
                 className="border border-gray-300 dark:border-gray-800"
                 disabled={formik.isSubmitting}
-              >Back
+              >
+                Back
               </Button>
             </Link>
             <Button type="submit" className="bg-black hover:bg-black/90">
-              
-                {formik.isSubmitting ? "Loading..." : "Submit"}
+              {formik.isSubmitting ? "Loading..." : "Submit"}
             </Button>
           </div>
           <div className="pb-4">
@@ -140,7 +142,7 @@ const SpkForm = () => {
                 ))
               )}
             </select>
-            {formik.errors.prospekId && (
+            {formik.touched.prospekId && formik.errors.prospekId &&(
               <p className="text-red-500">{formik.errors.prospekId}</p>
             )}
           </div>
@@ -154,6 +156,9 @@ const SpkForm = () => {
                 onChange={formik.handleChange}
                 value={formik.values.dateSpk}
               />
+              {formik.touched.dateSpk &&formik.errors.dateSpk && (
+                <p className="text-red-500">{formik.errors.dateSpk}</p>
+              )}
             </div>
           </div>
           <div className="flex-grow pb-4">
@@ -167,6 +172,9 @@ const SpkForm = () => {
               onChange={formik.handleChange}
               value={formik.values.noKtp}
             />
+            {formik.touched.noKtp && formik.errors.noKtp && (
+              <p className="text-red-500">{formik.errors.noKtp}</p>
+            )}
           </div>
           <div className="flex-grow pb-4">
             <Label htmlFor="cashOrCredit">Cash Or Credit</Label>
@@ -181,6 +189,9 @@ const SpkForm = () => {
               <option value="Cash">Cash</option>
               <option value="Credit">Credit</option>
             </select>
+            {formik.touched.cashOrCredit && formik.errors.cashOrCredit && (
+              <p className="text-red-500">{formik.errors.cashOrCredit}</p>              
+              )}
           </div>
           {/* Revisi Down payment */}
           <div className="flex-grow pb-4">
@@ -198,6 +209,9 @@ const SpkForm = () => {
                 formik.setFieldValue("downPayment", values.floatValue || 0);
               }}
             />
+            {formik.touched.downPayment && formik.errors.downPayment && (
+              <p className="text-red-500">{formik.errors.downPayment}</p>              
+              )}
           </div>
           {formik.values.cashOrCredit === "Credit" && (
             <div className="flex-grow block pb-4">
@@ -211,6 +225,9 @@ const SpkForm = () => {
                 onChange={formik.handleChange}
                 value={formik.values.tenor}
               />
+              {formik.touched.tenor && formik.errors.tenor && (
+              <p className="text-red-500">{formik.errors.tenor}</p>              
+              )}
             </div>
           )}
           <div className="flex-grow pb-4">
@@ -224,6 +241,9 @@ const SpkForm = () => {
               onChange={formik.handleChange}
               value={formik.values.leasing}
             />
+            {formik.errors.leasing && (
+              <p className="text-red-500">{formik.errors.leasing}</p>              
+              )}
           </div>
           <div className="flex-grow pb-4">
             <Label htmlFor="status">Status Spk</Label>
@@ -239,6 +259,9 @@ const SpkForm = () => {
               <option value="Process Do">Process Do</option>
               <option value="Delivered">Delivered</option>
               <option value="Cancel">Cancel</option>
+            {formik.touched.status && formik.errors.status && (
+              <p className="text-red-500">{formik.errors.status}</p>              
+              )}
             </select>
           </div>
         </form>
