@@ -176,6 +176,9 @@ const FollowUpForm = () => {
         <option value="Email">Email</option>
         <option value="Kunjungan">Kunjungan</option>
         <option value="Lainnya">Lainnya</option>
+        {formik.touched.interaction && formik.errors.interaction && (
+        <p className="text-red-500">{formik.errors.interaction}</p>
+      )}
       </select>
 
       <label htmlFor="note">Catatan</label>
@@ -187,6 +190,9 @@ const FollowUpForm = () => {
         onBlur={formik.handleBlur}
         value={formik.values.note}
       />
+      {formik.touched.note && formik.errors.note && (
+        <p className="text-red-500">{formik.errors.note}</p>
+      )}
       <label className="text-lg">Respon Customer</label>
       <Textarea
         name="customerResponse"

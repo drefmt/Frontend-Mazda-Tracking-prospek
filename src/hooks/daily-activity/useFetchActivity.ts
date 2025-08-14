@@ -4,6 +4,8 @@ import { Activity } from "@/interface/activity.interface";
 
 const fetchActivity = async (): Promise<Activity[]> => {
   const response = await axiosInstance.get("/activity");
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   if (response.status !== 200) {
     throw new Error("Failed to fetch activity data");
   }

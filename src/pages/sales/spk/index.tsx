@@ -3,6 +3,7 @@ import { useDeleteSpk } from "@/hooks/spk/useDeleteSpk";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchSpk } from "@/hooks/spk/useFetchSpk";
+import { Skeletons } from "@/components/Skeletons";
 
 const SalesSpk = () => {
   const {
@@ -24,7 +25,7 @@ const SalesSpk = () => {
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);
 
   if (spkIsLoading) {
-    return <p>Loading data...</p>;
+    return <Skeletons.Spk/>;
   }
 
   if (spkIsError) {

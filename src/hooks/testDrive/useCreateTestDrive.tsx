@@ -1,14 +1,8 @@
 import { axiosInstance } from "@/lib/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { TestDriveDataRequest } from "@/interface/testDrive.interface"
 
-interface TestDriveData {
-  prospekId: string;
-  // salesId: string;
-  dateTestDrive: string;
-  carType: string;
-}
-
-const createTestDrive = async (testDriveData: TestDriveData) => {
+const createTestDrive = async (testDriveData: TestDriveDataRequest) => {
   const response = await axiosInstance.post("/test-drive", testDriveData);
 
   return response.data;

@@ -4,6 +4,11 @@ import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchFeedbackLink } from "@/hooks/feedbackLink/useFetchFeedbackLink";
 import { useCallback, useMemo } from "react";
+import { Skeletons } from "@/components/Skeletons";
+import { confirmDelete } from "@/components/ConfirmDelete";
+
+
+
 
 const FeedbackLink = () => {
   const { data: feedbackLinkData, isLoading, isError } = useFetchFeedbackLink();
@@ -11,9 +16,9 @@ const FeedbackLink = () => {
 
   const handleDelete = useCallback(
     (id: string) => {
-      if (window.confirm("Apakah Anda yakin ingin menghapus prospek ini?")) {
+      confirmDelete(() => {
         deleteFeedbackLink(id);
-      }
+      })
     },
     [deleteFeedbackLink],
   );
@@ -21,7 +26,7 @@ const FeedbackLink = () => {
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);
 
   if (isLoading) {
-    return <p>Loading data...</p>;
+    return <Skeletons.Feedback/>;
   }
 
   if (isError) {

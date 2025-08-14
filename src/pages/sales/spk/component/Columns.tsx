@@ -13,27 +13,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-export type ProspekId = {
-  // id: string;
-  name: string;
-  address: string;
-};
-
-export type SalesId = {
-  id: string;
-  username: string;
-};
-
-export type Spk = {
-  prospekId?: ProspekId;
-  salesId: SalesId;
-  dateSpk: string;
-  noKtp: string;
-  cashOrCredit: string;
-  status: string;
-  id: string;
-};
+import { Spk } from "@/interface/spk.interface";
 
 export const columns = (
   handleDelete: (id: string) => void,

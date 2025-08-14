@@ -4,6 +4,8 @@ import { Summary } from "@/interface/summary.interface";
 
 const fetchSummary = async (): Promise<Summary> => {
   const response = await axiosInstance.get("/dashboard/summary");
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   if (response.status !== 200) {
     throw new Error("Failed to fetch Summary");
   }

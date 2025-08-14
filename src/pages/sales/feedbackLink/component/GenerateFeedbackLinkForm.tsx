@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { useFetchRetail } from "@/hooks/retail/useFetchRetail";
 import { Card } from "@/components/ui/card";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const GenerateFeedbackLinkForm = () => {
   const { mutateAsync } = useGenerateFeedbackLink();
@@ -33,8 +34,11 @@ const GenerateFeedbackLinkForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="space-y-4 max-w-md">
-      <Card className="p-4 mt-10">
+    <form onSubmit={formik.handleSubmit} className="space-y-4 max-w-md w-ful">
+      <Card className="p-4 mt-10 w-full">
+        <Link to="/sales/feedback-link">
+        <Button variant="outline" className="w-20">Back</Button>
+        </Link>
         <div>
           <Label htmlFor="retailId">Pilih Retail</Label>
           <select

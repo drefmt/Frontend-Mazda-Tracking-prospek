@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,51 +9,61 @@ import * as Yup from "yup";
 import { useFetchProspek } from "@/hooks/prospek/useFetchProspek";
 import { useEditTestDrive } from "@/hooks/testDrive/useEditTestDrive";
 import { useCreateTestDrive } from "@/hooks/testDrive/useCreateTestDrive";
-import { useEffect } from "react";
-import { useFetchTestDrive } from "@/hooks/testDrive/useFetchTestDrive";
+import { useMemo } from "react";
+import { useFetchTestDriveById } from "@/hooks/testDrive/useFetchTestDriveById";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 
 const TestDriveForm = () => {
+
+  // ********** Hook Fech Data API **********
   const { id } = useParams();
   const { data: prospekData, isLoading: loadingProspek } = useFetchProspek();
-  const { data: testDriveData } = useFetchTestDrive();
+  const { data: testDriveData } = useFetchTestDriveById(id);
 
   const editTestDrive = useEditTestDrive();
   const createTestDrive = useCreateTestDrive();
-  // const navigate = useNavigate();
+  const isEditMode = Boolean(id);
 
-  const formik = useFormik({
-    initialValues: {
-      prospekId: "",      
-      dateTestDrive: "",
-      carType: "",
-    },
 
-    validationSchema: Yup.object({
+  // ********** Test-Drive Validation Schema **********
+  const testDrivevalidationSchema = Yup.object({
       prospekId: Yup.string().required("Prospek wajib dipilih"),
       dateTestDrive: Yup.string().required("Tanggal Test drive wajib diisi"),
       carType: Yup.string().required("Tipe Mobil harus diisi"),
-    }),
+    }); 
+
+  // ********** Initial Value **********  
+  const initialValues = useMemo(() => {
+    if(isEditMode && testDriveData) {
+      return {
+        prospekId: testDriveData?.prospekId?.id ?? "",          
+          dateTestDrive: testDriveData?.dateTestDrive
+            ? format(new Date(testDriveData?.dateTestDrive), "yyyy-MM-dd")
+            : "",
+          carType: testDriveData?.carType ?? "",
+      }
+    }
+    return {
+      prospekId: "",
+      dateTestDrive: "",
+      carType: "",
+    }
+  }, [testDriveData, isEditMode]);
+
+  // ********** Use Formik **********
+  const formik = useFormik({
+    initialValues,
+    validationSchema: testDrivevalidationSchema,
+    enableReinitialize: true,
 
     onSubmit: async (values, { resetForm }) => {
       try {
-        const testDriveData = {
-          ...values,
-          prospekId: values.prospekId,
-        };
-      
-
-        if (id) {
-          await editTestDrive.mutateAsync({
-            id,
-            testDriveData: { ...testDriveData, prospekId: values.prospekId },
-          });
+        // const payload = { ...values, prospekId: values.prospekId,};
+        if (id && testDriveData) {
+          await editTestDrive.mutateAsync({id, testDriveData: values});
         } else {
-          await createTestDrive.mutateAsync({
-            ...testDriveData,
-            prospekId: values.prospekId,
-          });
+          await createTestDrive.mutateAsync(values);
         }
         toast.success(
           id
@@ -69,24 +78,7 @@ const TestDriveForm = () => {
     },
   });
 
-  // navigate("/sales/test-drive");
-  useEffect(() => {
-    if (id && testDriveData) {
-      const testDrive = testDriveData.find(
-        (parameter: { id: string }) => parameter.id === id
-      );
-      if (testDrive) {
-        formik.setValues({
-          prospekId: testDrive.prospekId?.id || "",          
-          dateTestDrive: testDrive.dateTestDrive
-            ? format(new Date(testDrive.dateTestDrive), "yyyy-MM-dd")
-            : "",
-          carType: testDrive.carType || "",
-        });
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, testDriveData]);
+
 
   return (
     <>
@@ -131,7 +123,7 @@ const TestDriveForm = () => {
                 ))
               )}
             </select>
-            {formik.errors.prospekId && (
+            {formik.touched.prospekId && formik.errors.prospekId && (
               <p className="text-red-500">{formik.errors.prospekId}</p>
             )}
           </div>
@@ -145,6 +137,9 @@ const TestDriveForm = () => {
                 onChange={formik.handleChange}
                 value={formik.values.dateTestDrive}
               />
+               {formik.touched.dateTestDrive && formik.errors.dateTestDrive && (
+              <p className="text-red-500">{formik.errors.dateTestDrive}</p>
+            )}
             </div>
           </div>
           <div className="flex-grow">
@@ -158,6 +153,9 @@ const TestDriveForm = () => {
               onChange={formik.handleChange}
               value={formik.values.carType}
             />
+             {formik.touched.carType && formik.errors.carType && (
+              <p className="text-red-500">{formik.errors.carType}</p>
+            )}
           </div>
         </form>
       </div>

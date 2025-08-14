@@ -13,23 +13,8 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Retail } from "@/interface/Retail.interface";
 
-interface ProspekId {
-  // id: string;
-  name: string;
-  whatsappNum: string;
-}
-
-interface SpkId {
-  prospekId: ProspekId;
-}
-
-interface Retail {
-  id: string;
-  spkId?: SpkId;
-  dateRetail: string;
-  carType: string;
-}
 
 export const columns = (
   handleDelete: (id: string) => void,
@@ -90,11 +75,6 @@ export const columns = (
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(retailId)}
-              >
-                Copy ID
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate(`edit/${retailId}`)}>
                 Edit

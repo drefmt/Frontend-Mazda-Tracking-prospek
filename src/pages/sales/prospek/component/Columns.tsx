@@ -20,7 +20,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { Progress } from "@/components/ui/progress";
 import { Prospek } from "@/interface/prospek.interface";
 import { useNavigate } from "react-router-dom";
 import { JSX } from "react";

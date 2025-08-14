@@ -11,10 +11,7 @@ export const useEditRetail = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      retailData,
-    }: {
+    mutationFn: ({id,retailData,}: {
       id: string;
       retailData: RetailRequest;
     }) => editRetail(id, retailData),

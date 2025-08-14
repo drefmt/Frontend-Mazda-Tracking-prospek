@@ -4,6 +4,8 @@ import { Retail } from "@/interface/Retail.interface";
 
 const fetchRetail = async (): Promise<Retail[]> => {
   const response = await axiosInstance.get("/retail");
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   return response.data;
 };
 

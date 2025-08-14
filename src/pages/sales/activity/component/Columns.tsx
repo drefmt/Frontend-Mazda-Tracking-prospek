@@ -63,7 +63,7 @@ export const columns = (
     {
       accessorKey: "Action",
       cell: ({ row }) => {
-        const id = row.original.id;
+        const activityId = row.original.id;
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const navigate = useNavigate();
 
@@ -79,10 +79,10 @@ export const columns = (
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              <DropdownMenuItem onClick={() => navigate(`edit/${id}`)}>
+              <DropdownMenuItem onClick={() => navigate(`edit/${activityId}`)}>
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleDelete(id)}>
+              <DropdownMenuItem onClick={() => handleDelete(activityId ?? "")}>
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>

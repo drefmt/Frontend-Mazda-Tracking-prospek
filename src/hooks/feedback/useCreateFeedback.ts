@@ -14,7 +14,7 @@ interface FeedbackPayload {
 
 const createFeedback = async (token: string, feedbackData: FeedbackData) => {
   const response = await axiosInstance.post(`/feedback/${token}`, feedbackData);
-
+  
   if (response.status !== 201) {
     throw new Error("Failed to create feedback");
   }

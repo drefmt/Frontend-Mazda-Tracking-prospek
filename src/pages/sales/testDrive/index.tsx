@@ -3,6 +3,9 @@ import { columns as defaultColumns } from "./component/Columns";
 import { useFetchTestDrive } from "@/hooks/testDrive/useFetchTestDrive";
 import { DataTable } from "./component/Data-table";
 import { useDeleteTestDrive } from "@/hooks/testDrive/useDeleteTestDrive";
+import { confirmDelete } from "@/components/ConfirmDelete";
+import { Skeletons } from "@/components/Skeletons";
+
 
 const SalesTestDrive = () => {
   const {
@@ -14,17 +17,18 @@ const SalesTestDrive = () => {
 
   const handleDelete = useCallback(
     (id: string) => {
-      if (window.confirm("Apakah Anda yakin ingin menghapus prospek ini?")) {
+      confirmDelete(() => {
         deleteTestDrive(id);
-      }
+      })
     },
     [deleteTestDrive],
   );
+  
 
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);
 
   if (testDriveIsLoading) {
-    return <p>Loading Data</p>;
+    return <Skeletons.TestDrive/>
   }
 
   if (testDriveIsError) {

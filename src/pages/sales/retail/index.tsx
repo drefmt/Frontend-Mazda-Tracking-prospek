@@ -3,6 +3,9 @@ import { useDeleteRetail } from "@/hooks/retail/useDeleteRetail";
 import { columns as defaultColumns } from "./component/Columns";
 import { DataTable } from "./component/Data-table";
 import { useFetchRetail } from "@/hooks/retail/useFetchRetail";
+import { Skeletons } from "@/components/Skeletons";
+import { confirmDelete } from"@/components/ConfirmDelete"
+
 
 const SalesRetail = () => {
   const {
@@ -14,9 +17,9 @@ const SalesRetail = () => {
 
   const handleDelete = useCallback(
     (id: string) => {
-      if (window.confirm("Apakah Anda yakin ingin menghapus prospek ini?")) {
+      confirmDelete(() => {
         deleteRetail(id);
-      }
+      })
     },
     [deleteRetail],
   );
@@ -24,7 +27,7 @@ const SalesRetail = () => {
   const columns = useMemo(() => defaultColumns(handleDelete), [handleDelete]);
 
   if (retailIsLoading) {
-    return <p>Loading data...</p>;
+    return <Skeletons.Spk/>;
   }
 
   if (retailIsError) {

@@ -19,6 +19,7 @@ import {
 
 import { useFetchSummary } from "@/hooks/dashboard/useFetchSummary";
 import { Summary } from "@/interface/summary.interface";
+import { Skeletons } from "@/components/Skeletons";
 
 type SummaryKey = keyof Summary;
 
@@ -71,10 +72,12 @@ const carditems: CardItem[] = [
 const Dashboard = () => {
   const { data, isLoading, isError } = useFetchSummary();
 
+  if(isLoading) {
+    return <Skeletons.Dashboard/>
+  }
   return (
     <div>
       <div className="grid md:grid-cols-2 gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-4 py-10">
-        {isLoading && <p>Memuat data...</p>}
         {isError && (
           <p className="text-red-500">Gagal mengambil data summary</p>
         )}

@@ -9,7 +9,7 @@ import React from "react";
 
 import * as Yup from "yup";
 
-// ********** Custom Hook **********
+// ********** Hook Fech Data API **********
 import { useCreateSpk } from "@/hooks/spk/useCreateSpk";
 import { useEditSpk } from "@/hooks/spk/useEditSpk";
 import { useFetchSpkById } from "@/hooks/spk/useSpkById";

@@ -13,7 +13,7 @@ import { useFetchActifity } from "@/hooks/daily-activity/useFetchActivity";
 import toast from "react-hot-toast";
 
 const ActivityForm = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const createActivity = useCreateActivity();
   const editActivity = useEditActivity();
   const { data: activities } = useFetchActifity();

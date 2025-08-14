@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,16 +15,16 @@ import toast from "react-hot-toast";
 import React from "react";
 
   // ********** Validation Schema **********
-  const retailValidationSchema = Yup.object({
-      spkId: Yup.string().required("Nama SPK wajib dipilih"),
-      dateRetail: Yup.string().required("Tanggal retail wajib diisi"),
-      carType: Yup.string().required("Tipe Mobil Harus Diisi"),
-    });
+const retailValidationSchema = Yup.object({
+    spkId: Yup.string().required("Nama SPK wajib dipilih"),
+    dateRetail: Yup.string().required("Tanggal retail wajib diisi"),
+    carType: Yup.string().required("Tipe Mobil Harus Diisi"),
+  });
 
 const RetailForm = () => {
-  const { id } = useParams();
-
+  
   // ********** Data Fecthing **********
+  const { id } = useParams();
   const { data: allSpk, isLoading: loadingSpk, error: errorSpk } = useFetchSpk();
   const { data: retailData, isLoading: loadingRetail, error: errorRetail } = useFetchRetailById(id);
   const editRetail = useEditRetail();
